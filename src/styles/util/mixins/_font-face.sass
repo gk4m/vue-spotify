@@ -1,0 +1,23 @@
+/// A mixin for writing @font-face rules in SASS.
+/// @example +font-face("Eurostile", "/assets/fonts/EurostileLTStd-BoldOblique", 700, italic, otf);
+=font-face($name, $path, $weight: null, $style: null, $exts: eot 'eot?#iefix' woff2 woff ttf svg)
+  $src: null
+  $extmods: ( eot: '', svg: '#' + str-replace($name, ' ', '_'))
+  $formats: ('eot?#iefix': 'embedded-opentype', otf: 'opentype', ttf: 'truetype')
+
+  @each $ext in $exts
+    $extmod: if(map-has-key($extmods, $ext), $ext + map-get($extmods, $ext), $ext)
+    $format: if(map-has-key($formats, $ext), map-get($formats, $ext), $ext)
+    $src: append($src, url(quote($path + '.' + $extmod)) format(quote($format)), comma)
+
+  @if $weight == null
+    $weight:  normal
+  @if $style == null
+    $style:  normal
+
+  @font-face
+    font:
+      family: quote($name)
+      style: $style
+      weight: $weight
+    src: $src

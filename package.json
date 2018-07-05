@@ -9,12 +9,18 @@
     "deploy": "npm run build && push-dir --dir=dist --branch=gh-pages --allow-unclean --force"
   },
   "dependencies": {
-    "vue": "^2.5.16"
+    "vue": "^2.5.16",
+    "vue-router": "^3.0.1",
+    "vuex": "^3.0.1",
+    "vuex-persistedstate": "^2.5.4"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.0-rc.3",
     "@vue/cli-plugin-eslint": "^3.0.0-rc.3",
     "@vue/cli-service": "^3.0.0-rc.3",
+    "node-sass": "^4.9.1",
+    "normalize-scss": "^7.0.1",
+    "sass-loader": "^7.0.3",
     "vue-template-compiler": "^2.5.16"
   },
   "babel": {
