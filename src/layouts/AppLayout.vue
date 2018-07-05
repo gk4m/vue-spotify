@@ -6,7 +6,7 @@
       <sidebar/>
 
       <div class="app-layout__main">
-        <router-view></router-view>
+        <router-view />
       </div>
     </div>
     <player/>

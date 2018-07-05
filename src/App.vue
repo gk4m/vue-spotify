@@ -1,18 +1,34 @@
 <template>
   <div id="app" class="app">
-    <app-layout />
+    <app-layout v-if="!notFound" />
+    <not-found-view v-if="notFound" />
   </div>
 </template>
 
 <script>
+  import {mapGetters, mapActions} from 'vuex'
   import AppLayout from '@/layouts/AppLayout'
+  import NotFoundView from '@/views/NotFoundView'
 
   export default {
     name: 'app',
 
     components: {
-      AppLayout
-    }
+      AppLayout,
+      NotFoundView
+    },
+
+    computed: {
+      ...mapGetters({
+        notFound: 'app/notFound',
+      })
+    },
+
+    methods: {
+      ...mapActions({
+        init: 'app/init',
+      })
+    },
   }
 </script>
 
