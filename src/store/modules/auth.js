@@ -43,7 +43,7 @@ const actions = {
       if (state.refreshToken) {
         const response = await api.auth.refreshToken(state.refreshToken);
         commit('SET_ACCESS_TOKEN', response.data.access_token);
-        dispatch('auth/login');
+        dispatch('login');
       }
     } catch (e) {
       console.log(e);

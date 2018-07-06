@@ -12,8 +12,14 @@
     name: 'notification',
 
     props: {
-      type: String,
-      message: String,
+      type: {
+        type: String,
+        default: 'info'
+      },
+      message: {
+        type: String,
+        required: true
+      },
       duration: {
         type: Number,
         default: 4500

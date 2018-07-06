@@ -17,8 +17,11 @@ const actions = {
     commit('SET_NOT_FOUND', status);
   },
 
-  init() {
-    console.log('init app');
+  init({dispatch, rootGetters}) {
+    if (rootGetters['auth/getAccessToken']) {
+      dispatch('user/getUserProfile', null, {root: true});
+      // dispatch('user/getCurrentUserPlaylists', null, {root: true});
+    }
   }
 };
 

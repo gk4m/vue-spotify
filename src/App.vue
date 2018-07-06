@@ -17,7 +17,7 @@
 <script>
   import {mapGetters, mapActions} from 'vuex'
   import AppLayout from '@/layouts/AppLayout'
-  import NotFoundView from '@/views/NotFoundView'
+  import NotFoundView from '@/views/NotFound'
   import Notification from '@/components/Notification/'
 
   export default {

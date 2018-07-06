@@ -1,7 +1,6 @@
 import request from './request';
 
 export default {
-
   getUserAuthURL: function () {
     return request.get('login')
   },

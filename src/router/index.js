@@ -4,7 +4,11 @@ import store from '@/store'
 
 import Login from '@/views/Login'
 import HomeView from '@/views/HomeView'
-import NotFoundView from '@/views/NotFoundView'
+import NotFoundView from '@/views/NotFound'
+import BrowseView from '@/views/Browse/'
+import TracksCollectionView from '@/views/Collection/Tracks'
+import AlbumsCollectionView from '@/views/Collection/Albums'
+import PlaylistView from '@/views/Playlist'
 
 Vue.use(Router);
 
@@ -20,6 +24,30 @@ const router = new Router({
       path: '/',
       name: 'Home',
       component: HomeView
+    },
+
+    {
+      path: '/browse',
+      name: 'browse',
+      component: BrowseView
+    },
+
+    {
+      path: '/collection/tracks',
+      name: 'tracks-collection',
+      component: TracksCollectionView
+    },
+
+    {
+      path: '/collection/albums',
+      name: 'albums-collection',
+      component: AlbumsCollectionView
+    },
+
+    {
+      path: '/user/:user_id/playlist/:playlist_id',
+      name: 'playlist',
+      component: PlaylistView
     },
 
     {

@@ -4,7 +4,10 @@ import vuexPersistedstate from 'vuex-persistedstate';
 
 import app from './modules/app';
 import auth from './modules/auth';
+import user from './modules/user';
 import notification from './modules/notification';
+
+import spotifyApiPlugin from '@/api/spotify/plugin';
 
 const debug = process.env.NODE_ENV !== 'production';
 
@@ -21,8 +24,9 @@ export default new Vuex.Store({
   modules: {
     app,
     auth,
+    user,
     notification
   },
-  plugins: [persistedState],
+  plugins: [spotifyApiPlugin, persistedState],
   strict: debug
 });
