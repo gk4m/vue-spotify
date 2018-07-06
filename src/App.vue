@@ -8,7 +8,6 @@
       :duration="notification.duration"
       v-on:close-notification="removeNotification(notification)">
     </notification>
-
     <app-layout v-if="!notFound" />
     <not-found-view v-if="notFound" />
   </div>
@@ -32,7 +31,7 @@
     computed: {
       ...mapGetters({
         notFound: 'app/notFound',
-        notifications: 'notification/getNotifications'
+        notifications: 'notification/getNotifications',
       })
     },
 
