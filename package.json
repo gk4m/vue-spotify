@@ -12,6 +12,7 @@
     "axios": "^0.18.0",
     "optiscroll": "^3.2.1",
     "vue": "^2.5.16",
+    "vue-awesome": "^3.0.3",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1",
     "vuex-persistedstate": "^2.5.4"

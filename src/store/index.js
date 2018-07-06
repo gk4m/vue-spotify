@@ -4,6 +4,7 @@ import vuexPersistedstate from 'vuex-persistedstate';
 
 import app from './modules/app';
 import auth from './modules/auth';
+import notification from './modules/notification';
 
 const debug = process.env.NODE_ENV !== 'production';
 
@@ -19,7 +20,8 @@ const persistedState = vuexPersistedstate({
 export default new Vuex.Store({
   modules: {
     app,
-    auth
+    auth,
+    notification
   },
   plugins: [persistedState],
   strict: debug

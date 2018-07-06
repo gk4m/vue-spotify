@@ -28,10 +28,8 @@ const mutations = {
 
 const actions = {
   login: async function ({commit}) {
-    console.log('login');
     try {
       const response = await api.auth.getUserAuthURL();
-      console.log(response.data);
       if (response.data) {
         window.location.href = response.data;
       }
@@ -45,7 +43,7 @@ const actions = {
       if (state.refreshToken) {
         const response = await api.auth.refreshToken(state.refreshToken);
         commit('SET_ACCESS_TOKEN', response.data.access_token);
-        dispatch('login');
+        dispatch('auth/login');
       }
     } catch (e) {
       console.log(e);
