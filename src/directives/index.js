@@ -1,9 +1,7 @@
 import Vue from 'vue'
 
 Vue.directive('scroll', {
-  bind: function (el, d) {
-    console.log(el)
-    console.log(d)
+  bind: function (el) {
     el.classList.add('optiscroll');
 
     let optiScroll = new Optiscroll(el, {

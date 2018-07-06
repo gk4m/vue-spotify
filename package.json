@@ -3,12 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve --open",
+    "serve": "vue-cli-service serve --https --open",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "deploy": "npm run build && push-dir --dir=dist --branch=gh-pages --allow-unclean --force"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "optiscroll": "^3.2.1",
     "vue": "^2.5.16",
     "vue-router": "^3.0.1",

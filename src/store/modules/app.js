@@ -16,6 +16,10 @@ const actions = {
   notFoundPage({commit}, status) {
     commit('SET_NOT_FOUND', status);
   },
+
+  init() {
+    console.log('init app');
+  }
 };
 
 const module = {
