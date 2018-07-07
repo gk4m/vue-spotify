@@ -1,4 +1,5 @@
 import api from '@/api';
+import axios from 'axios';
 
 const state = {
   accessToken: '',
@@ -50,7 +51,18 @@ const actions = {
     }
   },
 
-  logout: function ({dispatch}) {
+  logout: function () {
+    let script = document.createElement('script');
+
+    script.src='https://www.spotify.com/logout/';
+    document.getElementById('app').appendChild(script);
+
+    window.localStorage.clear();
+    window.sessionStorage.clear();
+
+    setTimeout(function () {
+      location.reload();
+    }, 1000)
   },
 
   setAccessToken({commit}, token) {

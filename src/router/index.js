@@ -5,7 +5,8 @@ import store from '@/store'
 import Login from '@/views/Login'
 import HomeView from '@/views/HomeView'
 import NotFoundView from '@/views/NotFound'
-import BrowseView from '@/views/Browse/'
+import UserView from '@/views/User'
+import BrowseView from '@/views/Browse'
 import TracksCollectionView from '@/views/Collection/Tracks'
 import AlbumsCollectionView from '@/views/Collection/Albums'
 import PlaylistView from '@/views/Playlist'
@@ -24,6 +25,12 @@ const router = new Router({
       path: '/',
       name: 'Home',
       component: HomeView
+    },
+
+    {
+      path: '/user/:id',
+      name: 'user',
+      component: UserView
     },
 
     {

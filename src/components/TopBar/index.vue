@@ -1,14 +1,18 @@
 <template>
   <div class="top-bar">
-    top-bar
+    <user-menu />
   </div>
 </template>
 
 <script>
+  import UserMenu from './UserMenu'
+
   export default {
     name: 'top-bar',
 
-    components: {},
+    components: {
+      UserMenu
+    },
 
     computed: {},
 
@@ -25,5 +29,8 @@
     display: flex
     height: 40px
     background: $c-shark
+
+    .user-menu
+      margin: auto 30px auto auto
 
 </style>
