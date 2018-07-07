@@ -1,7 +1,7 @@
 <template>
   <div class="arrow-nav">
     <a class="arrow-nav__link" @click="onPrevClick">
-      <icon @click="prev" name="chevron-left" />
+      <icon name="chevron-left" />
     </a>
     <a class="arrow-nav__link" @click="onNextClick">
       <icon name="chevron-right" />
