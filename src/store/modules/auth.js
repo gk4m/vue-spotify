@@ -54,7 +54,7 @@ const actions = {
   logout: function () {
     let script = document.createElement('script');
 
-    script.src='https://www.spotify.com/logout/';
+    script.src = 'https://www.spotify.com/logout/';
     document.getElementById('app').appendChild(script);
 
     window.localStorage.clear();

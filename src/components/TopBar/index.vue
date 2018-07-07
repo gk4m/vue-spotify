@@ -1,24 +1,20 @@
 <template>
   <div class="top-bar">
-    <user-menu />
+    <arrow-nav/>
+    <user-menu/>
   </div>
 </template>
 
 <script>
   import UserMenu from './UserMenu'
+  import ArrowNav from './ArrowNav'
 
   export default {
     name: 'top-bar',
 
     components: {
-      UserMenu
-    },
-
-    computed: {},
-
-    methods: {},
-
-    mounted() {
+      UserMenu,
+      ArrowNav
     }
   }
 </script>
@@ -29,6 +25,9 @@
     display: flex
     height: 40px
     background: $c-shark
+
+    .arrow-nav
+      display: flex
 
     .user-menu
       margin: auto 30px auto auto

@@ -104,12 +104,12 @@
       padding: 10px
       cursor: pointer
 
-  .fade-enter-active,
-  .fade-leave-active
-    transition: opacity .3s
+    .fade-enter-active,
+    .fade-leave-active
+      transition: opacity .3s
 
-  .fade-enter,
-  .fade-leave-to
-    opacity: 0
+    .fade-enter,
+    .fade-leave-to
+      opacity: 0
 
 </style>
