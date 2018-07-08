@@ -6,6 +6,7 @@
     "serve": "vue-cli-service serve --https --open",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
+    "iconfont": "gulp iconfont",
     "deploy": "npm run build && push-dir --dir=dist --branch=gh-pages --allow-unclean --force"
   },
   "dependencies": {
@@ -22,6 +23,9 @@
     "@vue/cli-plugin-babel": "^3.0.0-rc.3",
     "@vue/cli-plugin-eslint": "^3.0.0-rc.3",
     "@vue/cli-service": "^3.0.0-rc.3",
+    "gulp": "^3.9.1",
+    "gulp-iconfont": "^10.0.1",
+    "gulp-iconfont-css": "^2.1.0",
     "node-sass": "^4.9.1",
     "normalize-scss": "^7.0.1",
     "sass-loader": "^7.0.3",

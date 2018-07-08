@@ -101,6 +101,7 @@
       margin: auto 8px
 
     .nav-bar
-      margin-bottom: 30px
+      &:not(:last-of-type)
+        margin-bottom: 30px
 
 </style>

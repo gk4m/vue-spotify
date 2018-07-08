@@ -7,15 +7,15 @@
 }
 
 @mixin icon-styles {
-           font-family: "icon-font";
-           -webkit-font-smoothing: antialiased;
-           -moz-osx-font-smoothing: grayscale;
-           font-style: normal;
-           font-variant: normal;
-           font-weight: normal;
+  font-family: "icon-font";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: normal;
   // speak: none; // only necessary if not using the private unicode range (firstGlyph option)
-           text-decoration: none;
-           text-transform: none;
+  text-decoration: none;
+  text-transform: none;
 }
 
 %icon {
@@ -25,72 +25,81 @@
 @function icon-char($filename) {
   $char: "";
 
-@if $filename == next {
-$char: "\E001";
-}
-@if $filename == pause-circle {
-$char: "\E002";
-}
-@if $filename == play-circle {
-$char: "\E003";
-}
-@if $filename == previous {
-$char: "\E004";
-}
-@if $filename == repeat-one {
-$char: "\E005";
-}
-@if $filename == repeat {
-$char: "\E006";
-}
-@if $filename == shuffle {
-$char: "\E007";
-}
-@if $filename == sound-off {
-$char: "\E008";
-}
-@if $filename == sound-on {
-$char: "\E009";
-}
+  @if $filename == next {
+    $char: "\E001";
+  }
+  @if $filename == pause-circle {
+    $char: "\E002";
+  }
+  @if $filename == play-circle {
+    $char: "\E003";
+  }
+  @if $filename == previous {
+    $char: "\E004";
+  }
+  @if $filename == repeat-one {
+    $char: "\E005";
+  }
+  @if $filename == repeat {
+    $char: "\E006";
+  }
+  @if $filename == shuffle {
+    $char: "\E007";
+  }
+  @if $filename == sound-off {
+    $char: "\E008";
+  }
+  @if $filename == sound-on {
+    $char: "\E009";
+  }
 
-@return $char;
+  @return $char;
 }
 
 @mixin icon($filename, $insert: before, $extend: true) {
-&:#{$insert} {
-  @if $extend {
-    @extend %icon;
-} @else {
-  @include icon-styles;
-}
-  content: icon-char($filename);
-}
+  &:#{$insert} {
+    @if $extend {
+      @extend %icon;
+    } @else {
+      @include icon-styles;
+    }
+    content: icon-char($filename);
+  }
 }
 
 .icon-next {
   @include icon(next);
 }
+
 .icon-pause-circle {
   @include icon(pause-circle);
 }
+
 .icon-play-circle {
   @include icon(play-circle);
 }
+
 .icon-previous {
   @include icon(previous);
 }
+
 .icon-repeat-one {
   @include icon(repeat-one);
 }
+
 .icon-repeat {
   @include icon(repeat);
 }
+
 .icon-shuffle {
   @include icon(shuffle);
 }
+
 .icon-sound-off {
   @include icon(sound-off);
 }
+
 .icon-sound-on {
   @include icon(sound-on);
 }
+
