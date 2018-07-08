@@ -1,0 +1,186 @@
+<template>
+  <div v-if="playbackContext" class="media-object" :class="isPlaying">
+
+    <router-link tag="div" class="media-object__cover" :to="{name: 'album', params:{id}}">
+
+      <img v-lazy="coverImg" :alt="name + '-cover'"/>
+
+      <div class="media-object__cover-hover">
+        <button class="media-object__play icon-play-circle" @click="onPlay"></button>
+        <button class="media-object__sound-on icon-sound-on"></button>
+        <button class="media-object__pause icon-pause-circle" @click="onPause"></button>
+      </div>
+    </router-link>
+
+    <div class="media-object__info">
+      <div>
+        <router-link class="media-object__info__name" :to="{name: 'album', params:{id}}">{{name}}</router-link>
+      </div>
+
+      <router-link
+        class="media-object__info__artist"
+        v-for="(artist, index) in artists"
+        :key="artist.id"
+        :to="{name: 'artist', params:{id: artist.id}}">
+        {{artist.name}}
+        <template v-if="index !== (artists.length - 1)">,&nbsp;</template>
+      </router-link>
+    </div>
+  </div>
+</template>
+
+<script>
+  import api from '@/api'
+  import {mapGetters} from 'vuex'
+
+  export default {
+    name: 'media-object',
+
+    components: {},
+
+    props: {
+      id: {
+        required: true
+      },
+      uri: {
+        required: true
+      },
+      coverImg: {
+        type: String,
+        required: true
+      },
+      name: {
+        type: String,
+        required: true
+      },
+      artists: {
+        required: true
+      }
+    },
+
+    data() {
+      return {}
+    },
+
+    computed: {
+      ...mapGetters(
+        'player', {
+          playbackContext: 'getPlaybackContext'
+        }
+      ),
+
+      isPlaying() {
+        return {
+          'media-object--playing': !this.playbackContext.paused && this.playbackContext.context.uri && this.playbackContext.context.uri.indexOf(this.id) >= 0,
+          'media-object--active': this.playbackContext.context.uri && this.playbackContext.context.uri.indexOf(this.id) >= 0
+        }
+      }
+    },
+
+    methods: {
+      onPlay(e) {
+        e.stopPropagation();
+        if (this.playbackContext.context.uri && this.playbackContext.context.uri.indexOf(this.id) >= 0) {
+          api.spotify.player.play();
+        } else {
+          api.spotify.player.play(this.uri);
+        }
+      },
+
+      onPause(e) {
+        e.stopPropagation();
+        api.spotify.player.pause();
+      }
+    }
+  }
+</script>
+
+<style scoped lang="sass">
+
+  .media-object
+    &:hover
+      .media-object__play
+        display: block
+
+    &--active
+      .media-object__info__name
+        color: $c-green
+
+    &--playing
+      .media-object__sound-on
+        display: block
+
+      &:hover
+        .media-object__pause
+          display: block
+
+        .media-object__play,
+        .media-object__sound-on
+          display: none
+
+    &__pause,
+    &__sound-on
+      display: none
+
+    &__play,
+    &__pause
+      font-size: 50px
+
+    &__sound-on
+      position: relative
+      width: 60px
+      height: 60px
+      background: rgba(0, 0, 0, .6)
+      border-radius: 50%
+      font-size: 40px
+
+      &:before
+        +absolute-center
+
+    &__play
+      display: none
+
+    &__cover
+      position: relative
+      min-width: 130px
+
+      &:hover
+        .media-object__cover-hover
+          background: rgba(0, 0, 0, .6)
+
+      img
+        width: 100%
+
+    &__cover-hover
+      display: block
+      position: absolute
+      top: 0
+      width: 100%
+      height: 100%
+
+      button
+        +absolute-center
+        color: $c-white
+        outline: none
+
+    &__info
+      margin-top: 5px
+      font-size: 14px
+      line-height: 20px
+
+      &__name
+        color: $c-white
+        cursor: pointer
+
+        &:hover
+          text-decoration: underline
+
+      &__artist
+        color: $c-gray
+        text-decoration: none
+
+        &:hover
+          color: $c-white
+          text-decoration: underline
+
+</style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="player-playback">
+  <div class="player-playback" v-if="context">
     <div class="player-playback__time">{{progress | msToMinutes}}</div>
     <div class="player-playback__progress-bar">
       <vue-slider
@@ -12,19 +12,15 @@
         :dot-size="15"
         :process-style="{'background': '#1db954'}"
         :bg-style="{'background': '#737575'}"
-      >
-      </vue-slider>
-
+      />
     </div>
-    <div class=" player-playback__time
-      ">{{songDuration | msToMinutes}}
-    </div>
+    <div class=" player-playback__time">{{songDuration | msToMinutes}}</div>
   </div>
 </template>
 
 <script>
-  import {mapGetters} from 'vuex'
   import api from '@/api'
+  import {mapGetters} from 'vuex'
 
   export default {
     name: 'player-player-playback',
@@ -51,7 +47,7 @@
         clearInterval(this.progressInterval);
         this.progress = this.context.position;
 
-        if (this.isPlaying) {
+        if (!this.context.paused) {
           this.progressInterval = setInterval(() => {
             if (this.playback && ((this.progress + 1000) <= this.songDuration)) {
               this.progress = this.progress + 1000;
@@ -94,15 +90,12 @@
     created() {
       this.updateProgress();
       this.songDuration = this.playback.item.duration_ms;
-    },
-
-    mounted() {
-
     }
   }
 </script>
 
 <style lang="sass">
+
   .player-playback
     display: flex
     width: 100%
@@ -112,6 +105,5 @@
 
     &__progress-bar
       width: 100%
-
 
 </style>

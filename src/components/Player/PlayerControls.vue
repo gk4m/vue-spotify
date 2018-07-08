@@ -76,7 +76,6 @@
         ];
 
         const repeatState = this.context.repeat_mode;
-
         let index = repeatState === 2 ? 0 : repeatState + 1;
 
         api.spotify.player.repeat(states[index]);
@@ -86,6 +85,7 @@
 </script>
 
 <style scoped lang="sass">
+
   .player-controls
     display: flex
     justify-content: center

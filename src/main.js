@@ -7,6 +7,7 @@ import store from './store'
 import Icon from 'vue-awesome/components/Icon'
 import VModal from 'vue-js-modal'
 import VueMoment from 'vue-moment'
+import VueLazyload from 'vue-lazyload'
 import vueSlider from 'vue-slider-component/src/vue2-slider.vue'
 
 import './directives';
@@ -19,6 +20,7 @@ Vue.component('vueSlider', vueSlider);
 
 Vue.use(VModal);
 Vue.use(VueMoment);
+Vue.use(VueLazyload);
 
 Vue.config.productionTip = false;
 
