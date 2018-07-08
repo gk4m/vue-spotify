@@ -60,6 +60,11 @@
         this.$modal.hide('playlist-modal');
       },
 
+      clearForm(){
+        this.name = 'New Playlist';
+        this.description = '';
+      },
+
       async create() {
         if (this.name) {
           const response = await api.spotify.playlists.createPlaylist(this.user.id, this.name, this.description);
@@ -76,6 +81,7 @@
           });
 
           this.hide();
+          this.clearForm();
 
         } else {
           this.addNotification({
