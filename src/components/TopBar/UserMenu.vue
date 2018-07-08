@@ -34,8 +34,7 @@
     computed: {
       ...mapGetters({
           user: 'user/getProfile'
-        }
-      )
+        })
     },
 
     methods: {

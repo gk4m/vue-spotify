@@ -26,6 +26,10 @@ const mutations = {
       state.playlists = playlists;
     }
   },
+
+  CLEAR_PLAYLISTS(state) {
+    state.playlists = '';
+  },
 };
 
 const actions = {
@@ -53,6 +57,10 @@ const actions = {
         console.log(e);
       }
     }
+  },
+
+  clearUserPlaylistst({commit}) {
+    commit('CLEAR_PLAYLISTS');
   }
 };
 

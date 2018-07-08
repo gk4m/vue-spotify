@@ -25,7 +25,7 @@ export default new Vuex.Store({
     app,
     auth,
     user,
-    notification
+    notification,
   },
   plugins: [spotifyApiPlugin, persistedState],
   strict: debug

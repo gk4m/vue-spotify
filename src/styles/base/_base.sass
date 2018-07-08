@@ -13,15 +13,51 @@ html
   *::after
     box-sizing: inherit
 
-  button
-    background: none
-    border: 0
-    padding: 0
+button
+  background: none
+  border: 0
+  padding: 0
 
-  ul
-    margin: 0
-    padding: 0
-    list-style: none
+ul
+  margin: 0
+  padding: 0
+  list-style: none
 
-  a
-    text-decoration: none
+a
+  text-decoration: none
+
+label
+  display: inline-block
+  margin-bottom: 5px
+  font-weight: normal
+
+input
+  display: block
+  width: 100%
+  height: 30px
+  margin-bottom: 15px
+  padding: 5px 10px
+  border: 1px solid $c-gray
+  border-radius: 0
+  outline: none
+  background: $c-white
+  line-height: normal
+  box-shadow: none
+  appearance: none
+
+  &:focus
+    border: 1px solid $c-green
+
+  &::-ms-clear
+    width: 0
+    height: 0
+
+textarea
+  display: block
+  width: 100%
+  min-height: 100px
+  padding: 5px 10px
+
+  &:focus
+    border: 1px solid $c-green
+    outline: none

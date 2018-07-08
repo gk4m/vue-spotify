@@ -1,5 +1,5 @@
 <template>
-  <button @click="onClick" class="btn">
+  <button @click="onClick" :class="elClass">
     <slot></slot>
   </button>
 </template>
@@ -11,8 +11,23 @@
     props: {
       onClick: {
         required: true
+      },
+
+      isBlack: {
+        default: false
       }
     },
+
+    computed: {
+      elClass(){
+        return [
+          'btn',
+          {
+            'btn--black': this.isBlack
+          }
+        ]
+      }
+    }
   }
 </script>
 
