@@ -74,16 +74,18 @@
 <style scoped lang="sass">
 
   .sidebar
+    position: relative
     padding-top: 30px
     background: $c-black
 
     &__inner
-      height: calc(100vh - 232px)
+      max-height: calc(100vh - 232px)
 
     &__btn
       display: flex
       align-items: center
-      position: relative
+      position: absolute
+      bottom: 90px
       height: 50px
       width: 100%
       margin-top: 20px

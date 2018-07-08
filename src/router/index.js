@@ -4,12 +4,14 @@ import store from '@/store'
 
 import Login from '@/views/Login'
 import HomeView from '@/views/HomeView'
-import NotFoundView from '@/views/NotFound'
 import UserView from '@/views/User'
 import BrowseView from '@/views/Browse'
+import ArtistView from '@/views/Artist'
+import AlbumView from '@/views/Album'
+import PlaylistView from '@/views/Playlist'
+import NotFoundView from '@/views/NotFound'
 import TracksCollectionView from '@/views/Collection/Tracks'
 import AlbumsCollectionView from '@/views/Collection/Albums'
-import PlaylistView from '@/views/Playlist'
 
 Vue.use(Router);
 
@@ -31,6 +33,18 @@ const router = new Router({
       path: '/user/:id',
       name: 'user',
       component: UserView
+    },
+
+    {
+      path: '/artist/:id',
+      name: 'artist',
+      component: ArtistView
+    },
+
+    {
+      path: '/album/:id',
+      name: 'album',
+      component: AlbumView
     },
 
     {

@@ -32,6 +32,7 @@
 <style scoped lang="sass">
 
   .app-layout
+    position: relative
     display: flex
     flex-flow: column
     flex-grow: 1

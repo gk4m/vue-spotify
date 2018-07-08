@@ -4,16 +4,21 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
-import VModal from 'vue-js-modal'
 import Icon from 'vue-awesome/components/Icon'
+import VModal from 'vue-js-modal'
+import VueMoment from 'vue-moment'
+import vueSlider from 'vue-slider-component/src/vue2-slider.vue'
 
 import './directives';
+import './filters';
 import 'optiscroll';
 import 'vue-awesome/icons';
 
 Vue.component('icon', Icon);
+Vue.component('vueSlider', vueSlider);
 
-Vue.use(VModal)
+Vue.use(VModal);
+Vue.use(VueMoment);
 
 Vue.config.productionTip = false;
 
