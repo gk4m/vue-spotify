@@ -3,7 +3,7 @@
 
     <router-link tag="div" class="media-object__cover" :to="{name: 'album', params:{id}}">
 
-      <img v-lazy="coverImg" :alt="name + '-cover'"/>
+      <img class="media-object__img" v-lazy="coverImg" :alt="name + '-cover'"/>
 
       <div class="media-object__cover-hover">
         <button class="media-object__play icon-play-circle" @click="onPlay"></button>
@@ -14,11 +14,11 @@
 
     <div class="media-object__info">
       <div>
-        <router-link class="media-object__info__name" :to="{name: 'album', params:{id}}">{{name}}</router-link>
+        <router-link class="media-object__name" :to="{name: 'album', params:{id}}">{{name}}</router-link>
       </div>
 
       <router-link
-        class="media-object__info__artist"
+        class="media-object__artist"
         v-for="(artist, index) in artists"
         :key="artist.id"
         :to="{name: 'artist', params:{id: artist.id}}">
@@ -35,8 +35,6 @@
 
   export default {
     name: 'media-object',
-
-    components: {},
 
     props: {
       id: {
@@ -58,10 +56,6 @@
       }
     },
 
-    data() {
-      return {}
-    },
-
     computed: {
       ...mapGetters(
         'player', {
@@ -80,6 +74,7 @@
     methods: {
       onPlay(e) {
         e.stopPropagation();
+
         if (this.playbackContext.context.uri && this.playbackContext.context.uri.indexOf(this.id) >= 0) {
           api.spotify.player.play();
         } else {
@@ -103,7 +98,7 @@
         display: block
 
     &--active
-      .media-object__info__name
+      .media-object__name
         color: $c-green
 
     &--playing
@@ -147,8 +142,7 @@
       &:hover
         .media-object__cover-hover
           background: rgba(0, 0, 0, .6)
-
-      img
+    &__img
         width: 100%
 
     &__cover-hover
@@ -168,19 +162,19 @@
       font-size: 14px
       line-height: 20px
 
-      &__name
+    &__name
+      color: $c-white
+      cursor: pointer
+
+      &:hover
+        text-decoration: underline
+
+    &__artist
+      color: $c-gray
+      text-decoration: none
+
+      &:hover
         color: $c-white
-        cursor: pointer
-
-        &:hover
-          text-decoration: underline
-
-      &__artist
-        color: $c-gray
-        text-decoration: none
-
-        &:hover
-          color: $c-white
-          text-decoration: underline
+        text-decoration: underline
 
 </style>
