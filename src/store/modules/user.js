@@ -42,7 +42,7 @@ const actions = {
     }
   },
 
-  async getCurrentUserPlaylists({getters, commit}, limit = 20) {
+  async getCurrentUserPlaylists({getters, commit}, limit = 50) {
     let offset = 0;
 
     if (getters.getPlaylists) {

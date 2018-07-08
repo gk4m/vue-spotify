@@ -61,7 +61,7 @@
       }),
 
       loadMore() {
-        this.getUserPlaylists(10)
+        this.getUserPlaylists(25)
       },
     },
 
