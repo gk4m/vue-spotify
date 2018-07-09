@@ -10,6 +10,7 @@
         :coverImg="item.images[1].url"
         :name="item.name"
         :artists="item.artists"
+        :type="item.type"
       />
     </div>
   </div>
@@ -53,8 +54,7 @@
         }
       },
 
-      async loadMore(a) {
-        console.log(a);
+      async loadMore() {
         try {
           let offset = this.offset + this.limit;
 

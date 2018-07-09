@@ -11,6 +11,7 @@
         :coverImg="item.album.images[1].url"
         :name="item.album.name"
         :artists="item.album.artists"
+        :type="item.album.type"
       />
     </div>
   </div>

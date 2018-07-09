@@ -1,8 +1,6 @@
 <template>
   <div v-if="playbackContext" class="media-object" :class="isPlaying">
-
-    <router-link tag="div" class="media-object__cover" :to="{name: 'album', params:{id}}">
-
+    <router-link tag="div" class="media-object__cover" :to="createUrl()">
       <img class="media-object__img" v-lazy="coverImg" :alt="name + '-cover'"/>
 
       <div class="media-object__cover-hover">
@@ -14,11 +12,12 @@
 
     <div class="media-object__info">
       <div>
-        <router-link class="media-object__name" :to="{name: 'album', params:{id}}">{{name}}</router-link>
+        <router-link class="media-object__name" :to="createUrl()">{{name}}</router-link>
       </div>
 
       <router-link
         class="media-object__artist"
+        v-if="artists"
         v-for="(artist, index) in artists"
         :key="artist.id"
         :to="{name: 'artist', params:{id: artist.id}}">
@@ -51,8 +50,11 @@
         type: String,
         required: true
       },
+      type: {
+        required: false
+      },
       artists: {
-        required: true
+        required: false
       }
     },
 
@@ -64,6 +66,7 @@
       ),
 
       isPlaying() {
+
         return {
           'media-object--playing': !this.playbackContext.paused && this.playbackContext.context.uri && this.playbackContext.context.uri.indexOf(this.id) >= 0,
           'media-object--active': this.playbackContext.context.uri && this.playbackContext.context.uri.indexOf(this.id) >= 0
@@ -72,6 +75,22 @@
     },
 
     methods: {
+      createUrl() {
+        let url = null;
+
+        switch (this.type) {
+          case 'album':
+            url = {name: 'album', params: {id: this.id}};
+            break;
+          case 'playlist':
+            const chunks = this.uri.split(':');
+            url = {name: 'playlist', params: {user_id: chunks[2], playlist_id: chunks[chunks.length - 1]}};
+            break
+        }
+
+        return url;
+      },
+
       onPlay(e) {
         e.stopPropagation();
 
@@ -143,7 +162,7 @@
         .media-object__cover-hover
           background: rgba(0, 0, 0, .6)
     &__img
-        width: 100%
+      width: 100%
 
     &__cover-hover
       display: block

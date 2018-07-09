@@ -14,6 +14,15 @@ export default {
     return request.get(`users/${user_id}/playlists/${playlist_id}`);
   },
 
+  getUserPlalists(user_id, offset = 0, limit = 50) {
+    return request.get(`users/${user_id}/playlists`, {
+      params: {
+        limit,
+        offset
+      }
+    });
+  },
+
   createPlaylist(user_id, name, description) {
     return request.post(`users/${user_id}/playlists`, {
       name,
