@@ -3,10 +3,10 @@ import Router from 'vue-router'
 import store from '@/store'
 
 import Login from '@/views/Login'
-import HomeView from '@/views/HomeView'
 import UserView from '@/views/User'
 import BrowseView from '@/views/Browse'
-import GenresView from '@/views/Browse/Genres'
+import BrowseGenresView from '@/views/Browse/Genres'
+import GenresView from '@/views/Genres'
 import NewReleasesView from '@/views/Browse/NewReleases'
 import ArtistView from '@/views/Artist'
 import AlbumView from '@/views/Album'
@@ -28,7 +28,9 @@ const router = new Router({
     {
       path: '/',
       name: 'Home',
-      component: HomeView
+      redirect: {
+        name: 'browse'
+      },
     },
 
     {
@@ -50,6 +52,12 @@ const router = new Router({
     },
 
     {
+      path: '/genres/:id',
+      name: 'genres',
+      component: GenresView
+    },
+
+    {
       path: '/browse',
       name: 'browse',
       component: BrowseView,
@@ -60,7 +68,7 @@ const router = new Router({
         {
           name: 'browse-genres',
           path: 'genres',
-          component: GenresView
+          component: BrowseGenresView
         },
         {
           name: 'browse-new-releases',

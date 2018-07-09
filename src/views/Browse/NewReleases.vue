@@ -81,7 +81,7 @@
 <style scoped lang="sass">
 
   .new-releases-view
-    height: 500px
+    height: calc(100vh - 227px)
 
     &__inner
       padding: 0 15px 0 8px

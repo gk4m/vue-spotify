@@ -9,6 +9,7 @@ In progress ...
 * Refresh token
 
 #### Browse
+* Get a List of Categories
 * Get New Releases
 
 #### Playlist manipulation

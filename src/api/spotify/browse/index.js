@@ -9,5 +9,16 @@ export default {
         country
       }
     });
+  },
+
+  getCategories(offset = 0, limit = 50, country, locale) {
+    return request.get('browse/categories', {
+      params: {
+        limit,
+        offset,
+        country,
+        locale
+      }
+    });
   }
 };
