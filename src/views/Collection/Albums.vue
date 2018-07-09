@@ -32,9 +32,9 @@
     data() {
       return {
         albums: '',
-        limit: 50,
+        limit: 25,
         offset: 0,
-        total: 0,
+        total: 0
       }
     },
 
@@ -88,6 +88,7 @@
     display: inline-block
     width: 50%
     padding: 7px
+    vertical-align: top
 
   +breakpoint(medium)
     .albums-view

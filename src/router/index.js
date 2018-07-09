@@ -6,6 +6,8 @@ import Login from '@/views/Login'
 import HomeView from '@/views/HomeView'
 import UserView from '@/views/User'
 import BrowseView from '@/views/Browse'
+import GenresView from '@/views/Browse/Genres'
+import NewReleasesView from '@/views/Browse/NewReleases'
 import ArtistView from '@/views/Artist'
 import AlbumView from '@/views/Album'
 import PlaylistView from '@/views/Playlist'
@@ -50,7 +52,22 @@ const router = new Router({
     {
       path: '/browse',
       name: 'browse',
-      component: BrowseView
+      component: BrowseView,
+      redirect: {
+        name: 'browse-genres'
+      },
+      children: [
+        {
+          name: 'browse-genres',
+          path: 'genres',
+          component: GenresView
+        },
+        {
+          name: 'browse-new-releases',
+          path: 'newreleases',
+          component: NewReleasesView
+        },
+      ]
     },
 
     {
@@ -84,7 +101,7 @@ const router = new Router({
 
 router.beforeEach(function (to, from, next) {
 
-  if(store.getters['app/notFound']) {
+  if (store.getters['app/notFound']) {
     store.dispatch('app/notFoundPage', false);
   }
 
