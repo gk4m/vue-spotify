@@ -8,7 +8,7 @@ In progress ...
 * Logout
 * Refresh token
 
-### Browse
+#### Browse
 * Get New Releases
 
 #### Playlist manipulation
