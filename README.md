@@ -8,6 +8,9 @@ In progress ...
 * Logout
 * Refresh token
 
+### Browse
+* Get New Releases
+
 #### Playlist manipulation
 * Get a user's playlists
 * Create playlists
