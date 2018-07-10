@@ -17,7 +17,7 @@
         :key="index"
         :id="item.id"
         :uri="item.uri"
-        :coverImg="item.images[0].url"
+        :coverImg="item.images"
         :name="item.name"
         :type="item.type"
       />
@@ -102,7 +102,7 @@
 
       this.getUser(userID);
       this.getUserPlaylists(userID);
-    },
+    }
   }
 </script>
 

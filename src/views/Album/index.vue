@@ -1,24 +1,57 @@
 <template>
   <div class="album-view">
-    album-view
+    <entity-info
+      v-if="album"
+      :coverImg="album.images"
+      :type="album.type"
+      :name="album.name"
+      :description="album.description"
+      :artists="album.artists"
+      :uri="album.uri"
+    />
   </div>
 </template>
 
 <script>
-  export default {
-    name: 'album',
+  import api from '@/api'
+  import {mapActions} from 'vuex'
+  import EntityInfo from '@/components/EntityInfo';
 
-    components: {},
+  export default {
+    name: 'album-view',
+
+    components: {
+      EntityInfo
+    },
 
     data() {
-      return {}
+      return {
+        album: ''
+      }
     },
 
     computed: {},
 
-    methods: {},
+    methods: {
+      ...mapActions({
+        notFoundPage: 'app/notFoundPage',
+      }),
+
+      async getAlbum() {
+        const albumID = this.$route.params.id;
+
+        try {
+          const response = await api.spotify.albums.getAlbum(albumID);
+          this.album = response.data;
+          console.log(this.album);
+        } catch (e) {
+          this.notFoundPage(true);
+        }
+      }
+    },
 
     created() {
+      this.getAlbum();
     },
   }
 </script>

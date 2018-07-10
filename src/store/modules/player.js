@@ -59,7 +59,7 @@ const actions = {
 
       // Playback status updates
       player.addListener('player_state_changed', state => {
-        if(state){
+        if (state) {
           dispatch('setPlaybackContext', state);
           dispatch('setPlayback');
         }

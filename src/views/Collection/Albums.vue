@@ -1,14 +1,13 @@
 <template>
   <div class="albums-view" v-scroll @scrollReachBottom="loadMore">
     <entity-header title="Albums"/>
-
     <div class="albums-view__content">
       <media-object
         v-for="(item, index) in albums.items"
         :key="index"
         :id="item.album.id"
         :uri="item.album.uri"
-        :coverImg="item.album.images[1].url"
+        :coverImg="item.album.images"
         :name="item.album.name"
         :artists="item.album.artists"
         :type="item.album.type"

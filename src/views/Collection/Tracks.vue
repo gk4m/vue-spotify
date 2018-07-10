@@ -1,14 +1,18 @@
 <template>
   <div>
-    tracks collection
+    <entity-header title="Songs"/>
   </div>
 </template>
 
 <script>
+  import EntityHeader from '@/components/EntityHeader'
+
   export default {
     name: 'Tracks',
 
-    components: {},
+    components: {
+      EntityHeader
+    },
 
     data() {
       return {}

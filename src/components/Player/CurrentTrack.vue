@@ -10,7 +10,12 @@
       <router-link class="current-track__name" :to="{name: 'album', params:{id: playback.item.album.id}}">
         {{playback.item.name}}
       </router-link>
-
+      <!--<button v-if="!savedTrack" @click="saveTrack" title="Save to your library">-->
+        <!--<icon name="plus"/>-->
+      <!--</button>-->
+      <!--<button v-if="savedTrack" @click="removeTrack" title="Remove from your library">-->
+        <!--<icon name="minus"/>-->
+      <!--</button>-->
       <div class="current-track__artists">
         <router-link
           class="current-track__link"
@@ -27,6 +32,7 @@
 </template>
 
 <script>
+  import api from '@/api'
   import {mapGetters} from 'vuex'
 
   export default {
@@ -38,7 +44,41 @@
       }),
     },
 
+    data() {
+      return {
+        currentTrackID: '',
+        savedTrack: false
+      }
+    },
+
     methods: {
+      async isSavedTrack(id) {
+        try {
+          const response = await api.spotify.library.checkUserSavedTracks(id);
+          this.savedTrack = response.data[0];
+        } catch (e) {
+          console.log(e);
+        }
+      },
+
+      async saveTrack() {
+        try {
+          await api.spotify.library.saveTracks([this.currentTrackID]);
+          this.savedTrack = !this.savedTrack;
+        } catch (e) {
+          console.log(e)
+        }
+      },
+
+      async removeTrack() {
+        try {
+          await api.spotify.library.removeTracks([this.currentTrackID]);
+          this.savedTrack = !this.savedTrack;
+        } catch (e) {
+          console.log(e)
+        }
+      },
+
       createUrlForCover(context) {
         if (context) {
           const chunks = context.uri.split(':');
@@ -60,6 +100,20 @@
           return {}
         }
       }
+    },
+
+    watch: {
+      playback() {
+        if (this.currentTrackID !== this.playback.item.id) {
+          this.currentTrackID = this.playback.item.id;
+          this.isSavedTrack(this.currentTrackID);
+        }
+      }
+    },
+
+    mounted() {
+      this.currentTrackID = this.playback.item.id;
+      this.isSavedTrack(this.currentTrackID);
     }
   }
 </script>
@@ -76,7 +130,7 @@
       margin: 0 15px
 
     &__img
-        width: 100%
+      width: 100%
 
     &__info
       overflow: hidden

@@ -1,7 +1,10 @@
 <template>
-  <div v-if="playbackContext" class="media-object" :class="isPlaying">
+  <div v-if="playbackContext" :class="elClass">
     <router-link tag="div" class="media-object__cover" :to="createUrl()">
-      <img class="media-object__img" v-lazy="coverImg" :alt="name + '-cover'"/>
+      <img v-if="coverImg[0]" class="media-object__cover-inner" v-lazy="coverImg[0].url" :alt="name + '-cover'"/>
+      <div v-else class="media-object__cover-inner">
+          <icon class="media-object__music-icon" name="music" />
+      </div>
 
       <div class="media-object__cover-hover">
         <button class="media-object__play icon-play-circle" @click="onPlay"></button>
@@ -43,7 +46,6 @@
         required: true
       },
       coverImg: {
-        type: String,
         required: true
       },
       name: {
@@ -51,7 +53,7 @@
         required: true
       },
       type: {
-        required: false
+        required: true
       },
       artists: {
         required: false
@@ -65,27 +67,31 @@
         }
       ),
 
-      isPlaying() {
-
-        return {
-          'media-object--playing': !this.playbackContext.paused && this.playbackContext.context.uri && this.playbackContext.context.uri.indexOf(this.id) >= 0,
-          'media-object--active': this.playbackContext.context.uri && this.playbackContext.context.uri.indexOf(this.id) >= 0
-        }
-      }
+      elClass() {
+        return [
+          'media-object',
+          {
+            'media-object--playing': !this.playbackContext.paused && this.playbackContext.context.uri && this.playbackContext.context.uri.indexOf(this.id) >= 0,
+            'media-object--active': this.playbackContext.context.uri && this.playbackContext.context.uri.indexOf(this.id) >= 0,
+            'media-object--no-image': !this.coverImg[0]
+          }
+        ]
+      },
     },
 
     methods: {
       createUrl() {
+        const chunks = this.uri.split(':');
         let url = null;
 
         switch (this.type) {
           case 'album':
             url = {name: 'album', params: {id: this.id}};
             break;
+
           case 'playlist':
-            const chunks = this.uri.split(':');
             url = {name: 'playlist', params: {user_id: chunks[2], playlist_id: chunks[chunks.length - 1]}};
-            break
+            break;
         }
 
         return url;
@@ -157,12 +163,18 @@
     &__cover
       position: relative
       min-width: 130px
+      padding-top: 100%
 
       &:hover
         .media-object__cover-hover
           background: rgba(0, 0, 0, .6)
-    &__img
+
+    &__cover-inner
+      position: absolute
+      top: 0
       width: 100%
+      height: 100%
+      background: $c-gray
 
     &__cover-hover
       display: block
@@ -195,5 +207,18 @@
       &:hover
         color: $c-white
         text-decoration: underline
+
+    &__avatar
+      position: relative
+      min-width: 130px
+      min-height: 130px
+      width: 100%
+      height: 100%
+      background: $c-sirocco
+
+    &__music-icon
+      +absolute-center
+      width: 40%
+      height: 40%
 
 </style>

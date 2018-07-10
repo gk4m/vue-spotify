@@ -7,7 +7,7 @@
         :key="index"
         :id="item.id"
         :uri="item.uri"
-        :coverImg="item.images[1].url"
+        :coverImg="item.images"
         :name="item.name"
         :artists="item.artists"
         :type="item.type"

@@ -10,8 +10,12 @@ export default {
     });
   },
 
-  getPlaylist(user_id, playlist_id) {
-    return request.get(`users/${user_id}/playlists/${playlist_id}`);
+  getPlaylist(user_id, playlist_id, fields) {
+    return request.get(`users/${user_id}/playlists/${playlist_id}`, {
+      params: {
+        fields
+      }
+    });
   },
 
   getUserPlalists(user_id, offset = 0, limit = 50) {
