@@ -39,9 +39,8 @@
       }),
 
       async getAlbum() {
-        const albumID = this.$route.params.id;
-
         try {
+          const albumID = this.$route.params.id;
           const response = await api.spotify.albums.getAlbum(albumID);
           this.album = response.data;
           console.log(this.album);

@@ -5,6 +5,7 @@ import player from './player';
 import library from './library';
 import browse from './browse';
 import albums from './albums';
+import artists from './artists';
 
 export default {
   request,
@@ -13,6 +14,7 @@ export default {
   player,
   library,
   browse,
-  albums
+  albums,
+  artists
 };
 
