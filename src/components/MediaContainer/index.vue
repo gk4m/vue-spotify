@@ -14,7 +14,7 @@
   .media-container
     display: flex
     flex-flow: wrap
-    padding: 8px
+    padding: 0 8px
 
     .media-object
       display: inline-block

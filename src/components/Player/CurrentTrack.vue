@@ -10,12 +10,9 @@
       <router-link class="current-track__name" :to="{name: 'album', params:{id: playback.item.album.id}}">
         {{playback.item.name}}
       </router-link>
-      <!--<button v-if="!savedTrack" @click="saveTrack" title="Save to your library">-->
-        <!--<icon name="plus"/>-->
-      <!--</button>-->
-      <!--<button v-if="savedTrack" @click="removeTrack" title="Remove from your library">-->
-        <!--<icon name="minus"/>-->
-      <!--</button>-->
+
+      <track-save :trackID="currentTrackID"/>
+
       <div class="current-track__artists">
         <router-link
           class="current-track__link"
@@ -32,11 +29,15 @@
 </template>
 
 <script>
-  import api from '@/api'
   import {mapGetters} from 'vuex'
+  import TrackSave from '@/components/TrackSave'
 
   export default {
     name: 'current-track',
+
+    components: {
+      TrackSave
+    },
 
     computed: {
       ...mapGetters('player', {
@@ -46,39 +47,11 @@
 
     data() {
       return {
-        currentTrackID: '',
-        savedTrack: false
+        currentTrackID: ''
       }
     },
 
     methods: {
-      async isSavedTrack(id) {
-        try {
-          const response = await api.spotify.library.checkUserSavedTracks(id);
-          this.savedTrack = response.data[0];
-        } catch (e) {
-          console.log(e);
-        }
-      },
-
-      async saveTrack() {
-        try {
-          await api.spotify.library.saveTracks([this.currentTrackID]);
-          this.savedTrack = !this.savedTrack;
-        } catch (e) {
-          console.log(e)
-        }
-      },
-
-      async removeTrack() {
-        try {
-          await api.spotify.library.removeTracks([this.currentTrackID]);
-          this.savedTrack = !this.savedTrack;
-        } catch (e) {
-          console.log(e)
-        }
-      },
-
       createUrlForCover(context) {
         if (context) {
           const chunks = context.uri.split(':');
@@ -106,19 +79,17 @@
       playback() {
         if (this.currentTrackID !== this.playback.item.id) {
           this.currentTrackID = this.playback.item.id;
-          this.isSavedTrack(this.currentTrackID);
         }
       }
     },
 
-    mounted() {
+    created() {
       this.currentTrackID = this.playback.item.id;
-      this.isSavedTrack(this.currentTrackID);
     }
   }
 </script>
 
-<style scoped lang="sass">
+<style lang="sass">
   .current-track
     display: flex
     align-items: center
@@ -133,9 +104,17 @@
       width: 100%
 
     &__info
+      position: relative
       overflow: hidden
+      padding-right: 20px
       white-space: nowrap
       text-overflow: ellipsis
+
+      .track-save
+        position: absolute
+        right: 0
+        top: 2px
+
 
     &__name
       color: $c-white

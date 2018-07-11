@@ -1,27 +1,33 @@
 <template>
-  <div class="artist-view">
-    <entity-info
-      v-if="artist"
-      :coverImg="artist.images"
-      :type="artist.type"
-      :name="artist.name"
-      :uri="artist.uri"
-      :followers="artist.followers.total"
-    />
-
-    <entity-header title="Albums" :small="true"/>
-    <media-container>
-      <media-object
-        v-for="(item, index) in albums"
-        :key="index"
-        :id="item.id"
-        :uri="item.uri"
-        :coverImg="item.images"
-        :name="item.name"
-        :artists="item.artists"
-        :type="item.type"
+  <div class="artist-view" v-scroll>
+    <div class="artist-view__content">
+      <entity-info
+        v-if="artist"
+        :coverImg="artist.images"
+        :type="artist.type"
+        :name="artist.name"
+        :uri="artist.uri"
+        :followers="artist.followers.total"
       />
-    </media-container>
+
+      <entity-header title="Popular" :small="true"/>
+      <tracks-list :tracks="tracks"/>
+
+      <entity-header title="Albums" :small="true"/>
+      <media-container>
+        <media-object
+          v-if="albums"
+          v-for="(item, index) in albums"
+          :key="index"
+          :id="item.id"
+          :uri="item.uri"
+          :coverImg="item.images"
+          :name="item.name"
+          :artists="item.artists"
+          :type="item.type"
+        />
+      </media-container>
+    </div>
   </div>
 </template>
 
@@ -32,6 +38,7 @@
   import EntityInfo from '@/components/EntityInfo';
   import MediaObject from '@/components/MediaObject'
   import MediaContainer from '@/components/MediaContainer'
+  import TracksList from '@/components/TracksList'
 
   export default {
     name: 'artist',
@@ -40,13 +47,15 @@
       EntityHeader,
       EntityInfo,
       MediaObject,
-      MediaContainer
+      MediaContainer,
+      TracksList
     },
 
     data() {
       return {
         artist: '',
         albums: '',
+        tracks: '',
         limit: 25,
         offset: 0,
         total: 0
@@ -57,10 +66,6 @@
       ...mapActions({
         notFoundPage: 'app/notFoundPage',
       }),
-
-      t() {
-        return !!this.artist;
-      }
     },
 
     methods: {
@@ -69,6 +74,7 @@
           const artistID = this.$route.params.id;
           const response = await api.spotify.artists.getArtist(artistID);
           this.artist = response.data;
+          console.log(this.artist);
         } catch (e) {
           this.notFoundPage(true);
         }
@@ -87,6 +93,18 @@
         }
       },
 
+      async getArtistTopTracks() {
+        try {
+          const artistID = this.$route.params.id;
+          const response = await api.spotify.artists.getArtistTopTracks(artistID, 'PL');
+
+          this.tracks = response.data.tracks;
+          console.log(response.data.tracks);
+        } catch (e) {
+          console.log(e)
+        }
+      },
+
       async loadMore() {
 
       }
@@ -94,19 +112,23 @@
 
     watch: {
       $route() {
+        this.albums = '';
+        this.artist = '';
+        this.tracks = '';
+
         this.getArtist();
         this.getArtistAlbums();
+        this.getArtistTopTracks();
       }
     },
 
     created() {
       this.getArtist();
       this.getArtistAlbums();
+      this.getArtistTopTracks();
     },
   }
 </script>
 
 <style scoped lang="sass">
-  .artist-view
-    height: calc(100vh - 227px)
 </style>
