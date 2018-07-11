@@ -11,7 +11,7 @@
     </div>
 
     <entity-header title="Public Playlists" :small="true"/>
-    <div class="user-view__playlists">
+    <media-container>
       <media-object
         v-for="(item, index) in playlists"
         :key="index"
@@ -21,7 +21,7 @@
         :name="item.name"
         :type="item.type"
       />
-    </div>
+    </media-container>
   </div>
 </template>
 
@@ -30,13 +30,15 @@
   import {mapActions} from 'vuex'
   import EntityHeader from '@/components/EntityHeader'
   import MediaObject from '@/components/MediaObject'
+  import MediaContainer from '@/components/MediaContainer'
 
   export default {
     name: 'user-view',
 
     components: {
       EntityHeader,
-      MediaObject
+      MediaObject,
+      MediaContainer
     },
 
     data() {
@@ -126,29 +128,5 @@
       +absolute-center
       width: 40%
       height: 40%
-
-    &__playlists
-      padding: 0 8px 30px
-
-    .media-object
-      display: inline-block
-      width: 50%
-      padding: 7px
-      vertical-align: top
-
-  +breakpoint(medium)
-    .user-view
-      .media-object
-        width: 33%
-
-  +breakpoint(large)
-    .user-view
-      .media-object
-        width: 25%
-
-  +breakpoint(xlarge)
-    .user-view
-      .media-object
-        width: 16.66%
 
 </style>

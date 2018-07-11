@@ -66,7 +66,8 @@
   $warning: #dfa941
 
   .notification
-    position: relative
+    position: fixed
+    width: 100%
     padding: 8px 35px
     color: $color
     font:

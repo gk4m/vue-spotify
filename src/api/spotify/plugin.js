@@ -10,10 +10,17 @@ const plugin = store => {
 
   request.interceptors.response.use(null, (error) => {
     const {status} = error.response;
+
     if (store.getters['auth/getAccessToken'] && status === 401) {
       store.dispatch('auth/refreshToken');
     } else if (status === 404) {
       throw error.response;
+    } else if (status === 403) {
+      store.dispatch('notification/addNotification',{
+        type: 'error',
+        message: 'You need to have premium account.',
+        duration: 0
+      });
     } else {
       store.dispatch('auth/login');
     }

@@ -26,7 +26,8 @@
 
     data() {
       return {
-        album: ''
+        album: '',
+        tracks: ''
       }
     },
 
@@ -47,11 +48,24 @@
         } catch (e) {
           this.notFoundPage(true);
         }
+      },
+
+      async getAlbumTracks() {
+        const albumID = this.$route.params.id;
+
+        try {
+          const response = await api.spotify.albums.getAlbumTracks(albumID);
+          this.tracks = response.data;
+          console.log(this.tracks);
+        } catch (e) {
+          this.notFoundPage(true);
+        }
       }
     },
 
     created() {
       this.getAlbum();
+      this.getAlbumTracks();
     },
   }
 </script>

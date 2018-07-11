@@ -52,6 +52,7 @@ const actions = {
   },
 
   logout: function () {
+    console.log('logout')
     let script = document.createElement('script');
 
     script.src = 'https://www.spotify.com/logout/';

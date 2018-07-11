@@ -2,16 +2,18 @@
   <div class="albums-view" v-scroll @scrollReachBottom="loadMore">
     <entity-header title="Albums"/>
     <div class="albums-view__content">
-      <media-object
-        v-for="(item, index) in albums.items"
-        :key="index"
-        :id="item.album.id"
-        :uri="item.album.uri"
-        :coverImg="item.album.images"
-        :name="item.album.name"
-        :artists="item.album.artists"
-        :type="item.album.type"
-      />
+      <media-container>
+        <media-object
+          v-for="(item, index) in albums.items"
+          :key="index"
+          :id="item.album.id"
+          :uri="item.album.uri"
+          :coverImg="item.album.images"
+          :name="item.album.name"
+          :artists="item.album.artists"
+          :type="item.album.type"
+        />
+      </media-container>
     </div>
   </div>
 </template>
@@ -20,13 +22,15 @@
   import api from '@/api'
   import EntityHeader from '@/components/EntityHeader'
   import MediaObject from '@/components/MediaObject'
+  import MediaContainer from '@/components/MediaContainer'
 
   export default {
     name: 'Albums',
 
     components: {
       MediaObject,
-      EntityHeader
+      EntityHeader,
+      MediaContainer
     },
 
     data() {
@@ -77,32 +81,5 @@
 </script>
 
 <style scoped lang="sass">
-
-  .albums-view
-    &__content
-      display: flex
-      flex-flow: wrap
-      padding: 8px
-
-  .media-object
-    display: inline-block
-    width: 50%
-    padding: 7px
-    vertical-align: top
-
-  +breakpoint(medium)
-    .albums-view
-      .media-object
-        width: 33%
-
-  +breakpoint(large)
-    .albums-view
-      .media-object
-        width: 25%
-
-  +breakpoint(xlarge)
-    .albums-view
-      .media-object
-        width: 16.66%
 
 </style>

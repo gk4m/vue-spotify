@@ -2,16 +2,18 @@
   <div class="new-releases-view" v-scroll @scrollReachBottom="loadMore">
     <entity-header title="New albums & singles" :small="true"/>
     <div class="new-releases-view__inner">
-      <media-object
-        v-for="(item, index) in albums.items"
-        :key="index"
-        :id="item.id"
-        :uri="item.uri"
-        :coverImg="item.images"
-        :name="item.name"
-        :artists="item.artists"
-        :type="item.type"
-      />
+      <media-container>
+        <media-object
+          v-for="(item, index) in albums.items"
+          :key="index"
+          :id="item.id"
+          :uri="item.uri"
+          :coverImg="item.images"
+          :name="item.name"
+          :artists="item.artists"
+          :type="item.type"
+        />
+      </media-container>
     </div>
   </div>
 </template>
@@ -20,13 +22,15 @@
   import api from '@/api'
   import MediaObject from '@/components/MediaObject'
   import EntityHeader from '@/components/EntityHeader'
+  import MediaContainer from '@/components/MediaContainer'
 
   export default {
     name: 'new-releases',
 
     components: {
+      EntityHeader,
       MediaObject,
-      EntityHeader
+      MediaContainer
     },
 
     data() {
@@ -82,29 +86,5 @@
 
   .new-releases-view
     height: calc(100vh - 227px)
-
-    &__inner
-      padding: 0 15px 0 8px
-
-    .media-object
-      display: inline-block
-      width: 50%
-      padding: 7px
-      vertical-align: top
-
-  +breakpoint(medium)
-    .new-releases-view
-      .media-object
-        width: 33%
-
-  +breakpoint(large)
-    .new-releases-view
-      .media-object
-        width: 25%
-
-  +breakpoint(xlarge)
-    .new-releases-view
-      .media-object
-        width: 16.66%
 
 </style>
