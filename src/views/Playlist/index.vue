@@ -34,7 +34,7 @@
       return {
         playlist: '',
         tracks: '',
-        limit: 20,
+        limit: 50,
         offset: 0,
         total: 0
       }
