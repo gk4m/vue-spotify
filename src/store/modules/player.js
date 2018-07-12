@@ -70,7 +70,8 @@ const actions = {
       player.addListener('ready', ({device_id}) => {
         console.log('Ready with Device ID', device_id);
         commit('SET_DEVICE_ID', device_id);
-        api.spotify.player.transferUsersPlayback([device_id], false);
+        api.spotify.player.pause();
+        api.spotify.player.transferUsersPlayback([device_id], true);
       });
 
       // Not Ready
