@@ -20,7 +20,7 @@
     },
 
     computed: {
-      elClass(){
+      elClass() {
         return [
           'entity-header',
           {

@@ -1,15 +1,18 @@
 <template>
-  <div>
-    <entity-info
-      v-if="playlist"
-      :coverImg="playlist.images"
-      :type="playlist.type"
-      :name="playlist.name"
-      :description="playlist.description"
-      :author="playlist.owner.display_name"
-      :followers="playlist.followers.total"
-      :uri="playlist.uri"
-    />
+  <div class="playlist-view" v-scroll @scrollReachBottom="loadMore">
+    <div class="playlist-view__content">
+      <entity-info
+        v-if="playlist"
+        :coverImg="playlist.images"
+        :type="playlist.type"
+        :name="playlist.name"
+        :description="playlist.description"
+        :author="playlist.owner.display_name"
+        :followers="playlist.followers.total"
+        :uri="playlist.uri"
+      />
+      <tracks-table :tracks="tracks"/>
+    </div>
   </div>
 </template>
 
@@ -17,20 +20,23 @@
   import api from '@/api'
   import {mapActions} from 'vuex'
   import EntityInfo from '@/components/EntityInfo'
-  import TracksList from '@/components/TracksList'
+  import TracksTable from '@/components/TracksTable'
 
   export default {
     name: 'playlist-view',
 
     components: {
       EntityInfo,
-      TracksList
+      TracksTable
     },
 
     data() {
       return {
         playlist: '',
-        tracks: ''
+        tracks: '',
+        limit: 20,
+        offset: 0,
+        total: 0
       }
     },
 
@@ -54,12 +60,28 @@
       },
 
       async getPlaylistTracks() {
-        const {user_id, playlist_id} = this.$route.params;
-
         try {
-          const response = await api.spotify.playlists.getPlalistsTracks(user_id, playlist_id);
-          this.tracks = response.data;
-          console.log(this.tracks)
+          const {user_id, playlist_id} = this.$route.params;
+          const response = await api.spotify.playlists.getPlalistsTracks(user_id, playlist_id, 0, this.limit);
+
+          this.tracks = response.data.items;
+          this.offset = response.data.offset;
+          this.total = response.data.total;
+
+        } catch (e) {
+          this.notFoundPage(true);
+        }
+      },
+
+      async loadMore(){
+        try {
+          const {user_id, playlist_id} = this.$route.params;
+          const response = await api.spotify.playlists.getPlalistsTracks(user_id, playlist_id, 0, this.limit);
+
+          this.tracks = response.data.items;
+          this.offset = response.data.offset;
+          this.tracks.push(...response.data.items);
+
         } catch (e) {
           this.notFoundPage(true);
         }
@@ -69,6 +91,7 @@
     watch: {
       $route() {
         this.getPlaylist();
+        this.getPlaylistTracks();
       }
     },
 

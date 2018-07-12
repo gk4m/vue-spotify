@@ -3,7 +3,8 @@
     <button v-if="!isSaved" @click="saveTrack" class="track-addition__button" title="Save to your library">
       <icon name="plus"/>
     </button>
-    <button v-if="isSaved" @click="removeTrack" class="track-addition__button track-addition__button--remove" title="Remove from your library">
+    <button v-if="isSaved" @click="removeTrack" class="track-addition__button track-addition__button--remove"
+            title="Remove from your library">
       <icon class="track-addition__check-icon" name="check"/>
       <icon class="track-addition__times-icon" name="times"/>
     </button>
@@ -12,7 +13,6 @@
 
 <script>
   import api from '@/api'
-
   import {mapGetters, mapActions} from 'vuex'
 
   export default {
@@ -69,6 +69,8 @@
           await api.spotify.library.removeTracks([this.trackID]);
           this.isSaved = !this.isSaved;
           this.removeLastTrack(this.trackID);
+
+          this.$emit('remove', this.trackID);
         } catch (e) {
           console.log(e)
         }
@@ -87,6 +89,10 @@
           this.isSavedTrack(this.trackID);
         }
       },
+
+      trackID(id) {
+        this.isSavedTrack(id);
+      }
     },
 
     created() {
@@ -96,6 +102,7 @@
 </script>
 
 <style scoped lang="sass">
+
   .track-addition
     display: inline-block
     line-height: 0

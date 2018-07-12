@@ -90,6 +90,7 @@
 </script>
 
 <style lang="sass">
+
   .current-track
     display: flex
     align-items: center

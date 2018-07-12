@@ -70,7 +70,7 @@
 
     data() {
       return {
-        tracksUris: '',
+        tracksUris: ''
       }
     },
 
@@ -177,7 +177,7 @@
       height: 40px
 
     &__explicit-label
-      padding: 4px 3px
+      padding: 3px
       border: 1px solid $c-gray
       border-radius: 3px
       color: $c-gray

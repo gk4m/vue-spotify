@@ -1,5 +1,4 @@
 import api from '@/api';
-import axios from 'axios';
 
 const state = {
   accessToken: '',
@@ -28,7 +27,7 @@ const mutations = {
 };
 
 const actions = {
-  login: async function ({commit}) {
+  login: async function () {
     try {
       const response = await api.auth.getUserAuthURL();
       if (response.data) {
@@ -40,6 +39,7 @@ const actions = {
   },
 
   refreshToken: async function ({commit, state, dispatch}) {
+    //@todo Check if refresh token working correctly
     try {
       if (state.refreshToken) {
         const response = await api.auth.refreshToken(state.refreshToken);
@@ -52,7 +52,8 @@ const actions = {
   },
 
   logout: function () {
-    console.log('logout')
+    //@todo It sometimes doesn't works on prod server
+    console.log('logout');
     let script = document.createElement('script');
 
     script.src = 'https://www.spotify.com/logout/';

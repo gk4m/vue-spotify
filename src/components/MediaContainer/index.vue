@@ -11,6 +11,7 @@
 </script>
 
 <style lang="sass">
+
   .media-container
     display: flex
     flex-flow: wrap

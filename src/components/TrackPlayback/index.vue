@@ -21,7 +21,11 @@
       },
 
       tracksUris: {
-        required: true
+        required: false
+      },
+
+      contextUri: {
+        required: false
       }
     },
 
