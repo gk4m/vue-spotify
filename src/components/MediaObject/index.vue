@@ -100,7 +100,7 @@
       onPlay(e) {
         e.stopPropagation();
 
-        if (this.playbackContext.context.uri && this.playbackContext.context.uri.indexOf(this.id) >= 0) {
+        if (this.playbackContext && this.playbackContext.context.uri && this.playbackContext.context.uri.indexOf(this.id) >= 0) {
           api.spotify.player.play();
         } else {
           api.spotify.player.play(this.uri);
