@@ -6,26 +6,36 @@
       class="tracks-list__row"
       :class="isActiveTrack(item)"
     >
-      <div class="tracks-list__cell">
+      <div class="tracks-list__cell" v-if="item.album">
         <img class="tracks-list__img" :src="item.album.images[2].url" :alt="item.album.name"/>
       </div>
 
       <div class="tracks-list__cell tracks-list__cell--index">
-        {{index + 1}}
+        <span class="tracks-list__cell-index">{{index + 1}}</span>
+        <track-playback :trackUri="item.uri" :tracksUris="tracksUris"/>
       </div>
 
-      <!--<div class="tracks-list__cell">-->
-      <!--<button class="tracks-list__playback-btn tracks-list__playback-btn&#45;&#45;sound-on icon-sound-on"></button>-->
-      <!--<button class="tracks-list__playback-btn tracks-list__playback-btn&#45;&#45;play icon-play-circle"></button>-->
-      <!--<button class="tracks-list__playback-btn tracks-list__playback-btn&#45;&#45;pause icon-pause-circle"></button>-->
-      <!--</div>-->
-
       <div class="tracks-list__cell">
-        <track-save :trackID="item.id"/>
+        <track-addition :trackID="item.id"/>
       </div>
 
       <div class="tracks-list__cell tracks-list__cell--name">
         {{item.name}}
+        <span v-if="item.artists && showArtists">
+            &nbsp;-&nbsp;
+            <router-link
+              class="tracks-list__link"
+              v-for="(artist, index) in item.artists"
+              :key="artist.id"
+              :to="{name: 'artist', params:{id: artist.id}}">
+             {{artist.name}}
+            <template v-if="index !== (item.artists.length - 1)">,&nbsp;</template>
+            </router-link>
+           </span>
+      </div>
+
+      <div v-if="item.explicit" class="tracks-list__cell tracks-list__cell--explicit">
+        <span class="tracks-list__explicit-label">Explicit</span>
       </div>
 
       <div class="tracks-list__cell tracks-list__cell--duration">
@@ -36,25 +46,32 @@
 </template>
 
 <script>
-  import api from '@/api'
   import {mapGetters} from 'vuex'
-  import TrackSave from '@/components/TrackSave'
+  import TrackAddition from '@/components/TrackAddition'
+  import TrackPlayback from '@/components/TrackPlayback'
 
   export default {
     name: 'tracks-list',
 
     components: {
-      TrackSave
+      TrackAddition,
+      TrackPlayback
     },
 
     props: {
       tracks: {
         required: true
+      },
+      showArtists: {
+        type: Boolean,
+        default: false
       }
     },
 
     data() {
-      return {}
+      return {
+        tracksUris: '',
+      }
     },
 
     computed: {
@@ -67,6 +84,12 @@
     },
 
     methods: {
+      fetchTrackUris() {
+        this.tracksUris = this.tracks.map((el) => {
+          return el.uri;
+        });
+      },
+
       isActiveTrack(current) {
         const isActiveTrack = this.playback.item && this.playback.item.id === current.id;
 
@@ -77,9 +100,10 @@
       }
     },
 
-    watch: {},
-
-    mounted() {
+    watch: {
+      tracks() {
+        this.fetchTrackUris();
+      }
     }
   }
 </script>
@@ -88,9 +112,17 @@
   .tracks-list
     padding: 0 15px
 
+    &__link
+      color: $c-gray
+
+      &:hover
+        color: $c-white
+        text-decoration: underline
+
     &__row
       position: relative
       display: flex
+      min-height: 40px
       color: $c-white
       font-size: 13px
       line-height: 15px
@@ -104,12 +136,24 @@
           background: $c-mine-shaft
           color: $c-white
 
-        .track-save__button
+        .track-addition__button
           color: $c-white
+
+        .track-playback
+          display: block
+
+        .tracks-list__cell-index
+          display: none
 
       &--active
         background: $c-mine-shaft
         color: $c-green
+
+        .tracks-list__cell-index
+          display: none
+
+        .track-playback
+          display: block !important
 
     &__cell
       display: flex
@@ -119,7 +163,11 @@
         margin: 0 8px
 
       &--index
+        margin: 0 5px
         min-width: 35px
+
+      &--playback
+        width: 40px
 
       &--name
         width: 100%
@@ -127,5 +175,18 @@
     &__img
       width: 40px
       height: 40px
+
+    &__explicit-label
+      padding: 4px 3px
+      border: 1px solid $c-gray
+      border-radius: 3px
+      color: $c-gray
+      font-size: 9px
+      line-height: 1
+      letter-spacing: 1.5px
+      text-transform: uppercase
+
+    .track-playback
+      display: none
 
 </style>

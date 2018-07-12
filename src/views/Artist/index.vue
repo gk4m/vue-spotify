@@ -74,7 +74,6 @@
           const artistID = this.$route.params.id;
           const response = await api.spotify.artists.getArtist(artistID);
           this.artist = response.data;
-          console.log(this.artist);
         } catch (e) {
           this.notFoundPage(true);
         }
@@ -99,7 +98,6 @@
           const response = await api.spotify.artists.getArtistTopTracks(artistID, 'PL');
 
           this.tracks = response.data.tracks;
-          console.log(response.data.tracks);
         } catch (e) {
           console.log(e)
         }

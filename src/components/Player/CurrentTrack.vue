@@ -11,7 +11,7 @@
         {{playback.item.name}}
       </router-link>
 
-      <track-save :trackID="currentTrackID"/>
+      <track-addition :trackID="currentTrackID"/>
 
       <div class="current-track__artists">
         <router-link
@@ -30,13 +30,13 @@
 
 <script>
   import {mapGetters} from 'vuex'
-  import TrackSave from '@/components/TrackSave'
+  import TrackAddition from '@/components/TrackAddition'
 
   export default {
     name: 'current-track',
 
     components: {
-      TrackSave
+      TrackAddition
     },
 
     computed: {
@@ -110,11 +110,10 @@
       white-space: nowrap
       text-overflow: ellipsis
 
-      .track-save
+      .track-addition
         position: absolute
         right: 0
         top: 2px
-
 
     &__name
       color: $c-white

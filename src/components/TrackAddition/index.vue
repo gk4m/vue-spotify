@@ -1,11 +1,11 @@
 <template>
-  <div class="track-save">
-    <button v-if="!isSaved" @click="saveTrack" class="track-save__button" title="Save to your library">
+  <div class="track-addition">
+    <button v-if="!isSaved" @click="saveTrack" class="track-addition__button" title="Save to your library">
       <icon name="plus"/>
     </button>
-    <button v-if="isSaved" @click="removeTrack" class="track-save__button track-save__button--remove" title="Remove from your library">
-      <icon class="track-save__check-icon" name="check"/>
-      <icon class="track-save__times-icon" name="times"/>
+    <button v-if="isSaved" @click="removeTrack" class="track-addition__button track-addition__button--remove" title="Remove from your library">
+      <icon class="track-addition__check-icon" name="check"/>
+      <icon class="track-addition__times-icon" name="times"/>
     </button>
   </div>
 </template>
@@ -16,7 +16,7 @@
   import {mapGetters, mapActions} from 'vuex'
 
   export default {
-    name: 'track-save',
+    name: 'track-addition',
 
     components: {},
 
@@ -96,7 +96,7 @@
 </script>
 
 <style scoped lang="sass">
-  .track-save
+  .track-addition
     display: inline-block
     line-height: 0
 
@@ -112,14 +112,14 @@
 
       &--remove
         &:hover
-          .track-save__check-icon
+          .track-addition__check-icon
             display: none
 
-          .track-save__times-icon
+          .track-addition__times-icon
             display: block
 
-  .fa-icon
-    width: 16px
-    height: 16px
+    .fa-icon
+      width: 16px
+      height: 16px
 
 </style>

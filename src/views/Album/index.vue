@@ -9,6 +9,8 @@
       :artists="album.artists"
       :uri="album.uri"
     />
+
+    <tracks-list :tracks="tracks" :showArtists="true"/>
   </div>
 </template>
 
@@ -16,12 +18,14 @@
   import api from '@/api'
   import {mapActions} from 'vuex'
   import EntityInfo from '@/components/EntityInfo';
+  import TracksList from '@/components/TracksList'
 
   export default {
     name: 'album-view',
 
     components: {
-      EntityInfo
+      EntityInfo,
+      TracksList
     },
 
     data() {
@@ -43,7 +47,6 @@
           const albumID = this.$route.params.id;
           const response = await api.spotify.albums.getAlbum(albumID);
           this.album = response.data;
-          console.log(this.album);
         } catch (e) {
           this.notFoundPage(true);
         }
@@ -54,7 +57,7 @@
 
         try {
           const response = await api.spotify.albums.getAlbumTracks(albumID);
-          this.tracks = response.data;
+          this.tracks = response.data.items;
           console.log(this.tracks);
         } catch (e) {
           this.notFoundPage(true);

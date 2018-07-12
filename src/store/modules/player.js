@@ -63,14 +63,14 @@ const actions = {
           dispatch('setPlaybackContext', state);
           dispatch('setPlayback');
         }
-        console.log(state);
+        //console.log(state);
       });
 
       // Ready
       player.addListener('ready', ({device_id}) => {
         console.log('Ready with Device ID', device_id);
         commit('SET_DEVICE_ID', device_id);
-        api.spotify.player.transferUsersPlayback([device_id], true);
+        api.spotify.player.transferUsersPlayback([device_id], false);
       });
 
       // Not Ready
