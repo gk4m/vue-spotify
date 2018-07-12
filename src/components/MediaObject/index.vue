@@ -1,5 +1,5 @@
 <template>
-  <div v-if="playbackContext" :class="elClass">
+  <div :class="elClass">
     <router-link tag="div" class="media-object__cover" :to="createUrl()">
       <img v-if="coverImg[0]" class="media-object__cover-inner" v-lazy="coverImg[0].url" :alt="name + '-cover'"/>
       <div v-else class="media-object__cover-inner">
@@ -71,8 +71,8 @@
         return [
           'media-object',
           {
-            'media-object--playing': !this.playbackContext.paused && this.playbackContext.context.uri && this.playbackContext.context.uri.indexOf(this.id) >= 0,
-            'media-object--active': this.playbackContext.context.uri && this.playbackContext.context.uri.indexOf(this.id) >= 0,
+            'media-object--playing': this.playbackContext && !this.playbackContext.paused && this.playbackContext.context.uri && this.playbackContext.context.uri.indexOf(this.id) >= 0,
+            'media-object--active': this.playbackContext && this.playbackContext.context.uri && this.playbackContext.context.uri.indexOf(this.id) >= 0,
             'media-object--no-image': !this.coverImg[0]
           }
         ]

@@ -69,8 +69,10 @@
 </script>
 
 <style scoped lang="sass">
+
   .user-menu
     position: relative
+    z-index: 10
 
     &__item
       display: flex

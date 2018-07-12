@@ -58,7 +58,6 @@
         try {
           const response = await api.spotify.albums.getAlbumTracks(albumID);
           this.tracks = response.data.items;
-          console.log(this.tracks);
         } catch (e) {
           this.notFoundPage(true);
         }
