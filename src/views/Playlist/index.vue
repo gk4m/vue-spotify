@@ -10,8 +10,6 @@
       :followers="playlist.followers.total"
       :uri="playlist.uri"
     />
-
-    <tracks-list/>
   </div>
 </template>
 
