@@ -10,6 +10,7 @@
         :author="playlist.owner.display_name"
         :followers="playlist.followers.total"
         :uri="playlist.uri"
+        :ownerID="playlist.owner.id"
       />
       <tracks-table :tracks="tracks"/>
     </div>
@@ -75,12 +76,16 @@
 
       async loadMore(){
         try {
-          const {user_id, playlist_id} = this.$route.params;
-          const response = await api.spotify.playlists.getPlalistsTracks(user_id, playlist_id, 0, this.limit);
+          let offset = this.offset + this.limit;
 
-          this.tracks = response.data.items;
-          this.offset = response.data.offset;
-          this.tracks.push(...response.data.items);
+          if (this.total > offset) {
+            const {user_id, playlist_id} = this.$route.params;
+            const response = await api.spotify.playlists.getPlalistsTracks(user_id, playlist_id, offset, this.limit);
+
+            this.tracks = response.data.items;
+            this.offset = response.data.offset;
+            this.tracks.push(...response.data.items);
+          }
 
         } catch (e) {
           this.notFoundPage(true);

@@ -1,5 +1,5 @@
 <template>
-  <div class="tracks-table">
+  <div v-if="!!tracks.length" class="tracks-table">
     <div class="tracks-table__row tracks-table__row--header">
       <div class="tracks-table__cell tracks-table__cell--playback"></div>
       <div class="tracks-table__cell tracks-table__cell--addition"></div>
