@@ -27,7 +27,7 @@
 
     <div
       class="tracks-table__row"
-      v-for="item in tracks"
+      v-for="(item, index) in tracks"
       :key="item.track.id"
       :class="isActiveTrack(item.track)"
       :data-id="item.track.id"
@@ -37,7 +37,8 @@
       </div>
 
       <div class="tracks-table__cell tracks-table__cell--addition">
-        <track-addition :trackID="item.track.id" v-on:remove="onTrackRemove"/>
+        <track-addition :trackID="item.track.id" :isSaved="savedTracks[index]" v-on:updateTrackstatus="onTrackUpdate"
+                        v-on:savedTrackRemove="onSavedTrackRemove"/>
       </div>
 
       <div class="tracks-table__cell">
@@ -79,6 +80,7 @@
 </template>
 
 <script>
+  import api from '@/api'
   import {mapGetters} from 'vuex'
   import TrackAddition from '@/components/TrackAddition'
   import TrackPlayback from '@/components/TrackPlayback'
@@ -96,20 +98,25 @@
         required: true,
         default: []
       },
+      type: {
+        type: String,
+        required: false
+      }
     },
 
     data() {
       return {
-        reverse: false,
-        tracksUris: ''
+        tracksUris: '',
+        tracksIds: '',
+        savedTracks: [],
       }
     },
 
     computed: {
-      ...mapGetters(
-        'player', {
-          playback: 'getPlayback',
-          context: 'getPlaybackContext'
+      ...mapGetters({
+          user: 'user/getProfile',
+          playback: 'player/getPlayback',
+          context: 'player/getPlaybackContext'
         }
       )
     },
@@ -125,6 +132,23 @@
         });
       },
 
+      fetchTrackIds() {
+        this.tracksIds = this.tracks.map((el) => {
+          return el.track.id;
+        });
+      },
+
+      async checkSavedTracks() {
+        try {
+          if (this.tracks.length) {
+            const response = await api.spotify.library.checkUserSavedTracks(this.tracksIds.toString());
+            this.savedTracks = response.data;
+          }
+        } catch (e) {
+          console.log(e);
+        }
+      },
+
       isActiveTrack(current) {
         const isActiveTrack = this.playback.item && this.playback.item.id === current.id;
 
@@ -134,21 +158,37 @@
         }
       },
 
-      onTrackRemove(id) {
-        //document.querySelectorAll(`[data-id='${id}']`)[0].remove();
-        //@todo remove song from list
+      onTrackUpdate() {
+        this.checkSavedTracks();
+      },
+
+      onSavedTrackRemove(id) {
+        if (this.type === 'library') {
+          document.querySelectorAll(`[data-id='${id}']`)[0].remove();
+        }
+        //@todo remove song from playback context
       }
     },
 
     watch: {
       tracks() {
         this.fetchTrackUris();
+        this.fetchTrackIds();
+        this.checkSavedTracks();
       }
+    },
+
+    mounted() {
+    },
+
+    created() {
+
     }
   }
 </script>
 
 <style lang="sass">
+
   .tracks-table
     display: flex
     flex-flow: column

@@ -3,7 +3,7 @@
     <div class="tracks-view__content">
       <!-- @todo add play button -->
       <entity-header title="Songs"/>
-      <tracks-table :tracks="tracks"/>
+      <tracks-table :tracks="tracks" type="library"/>
     </div>
   </div>
 </template>

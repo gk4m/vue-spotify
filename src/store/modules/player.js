@@ -47,6 +47,7 @@ const actions = {
 
       player.addListener('authentication_error', ({message}) => {
         console.error(message);
+        dispatch('auth/refreshToken', null, {root: true});
       });
 
       player.addListener('account_error', ({message}) => {
@@ -70,7 +71,7 @@ const actions = {
       player.addListener('ready', ({device_id}) => {
         console.log('Ready with Device ID', device_id);
         commit('SET_DEVICE_ID', device_id);
-        api.spotify.player.pause();
+
         api.spotify.player.transferUsersPlayback([device_id], true);
       });
 

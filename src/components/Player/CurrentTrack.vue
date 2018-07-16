@@ -11,7 +11,7 @@
         {{playback.item.name}}
       </router-link>
 
-      <track-addition :trackID="currentTrackID"/>
+      <track-addition :trackID="currentTrackID" :isSaved="isSavedTrack" v-on:updateTrackstatus="onTrackUpdate"/>
 
       <div class="current-track__artists">
         <router-link
@@ -29,6 +29,7 @@
 </template>
 
 <script>
+  import api from '@/api'
   import {mapGetters} from 'vuex'
   import TrackAddition from '@/components/TrackAddition'
 
@@ -47,11 +48,21 @@
 
     data() {
       return {
-        currentTrackID: ''
+        currentTrackID: '',
+        isSavedTrack: false
       }
     },
 
     methods: {
+      async checkSavedTrack(id) {
+        try {
+          const response = await api.spotify.library.checkUserSavedTracks(id);
+          this.isSavedTrack = response.data[0];
+        } catch (e) {
+          console.log(e);
+        }
+      },
+
       createUrlForCover(context) {
         if (context) {
           const chunks = context.uri.split(':');
@@ -72,6 +83,10 @@
         } else {
           return {}
         }
+      },
+
+      onTrackUpdate(id) {
+        this.checkSavedTrack(id);
       }
     },
 
@@ -80,11 +95,14 @@
         if (this.currentTrackID !== this.playback.item.id) {
           this.currentTrackID = this.playback.item.id;
         }
+
+        this.checkSavedTrack(this.currentTrackID);
       }
     },
 
     created() {
       this.currentTrackID = this.playback.item.id;
+      this.checkSavedTrack(this.currentTrackID);
     }
   }
 </script>

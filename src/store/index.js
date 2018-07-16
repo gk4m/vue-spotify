@@ -6,7 +6,7 @@ import app from './modules/app';
 import auth from './modules/auth';
 import user from './modules/user';
 import player from './modules/player';
-import playlist from './modules/playlist';
+import library from './modules/library';
 import notification from './modules/notification';
 
 import spotifyApiPlugin from '@/api/spotify/plugin';
@@ -28,7 +28,7 @@ export default new Vuex.Store({
     auth,
     user,
     player,
-    playlist,
+    library,
     notification,
   },
   plugins: [spotifyApiPlugin, persistedState],

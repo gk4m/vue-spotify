@@ -103,7 +103,9 @@
 
     &__header
       padding: 10px
-      font-weight: bold
+      font:
+        size: 18px
+        weight: bold
       text-align: center
       border-bottom: 1px solid $c-gray
       color: $c-white

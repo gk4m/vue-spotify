@@ -54,7 +54,6 @@
         try {
           const response = await api.spotify.playlists.getPlaylist(user_id, playlist_id, 'uri, name, type, images, description, owner, followers');
           this.playlist = response.data;
-          console.log(this.playlist)
         } catch (e) {
           this.notFoundPage(true);
         }

@@ -52,8 +52,6 @@ const actions = {
   },
 
   logout: function () {
-    //@todo It sometimes doesn't works on prod server
-    console.log('logout');
     let script = document.createElement('script');
 
     script.src = 'https://www.spotify.com/logout/';

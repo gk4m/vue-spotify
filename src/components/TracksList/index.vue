@@ -16,7 +16,7 @@
       </div>
 
       <div class="tracks-list__cell">
-        <track-addition :trackID="item.id"/>
+        <track-addition :trackID="item.id" :isSaved="savedTracks[index]" v-on:updateTrackstatus="onTrackUpdate"/>
       </div>
 
       <div class="tracks-list__cell tracks-list__cell--name">
@@ -46,6 +46,7 @@
 </template>
 
 <script>
+  import api from '@/api'
   import {mapGetters} from 'vuex'
   import TrackAddition from '@/components/TrackAddition'
   import TrackPlayback from '@/components/TrackPlayback'
@@ -70,7 +71,9 @@
 
     data() {
       return {
-        tracksUris: ''
+        tracksUris: '',
+        tracksIds: '',
+        savedTracks: [],
       }
     },
 
@@ -90,6 +93,23 @@
         });
       },
 
+      fetchTrackIds() {
+        this.tracksIds = this.tracks.map((el) => {
+          return el.id;
+        });
+      },
+
+      async checkSavedTracks() {
+        try {
+          if (this.tracks.length) {
+            const response = await api.spotify.library.checkUserSavedTracks(this.tracksIds.toString());
+            this.savedTracks = response.data;
+          }
+        } catch (e) {
+          console.log(e);
+        }
+      },
+
       isActiveTrack(current) {
         const isActiveTrack = this.playback.item && this.playback.item.id === current.id;
 
@@ -97,12 +117,19 @@
           'tracks-list__row--active': isActiveTrack,
           'tracks-list__row--paused': isActiveTrack && this.context && this.context.paused
         }
-      }
+      },
+
+      onTrackUpdate() {
+        this.checkSavedTracks();
+      },
+
     },
 
     watch: {
       tracks() {
         this.fetchTrackUris();
+        this.fetchTrackIds();
+        this.checkSavedTracks();
       }
     }
   }

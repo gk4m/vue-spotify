@@ -23,41 +23,33 @@
     props: {
       trackID: {
         required: true
+      },
+      isSaved: {
+        default: false
       }
     },
 
     data() {
       return {
-        isSaved: false
       }
     },
 
     computed: {
-      ...mapGetters('playlist', {
+      ...mapGetters('library', {
         savedTrack: 'getSavedTrack',
         removedTrack: 'getRemovedTrack',
       }),
     },
 
     methods: {
-      ...mapActions('playlist', {
+      ...mapActions('library', {
         saveLastTrack: 'saveTrack',
         removeLastTrack: 'removeTrack',
       }),
 
-      async isSavedTrack(id) {
-        try {
-          const response = await api.spotify.library.checkUserSavedTracks(id);
-          this.isSaved = response.data[0];
-        } catch (e) {
-          console.log(e);
-        }
-      },
-
       async saveTrack() {
         try {
           await api.spotify.library.saveTracks([this.trackID]);
-          this.isSaved = !this.isSaved;
           this.saveLastTrack(this.trackID);
         } catch (e) {
           console.log(e)
@@ -67,10 +59,8 @@
       async removeTrack() {
         try {
           await api.spotify.library.removeTracks([this.trackID]);
-          this.isSaved = !this.isSaved;
           this.removeLastTrack(this.trackID);
-
-          this.$emit('remove', this.trackID);
+          this.$emit('savedTrackRemove', this.trackID);
         } catch (e) {
           console.log(e)
         }
@@ -80,23 +70,15 @@
     watch: {
       savedTrack(val) {
         if (val === this.trackID) {
-          this.isSavedTrack(this.trackID);
+          this.$emit('updateTrackstatus', val);
         }
       },
 
       removedTrack(val) {
         if (val === this.trackID) {
-          this.isSavedTrack(this.trackID);
+          this.$emit('updateTrackstatus', val);
         }
-      },
-
-      trackID(id) {
-        this.isSavedTrack(id);
       }
-    },
-
-    created() {
-      this.isSavedTrack(this.trackID);
     }
   }
 </script>
