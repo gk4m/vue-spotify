@@ -20,8 +20,8 @@ const actions = {
   init({dispatch, rootGetters}) {
     if (rootGetters['auth/getAccessToken']) {
       dispatch('user/getUserProfile', null, {root: true});
-      dispatch('player/init', null, {root: true});
     }
+    dispatch('player/init', null, {root: true});
   }
 };
 

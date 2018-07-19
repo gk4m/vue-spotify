@@ -101,10 +101,11 @@
 
       async checkSavedTracks() {
         try {
-          if (this.tracks.length) {
-            const response = await api.spotify.library.checkUserSavedTracks(this.tracksIds.toString());
-            this.savedTracks = response.data;
-          }
+          //@todo max 50ids in request so I need to split this to chunks
+          // if (this.tracks.length) {
+          //   const response = await api.spotify.library.checkUserSavedTracks(this.tracksIds.toString());
+          //   this.savedTracks = response.data;
+          // }
         } catch (e) {
           console.log(e);
         }

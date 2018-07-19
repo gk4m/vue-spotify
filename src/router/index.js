@@ -108,7 +108,6 @@ const router = new Router({
 });
 
 router.beforeEach(function (to, from, next) {
-
   if (store.getters['app/notFound']) {
     store.dispatch('app/notFoundPage', false);
   }
