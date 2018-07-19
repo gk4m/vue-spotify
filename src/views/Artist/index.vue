@@ -1,5 +1,5 @@
 <template>
-  <div class="artist-view" v-scroll>
+  <div class="artist-view" v-scroll @vScroll="loadMore">
     <div class="artist-view__content">
       <entity-info
         v-if="artist"
@@ -17,7 +17,7 @@
       <media-container>
         <media-object
           v-if="albums"
-          v-for="(item, index) in albums"
+          v-for="(item, index) in albums.items"
           :key="index"
           :id="item.id"
           :uri="item.uri"
@@ -54,11 +54,9 @@
     data() {
       return {
         artist: '',
-        albums: '',
         tracks: '',
-        limit: 25,
-        offset: 0,
-        total: 0
+        albums: null,
+        more: null
       }
     },
 
@@ -69,6 +67,17 @@
     },
 
     methods: {
+      initData() {
+        this.artist = '';
+        this.tracks = '';
+        this.albums = {
+          limit: 25,
+          offset: 0,
+          total: 1,
+          items: []
+        };
+      },
+
       async getArtist() {
         try {
           const artistID = this.$route.params.id;
@@ -81,12 +90,15 @@
 
       async getArtistAlbums() {
         try {
-          const artistID = this.$route.params.id;
-          const response = await api.spotify.artists.getArtistAlbums(artistID, 'album,single', this.limit);
+          if (this.albums.total > this.albums.offset) {
+            const artistID = this.$route.params.id;
+            const response = await api.spotify.artists.getArtistAlbums(artistID, 'album,single', this.albums.offset, this.albums.limit);
 
-          this.albums = response.data.items;
-          this.offset = this.albums.offset;
-          this.total = this.albums.total;
+            this.albums.offset = response.data.offset + this.albums.limit;
+            this.albums.total = response.data.total;
+            this.albums.items.push(...response.data.items);
+            this.more = false;
+          }
         } catch (e) {
           console.log(e)
         }
@@ -103,17 +115,21 @@
         }
       },
 
-      async loadMore() {
+      async loadMore(ev) {
+        if (this.more) {
+          return false;
+        }
 
+        if (ev.detail.scrollbarV.percent > 70) {
+          this.more = true;
+          this.getArtistAlbums();
+        }
       }
     },
 
     watch: {
       $route() {
-        this.albums = '';
-        this.artist = '';
-        this.tracks = '';
-
+        this.initData();
         this.getArtist();
         this.getArtistAlbums();
         this.getArtistTopTracks();
@@ -121,6 +137,7 @@
     },
 
     created() {
+      this.initData();
       this.getArtist();
       this.getArtistAlbums();
       this.getArtistTopTracks();

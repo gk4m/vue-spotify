@@ -88,15 +88,19 @@
 
     methods: {
       fetchTrackUris() {
-        this.tracksUris = this.tracks.map((el) => {
-          return el.uri;
-        });
+        if (this.tracks) {
+          this.tracksUris = this.tracks.map((el) => {
+            return el.uri;
+          });
+        }
       },
 
       fetchTrackIds() {
-        this.tracksIds = this.tracks.map((el) => {
-          return el.id;
-        });
+        if (this.tracks) {
+          this.tracksIds = this.tracks.map((el) => {
+            return el.id;
+          });
+        }
       },
 
       async checkSavedTracks() {

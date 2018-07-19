@@ -1,5 +1,5 @@
 <template>
-  <div class="albums-view" v-scroll @scrollReachBottom="loadMore">
+  <div class="albums-view" v-scroll @vScroll="loadMore">
     <entity-header title="Albums"/>
     <div class="albums-view__content">
       <media-container>
@@ -35,41 +35,40 @@
 
     data() {
       return {
-        albums: '',
-        limit: 25,
-        offset: 0,
-        total: 0
+        albums: {
+          limit: 25,
+          offset: 0,
+          total: 1,
+          items: []
+        },
+        more: null
       }
     },
 
     methods: {
       async getAlbums() {
         try {
-          const response = await api.spotify.library.getAlbums(0, this.limit);
+          if (this.albums.total > this.albums.offset) {
+            const response = await api.spotify.library.getAlbums(this.albums.offset, this.albums.limit);
 
-          this.albums = response.data;
-          this.offset = this.albums.offset;
-          this.total = this.albums.total;
-
+            this.albums.offset = response.data.offset + this.albums.limit;
+            this.albums.total = response.data.total;
+            this.albums.items.push(...response.data.items);
+            this.more = false;
+          }
         } catch (e) {
           console.log(e)
         }
       },
 
-      async loadMore() {
-        try {
-          let offset = this.offset + this.limit;
+      async loadMore(ev) {
+        if (this.more) {
+          return false;
+        }
 
-          if (this.total > offset) {
-            const response = await api.spotify.library.getAlbums(offset, this.limit);
-
-            this.offset = response.data.offset;
-            this.total = response.data.total;
-            this.albums.items.push(...response.data.items);
-
-          }
-        } catch (e) {
-          console.log(e)
+        if (ev.detail.scrollbarV.percent > 70) {
+          this.more = true;
+          this.getAlbums();
         }
       }
     },

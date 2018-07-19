@@ -1,15 +1,14 @@
 <template>
-  <div class="tracks-view" v-scroll @scrollReachBottom="loadMore">
+  <div class="tracks-view" v-scroll @vScroll="loadMore">
     <div class="tracks-view__content">
       <!-- @todo add play button -->
       <entity-header title="Songs"/>
-      <tracks-table :tracks="tracks" type="library"/>
+      <tracks-table :tracks="tracks.items" type="library"/>
     </div>
   </div>
 </template>
 
 <script>
-  //@todo GLOBAL: load more item when scroll reach 70%
   import api from '@/api'
   import EntityHeader from '@/components/EntityHeader'
   import TracksTable from '@/components/TracksTable'
@@ -24,10 +23,13 @@
 
     data() {
       return {
-        tracks: '',
-        limit: 50,
-        offset: 0,
-        total: 0
+        tracks: {
+          limit: 25,
+          offset: 0,
+          total: 1,
+          items: []
+        },
+        more: null
       }
     },
 
@@ -36,30 +38,27 @@
     methods: {
       async getTracks() {
         try {
-          const response = await api.spotify.library.getTracks(0, this.limit);
+          if (this.tracks.total > this.tracks.offset) {
+            const response = await api.spotify.library.getTracks(this.tracks.offset, this.tracks.limit);
 
-          this.tracks = response.data.items;
-          this.offset = response.data.offset;
-          this.total = response.data.total;
-
+            this.tracks.offset = response.data.offset + this.tracks.limit;
+            this.tracks.total = response.data.total;
+            this.tracks.items.push(...response.data.items);
+            this.more = false;
+          }
         } catch (e) {
-          console.log(e);
+          console.log(e)
         }
       },
 
-      async loadMore(){
-        try {
-          let offset = this.offset + this.limit;
+      async loadMore(ev) {
+        if (this.more) {
+          return false;
+        }
 
-          if (this.total > offset) {
-            const response = await api.spotify.library.getTracks(offset, this.limit);
-
-            this.offset = response.data.offset;
-            this.tracks.push(...response.data.items);
-          }
-
-        } catch (e) {
-          console.log(e);
+        if (ev.detail.scrollbarV.percent > 70) {
+          this.more = true;
+          this.getTracks();
         }
       }
     },

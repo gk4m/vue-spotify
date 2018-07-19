@@ -1,5 +1,5 @@
 <template>
-  <div class="user-view" v-scroll @scrollReachBottom="loadMore">
+  <div class="user-view" v-scroll @vScroll="loadMore">
     <div class="user-view__info">
       <img v-if="!!(user.images && user.images[0])" class="user-view__avatar" :src="user.images[0].url">
 
@@ -10,10 +10,10 @@
       <h1 class="user-view__name">{{user.display_name}}</h1>
     </div>
 
-    <entity-header title="Public Playlists" :small="true"/>
+    <entity-header v-if="playlists.items" title="Public Playlists" :small="true"/>
     <media-container>
       <media-object
-        v-for="(item, index) in playlists"
+        v-for="(item, index) in playlists.items"
         :key="index"
         :id="item.id"
         :uri="item.uri"
@@ -44,14 +44,15 @@
     data() {
       return {
         user: '',
-        playlists: '',
-        limit: 25,
-        offset: 0,
-        total: 0
+        userID: '',
+        playlists: {
+          limit: 25,
+          offset: 0,
+          total: 1,
+          items: []
+        },
       }
     },
-
-    computed: {},
 
     methods: {
       ...mapActions({
@@ -69,41 +70,36 @@
 
       async getUserPlaylists(id) {
         try {
-          const response = await api.spotify.playlists.getUserPlalists(id, 0, this.limit);
+          if (this.playlists.total > this.playlists.offset) {
+            const response = await api.spotify.playlists.getUserPlalists(id, this.playlists.offset, this.playlists.limit);
 
-          this.playlists = response.data.items;
-          this.offset = response.data.offset;
-          this.total = response.data.total;
-
-        } catch (e) {
-          console.log(e);
-        }
-      },
-
-      async loadMore() {
-        try {
-          const userID = this.$route.params.id;
-          let offset = this.offset + this.limit;
-
-          if (this.total > offset) {
-            const response = await api.spotify.playlists.getUserPlalists(userID, offset, this.limit);
-
-            this.offset = response.data.offset;
-            this.total = response.data.total;
-            this.playlists.push(...response.data.items);
-
+            this.playlists.offset = response.data.offset + this.playlists.limit;
+            this.playlists.total = response.data.total;
+            this.playlists.items.push(...response.data.items);
+            this.more = false;
           }
         } catch (e) {
           console.log(e)
+        }
+      },
+
+      async loadMore(ev) {
+        if (this.more) {
+          return false;
+        }
+
+        if (ev.detail.scrollbarV.percent > 70) {
+          this.more = true;
+          this.getUserPlaylists(this.userID);
         }
       }
     },
 
     created() {
-      const userID = this.$route.params.id;
+      this.userID = this.$route.params.id;
 
-      this.getUser(userID);
-      this.getUserPlaylists(userID);
+      this.getUser(this.userID);
+      this.getUserPlaylists(this.userID);
     }
   }
 </script>
