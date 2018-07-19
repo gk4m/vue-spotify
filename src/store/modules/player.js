@@ -27,13 +27,40 @@ const mutations = {
 
 const actions = {
   init: async function ({commit, rootGetters, dispatch, state}) {
-    dispatch('setPlayback');
+    //dispatch('setPlayback');
 
-    window.onSpotifyWebPlaybackSDKReady = () => {
+    window.onSpotifyWebPlaybackSDKReady = () => {};
+
+    async function waitForSpotifyWebPlaybackSDKToLoad() {
+      return new Promise(resolve => {
+        if (window.Spotify) {
+          resolve(window.Spotify);
+        } else {
+          window.onSpotifyWebPlaybackSDKReady = () => {
+            resolve(window.Spotify);
+          };
+        }
+      });
+    }
+
+    async function waitUntilUserHasSelectedPlayer(sdk) {
+      return new Promise(resolve => {
+        let interval = setInterval(async () => {
+          let state = await sdk.getCurrentState();
+          if (state !== null) {
+            resolve(state);
+            clearInterval(interval);
+          }
+        });
+      });
+    }
+
+    (async () => {
+      const {Player} = await waitForSpotifyWebPlaybackSDKToLoad();
       const token = rootGetters['auth/getAccessToken'];
 
       // eslint-disable-next-line
-      const player = new Spotify.Player({
+      const player = new Player({
         name: 'Spotify Web Player',
         getOAuthToken: cb => {
           cb(token);
@@ -47,7 +74,7 @@ const actions = {
 
       player.addListener('authentication_error', ({message}) => {
         console.error(message);
-        dispatch('auth/refreshToken', null, {root: true});
+        dispatch('auth/login', null, {root: true});
       });
 
       player.addListener('account_error', ({message}) => {
@@ -81,8 +108,68 @@ const actions = {
       });
 
       // Connect to the player!
-      player.connect();
-    };
+      let connected = await player.connect();
+
+      if(connected) {
+        let state = await waitUntilUserHasSelectedPlayer(player);
+        await player.setVolume(0.5);
+      }
+    })();
+
+    // window.onSpotifyWebPlaybackSDKReady = () => {
+    //   const token = rootGetters['auth/getAccessToken'];
+    //
+    //   // eslint-disable-next-line
+    //   const player = new Spotify.Player({
+    //     name: 'Spotify Web Player',
+    //     getOAuthToken: cb => {
+    //       cb(token);
+    //     }
+    //   });
+    //
+    //   // Error handling
+    //   player.addListener('initialization_error', ({message}) => {
+    //     console.error(message);
+    //   });
+    //
+    //   player.addListener('authentication_error', ({message}) => {
+    //     console.error(message);
+    //     dispatch('auth/login', null, {root: true});
+    //   });
+    //
+    //   player.addListener('account_error', ({message}) => {
+    //     console.error(message);
+    //   });
+    //
+    //   player.addListener('playback_error', ({message}) => {
+    //     console.error(message);
+    //   });
+    //
+    //   // Playback status updates
+    //   player.addListener('player_state_changed', state => {
+    //     if (state) {
+    //       dispatch('setPlaybackContext', state);
+    //       dispatch('setPlayback');
+    //     }
+    //     //console.log(state);
+    //   });
+    //
+    //   // Ready
+    //   player.addListener('ready', ({device_id}) => {
+    //     console.log('Ready with Device ID', device_id);
+    //     commit('SET_DEVICE_ID', device_id);
+    //
+    //     api.spotify.player.transferUsersPlayback([device_id], true);
+    //   });
+    //
+    //   // Not Ready
+    //   player.addListener('not_ready', ({device_id}) => {
+    //     console.log('Device ID has gone offline', device_id);
+    //   });
+    //
+    //   // Connect to the player!
+    //   player.connect();
+    // };
   },
 
   async setPlayback({commit}) {
