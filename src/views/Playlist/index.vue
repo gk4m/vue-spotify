@@ -1,5 +1,5 @@
 <template>
-  <div class="playlist-view" v-scroll @scrollReachBottom="loadMore">
+  <div class="playlist-view" v-scroll @scrollReachBottom="getPlaylistTracks">
     <div class="playlist-view__content">
       <entity-info
         v-if="playlist"
@@ -12,7 +12,7 @@
         :uri="playlist.uri"
         :ownerID="playlist.owner.id"
       />
-      <tracks-table :tracks="tracks"/>
+      <tracks-table :tracks="tracks.items"/>
     </div>
   </div>
 </template>
@@ -34,19 +34,24 @@
     data() {
       return {
         playlist: '',
-        tracks: '',
-        limit: 50,
-        offset: 0,
-        total: 0
+        tracks: null,
+
       }
     },
-
-    computed: {},
 
     methods: {
       ...mapActions({
         notFoundPage: 'app/notFoundPage',
       }),
+
+      initData() {
+        this.tracks = {
+          limit: 50,
+          offset: 0,
+          total: 1,
+          items: []
+        }
+      },
 
       async getPlaylist() {
         const {user_id, playlist_id} = this.$route.params;
@@ -61,31 +66,14 @@
 
       async getPlaylistTracks() {
         try {
-          const {user_id, playlist_id} = this.$route.params;
-          const response = await api.spotify.playlists.getPlalistsTracks(user_id, playlist_id, 0, this.limit);
-
-          this.tracks = response.data.items;
-          this.offset = response.data.offset;
-          this.total = response.data.total;
-
-        } catch (e) {
-          this.notFoundPage(true);
-        }
-      },
-
-      async loadMore() {
-        try {
-          let offset = this.offset + this.limit;
-
-          if (this.total > offset) {
+          if (this.tracks.total > this.tracks.offset) {
             const {user_id, playlist_id} = this.$route.params;
-            const response = await api.spotify.playlists.getPlalistsTracks(user_id, playlist_id, offset, this.limit);
-            
-            this.tracks = response.data.items;
-            this.offset = response.data.offset;
-            this.tracks.push(...response.data.items);
-          }
+            const response = await api.spotify.playlists.getPlalistsTracks(user_id, playlist_id, this.tracks.offset, this.tracks.limit);
 
+            this.tracks.offset = response.data.offset + this.tracks.limit;
+            this.tracks.total = response.data.total;
+            this.tracks.items.push(...response.data.items);
+          }
         } catch (e) {
           this.notFoundPage(true);
         }
@@ -94,12 +82,14 @@
 
     watch: {
       $route() {
+        this.initData();
         this.getPlaylist();
         this.getPlaylistTracks();
       }
     },
 
     created() {
+      this.initData();
       this.getPlaylist();
       this.getPlaylistTracks();
     },
