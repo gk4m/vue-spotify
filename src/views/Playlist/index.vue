@@ -1,5 +1,5 @@
 <template>
-  <div class="playlist-view" v-scroll @scrollReachBottom="getPlaylistTracks">
+  <div class="playlist-view" v-scroll @vScroll="loadMore">
     <div class="playlist-view__content">
       <entity-info
         v-if="playlist"
@@ -35,7 +35,7 @@
       return {
         playlist: '',
         tracks: null,
-
+        more: null
       }
     },
 
@@ -73,9 +73,21 @@
             this.tracks.offset = response.data.offset + this.tracks.limit;
             this.tracks.total = response.data.total;
             this.tracks.items.push(...response.data.items);
+            this.more = false;
           }
         } catch (e) {
           this.notFoundPage(true);
+        }
+      },
+
+      async loadMore(ev) {
+        if (this.more) {
+          return false;
+        }
+
+        if (ev.detail.scrollbarV.percent > 70) {
+          this.more = true;
+          this.getPlaylistTracks();
         }
       }
     },

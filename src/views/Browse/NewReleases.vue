@@ -1,5 +1,5 @@
 <template>
-  <div class="new-releases-view" v-scroll @scrollReachBottom="loadMore">
+  <div class="new-releases-view" v-scroll @vScroll="loadMore">
     <entity-header title="New albums & singles" :small="true"/>
     <div class="new-releases-view__inner">
       <media-container>
@@ -35,43 +35,40 @@
 
     data() {
       return {
-        albums: '',
-        limit: 25,
-        offset: 0,
-        total: 0
+        albums: {
+          limit: 25,
+          offset: 0,
+          total: 1,
+          items: []
+        },
+        more: null
       }
     },
-
-    computed: {},
 
     methods: {
       async getNewReleases() {
         try {
-          const response = await api.spotify.browse.getNewReleases(0, this.limit);
+          if (this.albums.total > this.albums.offset) {
+            const response = await api.spotify.browse.getNewReleases(this.albums.offset, this.albums.limit);
 
-          this.albums = response.data.albums;
-          this.offset = response.data.albums.offset;
-          this.total = response.data.albums.total;
-
+            this.albums.offset = response.data.albums.offset + this.albums.limit;
+            this.albums.total = response.data.albums.total;
+            this.albums.items.push(...response.data.albums.items);
+            this.more = false;
+          }
         } catch (e) {
           console.log(e)
         }
       },
 
-      async loadMore() {
-        try {
-          let offset = this.offset + this.limit;
+      async loadMore(ev) {
+        if (this.more) {
+          return false;
+        }
 
-          if (this.total > offset) {
-            const response = await api.spotify.browse.getNewReleases(offset, this.limit);
-
-            this.offset = response.data.albums.offset;
-            this.total = response.data.albums.total;
-            this.albums.items.push(...response.data.albums.items);
-
-          }
-        } catch (e) {
-          console.log(e)
+        if (ev.detail.scrollbarV.percent > 70) {
+          this.more = true;
+          this.getNewReleases();
         }
       }
     },
