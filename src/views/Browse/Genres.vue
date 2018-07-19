@@ -51,6 +51,7 @@
 </script>
 
 <style scoped lang="sass">
+
   .genres-view
     height: calc(100vh - 227px)
 

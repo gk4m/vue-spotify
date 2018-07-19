@@ -73,14 +73,14 @@
         }
       },
 
-      async loadMore(){
+      async loadMore() {
         try {
           let offset = this.offset + this.limit;
 
           if (this.total > offset) {
             const {user_id, playlist_id} = this.$route.params;
             const response = await api.spotify.playlists.getPlalistsTracks(user_id, playlist_id, offset, this.limit);
-
+            
             this.tracks = response.data.items;
             this.offset = response.data.offset;
             this.tracks.push(...response.data.items);

@@ -26,14 +26,39 @@ const mutations = {
 };
 
 const actions = {
-  init: async function ({commit, rootGetters, dispatch, state}) {
-    dispatch('setPlayback');
+  init: async function ({commit, rootGetters, dispatch}) {
+    window.onSpotifyWebPlaybackSDKReady = () => {};
 
-    window.onSpotifyWebPlaybackSDKReady = () => {
+    async function waitForSpotifyWebPlaybackSDKToLoad() {
+      return new Promise(resolve => {
+        if (window.Spotify) {
+          resolve(window.Spotify);
+        } else {
+          window.onSpotifyWebPlaybackSDKReady = () => {
+            resolve(window.Spotify);
+          };
+        }
+      });
+    }
+
+    async function waitUntilUserHasSelectedPlayer(sdk) {
+      return new Promise(resolve => {
+        let interval = setInterval(async () => {
+          let state = await sdk.getCurrentState();
+          if (state !== null) {
+            resolve(state);
+            clearInterval(interval);
+          }
+        });
+      });
+    }
+
+    (async () => {
+      const {Player} = await waitForSpotifyWebPlaybackSDKToLoad();
       const token = rootGetters['auth/getAccessToken'];
 
       // eslint-disable-next-line
-      const player = new Spotify.Player({
+      const player = new Player({
         name: 'Spotify Web Player',
         getOAuthToken: cb => {
           cb(token);
@@ -47,7 +72,7 @@ const actions = {
 
       player.addListener('authentication_error', ({message}) => {
         console.error(message);
-        dispatch('auth/refreshToken', null, {root: true});
+        dispatch('auth/login', null, {root: true});
       });
 
       player.addListener('account_error', ({message}) => {
@@ -81,8 +106,12 @@ const actions = {
       });
 
       // Connect to the player!
-      player.connect();
-    };
+      let connected = await player.connect();
+
+      if(connected) {
+        await waitUntilUserHasSelectedPlayer(player);
+      }
+    })();
   },
 
   async setPlayback({commit}) {

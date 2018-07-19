@@ -28,7 +28,7 @@
     <div
       class="tracks-table__row"
       v-for="(item, index) in tracks"
-      :key="item.track.id"
+      :key="index"
       :class="isActiveTrack(item.track)"
       :data-id="item.track.id"
     >
@@ -53,7 +53,7 @@
           <router-link
             class="tracks-table__link"
             v-for="(artist, index) in item.track.artists"
-            :key="artist.id"
+            :key="index"
             :to="{name: 'artist', params:{id: artist.id}}"
           >
             {{artist.name}}
@@ -140,10 +140,11 @@
 
       async checkSavedTracks() {
         try {
-          if (this.tracks.length) {
-            const response = await api.spotify.library.checkUserSavedTracks(this.tracksIds.toString());
-            this.savedTracks = response.data;
-          }
+          //@todo max 50ids in request so I need to split this to chunksw
+          // if (this.tracks.length) {
+          //   const response = await api.spotify.library.checkUserSavedTracks(this.tracksIds.toString());
+          //   this.savedTracks = response.data;
+          // }
         } catch (e) {
           console.log(e);
         }
