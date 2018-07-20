@@ -3,7 +3,6 @@
     <h2 v-if="title" class="nav-bar__title">{{title}}</h2>
     <ul>
       <router-link
-        exact
         tag="li"
         class="nav-bar__item"
         active-class="nav-bar__item--active"
@@ -49,6 +48,7 @@
 </script>
 
 <style scoped lang="sass">
+
   .nav-bar
     padding-right: 10px
     color: $c-gray
