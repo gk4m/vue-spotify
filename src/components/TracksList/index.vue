@@ -105,11 +105,20 @@
 
       async checkSavedTracks() {
         try {
-          //@todo max 50ids in request so I need to split this to chunks
-          // if (this.tracks.length) {
-          //   const response = await api.spotify.library.checkUserSavedTracks(this.tracksIds.toString());
-          //   this.savedTracks = response.data;
-          // }
+          const saved = {
+            offset: 0,
+            limit: 50,
+            total: this.tracks.length || 0,
+            items: []
+          };
+
+          while (saved.total > saved.offset) {
+            const response = await api.spotify.library.checkUserSavedTracks(this.tracksIds.slice(saved.offset, saved.offset + saved.limit).toString());
+            saved.offset = saved.offset + saved.limit;
+            saved.items.push(...response.data);
+          }
+
+          this.savedTracks = saved.items;
         } catch (e) {
           console.log(e);
         }
@@ -132,11 +141,12 @@
 
     watch: {
       tracks() {
+        console.log('tracks watch')
         this.fetchTrackUris();
         this.fetchTrackIds();
         this.checkSavedTracks();
       }
-    }
+    },
   }
 </script>
 

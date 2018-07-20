@@ -44,6 +44,7 @@ const actions = {
       if (state.refreshToken) {
         const response = await api.auth.refreshToken(state.refreshToken);
         commit('SET_ACCESS_TOKEN', response.data.access_token);
+        location.reload();
       }
     } catch (e) {
       console.log(e);
