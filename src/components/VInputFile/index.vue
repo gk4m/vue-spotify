@@ -1,7 +1,7 @@
 <template>
   <label class="input-file" for="input-file__input">
     <div class="input-file__avatar" :data-text='hoverText' :style="avatarStyles">
-      <input id="input-file__input" class="input-file__input"  type="file" @change="onFileChange"/>
+      <input id="input-file__input" class="input-file__input" type="file" @change="onFileChange"/>
       <icon class="input-file__icon" name="camera"/>
     </div>
   </label>
@@ -48,6 +48,8 @@
         };
 
         reader.readAsDataURL(this.avatarFile);
+
+        this.$emit('onFileChange', this.avatarFile);
       }
     }
   }
