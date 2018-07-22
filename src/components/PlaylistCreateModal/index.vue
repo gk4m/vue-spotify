@@ -85,22 +85,27 @@
       },
 
       async create() {
-        if (validate()) {
-          const response = await api.spotify.playlists.createPlaylist(this.user.id, this.name, this.description);
+        if (this.validate()) {
+          try {
+            const response = await api.spotify.playlists.createPlaylist(this.user.id, this.name, this.description);
 
-          this.clearUserPlaylistst();
-          this.getUserPlaylists();
+            this.clearUserPlaylistst();
+            this.getUserPlaylists();
 
-          this.$router.push({
-            name: 'playlist',
-            params: {
-              user_id: this.user.id,
-              playlist_id: response.data.id
-            }
-          });
+            this.$router.push({
+              name: 'playlist',
+              params: {
+                user_id: this.user.id,
+                playlist_id: response.data.id
+              }
+            });
 
-          this.hide();
-          this.clearForm();
+            this.hide();
+            this.clearForm();
+
+          } catch (e) {
+            console.log(e);
+          }
         }
       },
     }
