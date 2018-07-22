@@ -141,12 +141,11 @@
 
     watch: {
       tracks() {
-        console.log('tracks watch')
         this.fetchTrackUris();
         this.fetchTrackIds();
         this.checkSavedTracks();
       }
-    },
+    }
   }
 </script>
 

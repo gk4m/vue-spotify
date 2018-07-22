@@ -17,10 +17,11 @@ const mutations = {
 const actions = {
   async fetchPlaylist({commit}, data){
     try {
-      const response = await api.spotify.playlists.getPlaylist(data.userID, data.playlistID, 'uri, name, type, images, description, owner, followers');
+      const fields = 'uri, name, type, images, description, owner, followers';
+      const response = await api.spotify.playlists.getPlaylist(data.userID, data.playlistID, fields);
       commit('SET_PLAYLIST', response.data)
     } catch (e) {
-      this.notFoundPage(true);
+      console.log(e);
     }
   }
 };

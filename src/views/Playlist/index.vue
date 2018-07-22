@@ -83,7 +83,7 @@
 
         if (ev.detail.scrollbarV.percent > 70) {
           this.more = true;
-          this.getPlaylistTracks();
+          this.getPlaylistTracks(this.userID, this.playlistID);
         }
       },
 

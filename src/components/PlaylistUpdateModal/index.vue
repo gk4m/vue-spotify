@@ -74,11 +74,6 @@
         this.$modal.hide(this.modalName);
       },
 
-      clearForm() {
-        this.name = '';
-        this.description = '';
-      },
-
       getPlaylistID() {
         let tmp = this.playlist.uri.split(':');
         return tmp[tmp.length - 1];
@@ -110,11 +105,12 @@
       },
 
       async updateCover() {
-        //@to do update cover
+        //@to do update cover, it doesn't work ;/
         if (this.coverBase64) {
           try {
             let playlistID = this.getPlaylistID();
-            await api.spotify.playlists.updatePlaylistCover(this.user.id, playlistID, this.coverBase64);
+            const response = await api.spotify.playlists.updatePlaylistCover(this.user.id, playlistID, this.coverBase64);
+            console.log(response);
           } catch (e) {
             console.log(e);
           }

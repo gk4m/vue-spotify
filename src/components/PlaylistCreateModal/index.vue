@@ -8,11 +8,11 @@
         <form>
           <div>
             <label for="name">Name</label>
-            <input id="name" name="name" v-model="name"/>
+            <input id="name" name="name" v-model="name" maxlength="100"/>
           </div>
           <div>
             <label for="description">Description</label>
-            <textarea id="description" name="description" v-model="description"></textarea>
+            <textarea id="description" name="description" v-model="description" maxlength="300"></textarea>
           </div>
         </form>
       </template>
@@ -63,13 +63,29 @@
         this.$modal.hide(this.modalName);
       },
 
-      clearForm(){
+      clearForm() {
         this.name = '';
         this.description = '';
       },
 
+      validate() {
+        let valid = true;
+
+        if (!this.name) {
+          this.addNotification({
+            type: 'error',
+            message: 'You must give your playlist a name.',
+            duration: 3000
+          });
+
+          return false;
+        }
+
+        return valid;
+      },
+
       async create() {
-        if (this.name) {
+        if (validate()) {
           const response = await api.spotify.playlists.createPlaylist(this.user.id, this.name, this.description);
 
           this.clearUserPlaylistst();
@@ -85,13 +101,6 @@
 
           this.hide();
           this.clearForm();
-
-        } else {
-          this.addNotification({
-            type: 'error',
-            message: 'You must give your playlist a name.',
-            duration: 3000
-          });
         }
       },
     }

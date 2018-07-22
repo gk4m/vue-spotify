@@ -186,13 +186,6 @@
         this.fetchTrackIds();
         this.checkSavedTracks();
       }
-    },
-
-    mounted() {
-    },
-
-    created() {
-
     }
   }
 </script>

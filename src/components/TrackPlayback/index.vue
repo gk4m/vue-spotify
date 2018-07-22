@@ -8,12 +8,10 @@
 
 <script>
   import api from '@/api'
-  import {mapGetters, mapActions} from 'vuex'
+  import {mapGetters} from 'vuex'
 
   export default {
     name: 'track-playback',
-
-    components: {},
 
     props: {
       trackUri: {
@@ -27,10 +25,6 @@
       contextUri: {
         required: false
       }
-    },
-
-    data() {
-      return {}
     },
 
     computed: {
@@ -70,6 +64,7 @@
 </script>
 
 <style scoped lang="sass">
+
   .track-playback
     .track-playback__button--play
       display: block

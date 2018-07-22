@@ -10,7 +10,7 @@
       <h1 class="user-view__name">{{user.display_name}}</h1>
     </div>
 
-    <entity-header v-if="playlists.items" title="Public Playlists" :small="true"/>
+    <entity-header v-if="playlists.items.length" title="Public Playlists" :small="true"/>
     <media-container>
       <media-object
         v-for="(item, index) in playlists.items"

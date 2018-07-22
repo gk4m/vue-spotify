@@ -55,7 +55,9 @@ export default {
     return request({
       method: 'put',
       url: `users/${user_id}/playlists/${playlist_id}/images`,
-      headers: { 'content-type': 'image/jpeg' },
+      headers: {
+        'content-type': 'image/jpeg'
+      },
       data: {...base64}
     });
   }
