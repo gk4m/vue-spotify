@@ -60,13 +60,13 @@
       }
     },
 
-    computed: {
+    computed: {},
+
+    methods: {
       ...mapActions({
         notFoundPage: 'app/notFoundPage',
       }),
-    },
 
-    methods: {
       initData() {
         this.artist = '';
         this.tracks = '';

@@ -12,7 +12,8 @@ const plugin = store => {
     const {status} = error.response;
 
     if (store.getters['auth/getAccessToken'] && status === 401) {
-      store.dispatch('auth/refreshToken');
+      //store.dispatch('auth/refreshToken');
+      store.dispatch('auth/login');
     } else if (status === 404) {
       throw error.response;
     } else if (status === 403) {

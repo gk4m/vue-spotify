@@ -1,10 +1,8 @@
 <template>
   <div class="app-layout">
-    <top-bar/>
-
+    <app-top-bar/>
     <div class="app-layout__wrap">
-      <sidebar/>
-
+      <app-sidebar/>
       <div class="app-layout__main">
         <router-view />
       </div>
@@ -14,16 +12,16 @@
 </template>
 
 <script>
-  import TopBar from '@/components/TopBar';
-  import Sidebar from '@/components/Sidebar';
+  import AppTopBar from '@/components/AppTopBar';
+  import AppSidebar from '@/components/AppSidebar';
   import Player from '@/components/Player';
 
   export default {
     name: 'AppLayout',
 
     components: {
-      TopBar,
-      Sidebar,
+      AppTopBar,
+      AppSidebar,
       Player
     }
   }

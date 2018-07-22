@@ -1,26 +1,26 @@
 <template>
-  <div class="playlist-modal">
-    <modal name="playlist-modal" width="400px">
-      <div class="playlist-modal__header">
+  <div class="playlist-create-modal">
+    <v-modal :modalName="modalName">
+      <template slot="header">
         Create Playlist
-      </div>
-      <div class="playlist-modal__body">
+      </template>
+      <template slot="body">
         <form>
-          <div class="playlist-modal__name">
+          <div>
             <label for="name">Name</label>
             <input id="name" name="name" v-model="name"/>
           </div>
-          <div class="playlist-modal__description">
+          <div>
             <label for="description">Description</label>
             <textarea id="description" name="description" v-model="description"></textarea>
           </div>
         </form>
-      </div>
-      <div class="playlist-modal__footer">
+      </template>
+      <template slot="footer">
         <v-button :onClick="hide" :isBlack="true">Cancel</v-button>
         <v-button :onClick="create">Create</v-button>
-      </div>
-    </modal>
+      </template>
+    </v-modal>
   </div>
 </template>
 
@@ -28,17 +28,20 @@
   import api from '@/api';
   import {mapGetters, mapActions} from 'vuex'
   import VButton from '@/components/VButton'
+  import VModal from '@/components/VModal'
 
   export default {
     name: 'playlist-modal',
 
     components: {
-      VButton
+      VButton,
+      VModal
     },
 
     data() {
       return {
-        name: 'New Playlist',
+        modalName: 'playlist-create-modal',
+        name: '',
         description: ''
       }
     },
@@ -57,11 +60,11 @@
       }),
 
       hide() {
-        this.$modal.hide('playlist-modal');
+        this.$modal.hide(this.modalName);
       },
 
       clearForm(){
-        this.name = 'New Playlist';
+        this.name = '';
         this.description = '';
       },
 
@@ -90,41 +93,11 @@
             duration: 3000
           });
         }
-      }
+      },
     }
   }
 </script>
 
 <style lang="sass">
-
-  .playlist-modal
-    color: $c-gray
-    font-size: 13px
-
-    &__header
-      padding: 10px
-      font:
-        size: 18px
-        weight: bold
-      text-align: center
-      border-bottom: 1px solid $c-gray
-      color: $c-white
-
-    &__body
-      padding: 10px 15px
-
-    &__footer
-      position: absolute
-      bottom: 0
-      width: 100%
-      padding: 13px
-      text-align: center
-
-      .btn
-        margin: 0 5px
-
-    .v--modal
-      background: $c-shark
-      box-shadow: 2px 2px 20px 7px rgba(0, 0, 0, .4)
 
 </style>

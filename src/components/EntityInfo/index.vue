@@ -1,7 +1,11 @@
 <template>
-  <div class="entity-info" :class="isPlaying">
-    <div class="entity-info__cover" v-if="coverImg[0]">
-      <img class="entity-info__cover__img" :src="coverImg[0].url" alt="cover"/>
+  <div :class="elClass">
+    <div class="entity-info__cover">
+      <img v-if="coverImg[0]" class="entity-info__cover-img" :src="coverImg[0].url" alt="cover"/>
+      <icon class="entity-info__cover-icon" name="music" />
+      <div @click="onCoverClick" class="entity-info__cover-hover" title="Edit image">
+        <icon class="entity-info__cover-icon" name="pencil-alt" />
+      </div>
     </div>
 
     <div class="entity-info__info">
@@ -31,6 +35,7 @@
       <div>Followers</div>
       {{ followers}}
     </div>
+    <playlist-update-modal />
   </div>
 </template>
 
@@ -38,12 +43,14 @@
   import api from '@/api'
   import {mapGetters} from 'vuex'
   import vButton from '@/components/VButton'
+  import PlaylistUpdateModal from "@/components/PlaylistUpdateModal"
 
   export default {
     name: 'entity-info',
 
     components: {
-      vButton
+      vButton,
+      PlaylistUpdateModal
     },
 
     props: {
@@ -51,7 +58,8 @@
         required: true
       },
       coverImg: {
-        type: Array
+        type: Array,
+        required: false
       },
       type: {
         type: String,
@@ -76,6 +84,10 @@
       followers: {
         type: [Number, String],
         required: false
+      },
+      ownerID: {
+        type: String,
+        required: false
       }
     },
 
@@ -84,20 +96,26 @@
     },
 
     computed: {
-      ...mapGetters(
-        'player', {
-          playbackContext: 'getPlaybackContext'
-        }
-      ),
+      ...mapGetters({
+        playbackContext: 'player/getPlaybackContext',
+        user: 'user/getProfile',
+      }),
 
-      isPlaying() {
-        return {
-          'entity-info--playing': !this.playbackContext.paused && this.playbackContext.context && this.playbackContext.context.uri === this.uri,
-        }
+      elClass() {
+        return [
+          'entity-info',
+          {
+            'entity-info--editable': this.ownerID === this.user.id && this.type === 'playlist',
+            'entity-info--playing': !this.playbackContext.paused && this.playbackContext.context && this.playbackContext.context.uri === this.uri,
+          }]
       }
     },
 
     methods: {
+      onCoverClick() {
+        this.$modal.show('playlist-update-modal');
+      },
+
       onPlay(e) {
         e.stopPropagation();
         if (this.playbackContext.context.uri === this.uri) {
@@ -130,13 +148,43 @@
       .entity-info__action--pause
         display: block
 
+    &--editable
+      .entity-info__cover
+        &:hover
+          > .entity-info__cover-icon
+            display: none
+
+          .entity-info__cover-hover
+            display: block
+
     &__cover
+      position: relative
       width: 40%
       min-width: 150px
       max-width: 200px
+      background: $c-mine-shaft
+      box-shadow: 2px 2px 10px 3px rgba(0, 0, 0, .4)
 
-      &__img
-        width: 100%
+    &__cover-img
+      position: relative
+      z-index: 2
+      width: 100%
+      height: 100%
+
+    &__cover-icon
+      +absolute-center
+      width: 40%
+      height: 40%
+
+    &__cover-hover
+      display: none
+      position: absolute
+      top: 0
+      z-index: 10
+      width: 100%
+      height: 100%
+      background: rgba(0,0,0, 0.7)
+      cursor: pointer
 
     &__info
       display: flex

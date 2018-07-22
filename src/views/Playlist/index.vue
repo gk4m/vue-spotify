@@ -19,7 +19,7 @@
 
 <script>
   import api from '@/api'
-  import {mapActions} from 'vuex'
+  import {mapGetters, mapActions} from 'vuex'
   import EntityInfo from '@/components/EntityInfo'
   import TracksTable from '@/components/TracksTable'
 
@@ -33,15 +33,23 @@
 
     data() {
       return {
-        playlist: '',
+        userID: null,
+        playlistID: null,
         tracks: null,
         more: null
       }
     },
 
+    computed: {
+      ...mapGetters('playlist', {
+        playlist: 'getPlaylist',
+      }),
+    },
+
     methods: {
       ...mapActions({
         notFoundPage: 'app/notFoundPage',
+        fetchPlaylist: 'playlist/fetchPlaylist',
       }),
 
       initData() {
@@ -53,22 +61,10 @@
         }
       },
 
-      async getPlaylist() {
-        const {user_id, playlist_id} = this.$route.params;
-
-        try {
-          const response = await api.spotify.playlists.getPlaylist(user_id, playlist_id, 'uri, name, type, images, description, owner, followers');
-          this.playlist = response.data;
-        } catch (e) {
-          this.notFoundPage(true);
-        }
-      },
-
-      async getPlaylistTracks() {
+      async getPlaylistTracks(userID, playlistID) {
         try {
           if (this.tracks.total > this.tracks.offset) {
-            const {user_id, playlist_id} = this.$route.params;
-            const response = await api.spotify.playlists.getPlalistsTracks(user_id, playlist_id, this.tracks.offset, this.tracks.limit);
+            const response = await api.spotify.playlists.getPlalistsTracks(userID, playlistID, this.tracks.offset, this.tracks.limit);
 
             this.tracks.offset = response.data.offset + this.tracks.limit;
             this.tracks.total = response.data.total;
@@ -89,21 +85,28 @@
           this.more = true;
           this.getPlaylistTracks();
         }
+      },
+
+      init(){
+        const {user_id, playlist_id} = this.$route.params;
+
+        this.userID = user_id;
+        this.playlistID = playlist_id;
+
+        this.initData();
+        this.getPlaylistTracks(this.userID, this.playlistID);
+        this.fetchPlaylist({userID: this.userID, playlistID: this.playlistID})
       }
     },
 
     watch: {
       $route() {
-        this.initData();
-        this.getPlaylist();
-        this.getPlaylistTracks();
+        this.init();
       }
     },
 
     created() {
-      this.initData();
-      this.getPlaylist();
-      this.getPlaylistTracks();
+      this.init();
     },
   }
 </script>

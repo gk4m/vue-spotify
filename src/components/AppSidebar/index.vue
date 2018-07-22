@@ -5,25 +5,25 @@
       <nav-bar title="Library" :links="library"/>
       <nav-bar title="Playlists" :links="playlists.items"/>
     </div>
-    <button class="sidebar__btn" @click="$modal.show('playlist-modal')">
+    <button class="sidebar__btn" @click="$modal.show('playlist-create-modal')">
       <icon class="sidebar__btn-icon" name="plus"/>
       <span>New playlist</span>
     </button>
     <!-- @todo cover -->
-    <playlist-modal/>
+    <playlist-create-modal />
   </div>
 </template>
 
 <script>
   import {mapGetters, mapActions} from 'vuex'
   import NavBar from './NavBar'
-  import PlaylistModal from "@/components/PlaylistModal"
+  import PlaylistCreateModal from "@/components/PlaylistCreateModal"
 
   export default {
-    name: 'sidebar',
+    name: 'app-sidebar',
 
     components: {
-      PlaylistModal,
+      PlaylistCreateModal,
       NavBar
     },
 
