@@ -1,6 +1,9 @@
 # vue-spotify
 In progress ...
 
+![alt text](https://github.com/gk4m/vue-spotify/blob/master/public/example/AlbumsView.png "Albums")
+![alt text](https://github.com/gk4m/vue-spotify/blob/master/public/example/PlaylistView.png "Playlist")
+
 ## Features
 
 #### Authorization
