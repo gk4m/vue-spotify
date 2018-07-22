@@ -42,5 +42,21 @@ export default {
       name,
       description
     });
+  },
+
+  updatePlaylist(user_id, playlist_id, name, description) {
+    return request.put(`users/${user_id}/playlists/${playlist_id}`, {
+      name,
+      description
+    });
+  },
+
+  updatePlaylistCover(user_id, playlist_id, base64) {
+    return request({
+      method: 'put',
+      url: `users/${user_id}/playlists/${playlist_id}/images`,
+      headers: { 'content-type': 'image/jpeg' },
+      data: {...base64}
+    });
   }
 };

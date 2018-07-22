@@ -35,7 +35,7 @@
       <div>Followers</div>
       {{ followers}}
     </div>
-    <playlist-modal modal-name="playlist-modal2"/>
+    <playlist-update-modal />
   </div>
 </template>
 
@@ -43,14 +43,14 @@
   import api from '@/api'
   import {mapGetters} from 'vuex'
   import vButton from '@/components/VButton'
-  import PlaylistModal from '@/components/PlaylistModal'
+  import PlaylistUpdateModal from "@/components/PlaylistUpdateModal"
 
   export default {
     name: 'entity-info',
 
     components: {
       vButton,
-      PlaylistModal
+      PlaylistUpdateModal
     },
 
     props: {
@@ -113,14 +113,7 @@
 
     methods: {
       onCoverClick() {
-        this.$modal.show('playlist-modal', {
-          type: 'update', data: {
-            uri: this.uri,
-            coverImg: this.coverImg,
-            name: this.name,
-            description: this.description
-          }
-        })
+        this.$modal.show('playlist-update-modal');
       },
 
       onPlay(e) {
@@ -185,7 +178,8 @@
 
     &__cover-hover
       display: none
-      position: relative
+      position: absolute
+      top: 0
       z-index: 10
       width: 100%
       height: 100%

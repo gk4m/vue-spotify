@@ -9,7 +9,7 @@
 
 <script>
   export default {
-    name: 'v-input-file',
+    name: 'input-file',
 
     data() {
       return {
@@ -23,11 +23,15 @@
         type: String,
         required: false,
         default: 'Upload photo'
+      },
+      coverUrl: {
+        type: String,
+        required: false
       }
     },
 
     computed: {
-      avatarStyles () {
+      avatarStyles() {
         return `background-image: url(${this.avatarImg});`;
       }
     },
@@ -37,7 +41,7 @@
         const files = e.target.files || e.dataTransfer.files;
         const reader = new FileReader();
 
-        if (!files.length){
+        if (!files.length) {
           return;
         }
 
@@ -51,6 +55,12 @@
 
         this.$emit('onFileChange', this.avatarFile);
       }
+    },
+
+    created() {
+      if (this.coverUrl) {
+        this.avatarImg = this.coverUrl;
+      }
     }
   }
 </script>
@@ -59,8 +69,9 @@
 
   .input-file
     display: block
-    background: red
     max-width: 150px
+    background: $c-mine-shaft
+    box-shadow: 2px 2px 10px 3px rgba(0, 0, 0, .4)
 
     &__avatar
       position: relative
@@ -92,9 +103,6 @@
 
     &__input
       display: none
-      width: 0
-      height: 0
-      outline: none
 
     &__icon
       display: none
