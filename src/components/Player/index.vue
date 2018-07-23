@@ -9,6 +9,7 @@
       </div>
 
       <div class="player__right">
+        <device-picker/>
         <volume-bar/>
       </div>
     </div>
@@ -21,6 +22,7 @@
   import CurrentTrack from './CurrentTrack'
   import PlayerControls from './PlayerControls'
   import PlayerPlayback from './PlayerPlayback'
+  import DevicePicker from './DevicePicker'
 
   export default {
     name: 'player',
@@ -29,7 +31,8 @@
       VolumeBar,
       CurrentTrack,
       PlayerControls,
-      PlayerPlayback
+      PlayerPlayback,
+      DevicePicker
     },
 
     computed: {
@@ -47,6 +50,7 @@
     bottom: 0
     width: 100%
     height: 90px
+    z-index: 1
     background: $c-shark
 
     &__inner
@@ -63,8 +67,11 @@
       width: 30%
       min-width: 180px
 
+      .device-picker
+        margin: 2px 5px 0 auto
+
       .volume-bar
-        margin: 0 15px 0 auto
+        margin: 0 15px 0 5px
 
     &__center
       width: 60%
