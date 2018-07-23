@@ -33,7 +33,7 @@
       :data-id="item.track.id"
     >
       <div class="tracks-table__cell tracks-table__cell--playback">
-        <track-playback :trackUri="item.track.uri" :tracksUris="tracksUris"/>
+        <track-playback :trackUri="item.track.uri" :tracksUris="tracksUris" :contextUri="contextUri" :offset="index"/>
       </div>
 
       <div class="tracks-table__cell tracks-table__cell--addition">
@@ -100,6 +100,9 @@
       },
       type: {
         type: String,
+        required: false
+      },
+      contextUri: {
         required: false
       }
     },

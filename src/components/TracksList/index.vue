@@ -12,7 +12,7 @@
 
       <div class="tracks-list__cell tracks-list__cell--index">
         <span class="tracks-list__cell-index">{{index + 1}}</span>
-        <track-playback :trackUri="item.uri" :tracksUris="tracksUris"/>
+        <track-playback :trackUri="item.uri" :tracksUris="tracksUris" :contextUri="contextUri" :offset="index"/>
       </div>
 
       <div class="tracks-list__cell">
@@ -66,6 +66,9 @@
       showArtists: {
         type: Boolean,
         default: false
+      },
+      contextUri: {
+        required: false
       }
     },
 
