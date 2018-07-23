@@ -21,6 +21,8 @@ In progress ...
 * Create playlists
 
 #### Player
+* Get a user's available devices
+* Connect to another device
 * Start/Resume a User's Playback
 * Get the User's Currently Playing Track
 * Set volume
