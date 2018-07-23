@@ -24,6 +24,10 @@
 
       contextUri: {
         required: false
+      },
+
+      offset: {
+        required: false
       }
     },
 
@@ -49,7 +53,9 @@
 
     methods: {
       play() {
-        if (this.playback.item && this.playback.item.uri === this.trackUri) {
+        if (this.contextUri) {
+          api.spotify.player.play(this.contextUri, {position: this.offset});
+        } else if (this.playback.item && this.playback.item.uri === this.trackUri) {
           api.spotify.player.play();
         } else {
           api.spotify.player.play(null, {uri: this.trackUri}, this.tracksUris);

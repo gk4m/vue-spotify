@@ -10,7 +10,7 @@
       :uri="album.uri"
     />
 
-    <tracks-list :tracks="tracks" :showArtists="true"/>
+    <tracks-list :tracks="tracks" :showArtists="true" :contextUri="album.uri"/>
   </div>
 </template>
 

@@ -11,12 +11,15 @@
         :to="createRoute(link)"
       >
         {{link.name}}
+        <button v-if="playbackContext.context && playbackContext.context.uri === link.uri" class="nav-bar__playing-icon icon-sound-on"></button>
       </router-link>
     </ul>
   </div>
 </template>
 
 <script>
+  import {mapGetters} from 'vuex'
+
   export default {
     name: 'nav-bar',
 
@@ -30,7 +33,20 @@
       }
     },
 
+    computed: {
+      ...mapGetters('player', {
+        playbackContext: 'getPlaybackContext',
+      }),
+    },
+
     methods: {
+      test(uri) {
+
+        return {
+          'nav-bar__item--playing': this.context && this.context.uri === uri
+        }
+      },
+
       createRoute(item) {
         let to = {name: item.type};
 
@@ -65,7 +81,9 @@
     &__item
       position: relative
       margin-bottom: 10px
-      padding-left: 23px
+      padding:
+        left: 23px
+        right: 20px
       cursor: pointer
 
       &:hover
@@ -80,5 +98,11 @@
           height: 100%
           border-left: 4px solid $c-green
           content: ''
+
+    &__playing-icon
+      position: absolute
+      right: 0
+      top: 3px
+      color: $c-white
 
 </style>
