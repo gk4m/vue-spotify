@@ -35,7 +35,7 @@
       <div>Followers</div>
       {{ followers}}
     </div>
-    <playlist-update-modal />
+    <playlist-update-modal  v-if="ownerID === user.id && type === 'playlist'"/>
   </div>
 </template>
 

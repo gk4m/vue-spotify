@@ -11,7 +11,7 @@
       />
 
       <entity-header title="Popular" :small="true"/>
-      <tracks-list :tracks="tracks"/>
+      <tracks-list :tracks="tracks" />
 
       <entity-header v-if="albums" title="Albums" :small="true"/>
       <media-container>

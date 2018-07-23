@@ -12,7 +12,7 @@
         :uri="playlist.uri"
         :ownerID="playlist.owner.id"
       />
-      <tracks-table :tracks="tracks.items"/>
+      <tracks-table :tracks="tracks.items" :contextUri="playlist.uri"/>
     </div>
   </div>
 </template>
