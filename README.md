@@ -1,6 +1,7 @@
 # vue-spotify
 In progress ...
 
+![alt text](https://github.com/gk4m/vue-spotify/blob/master/public/example/BrowseView.png "Browse")
 ![alt text](https://github.com/gk4m/vue-spotify/blob/master/public/example/AlbumsView.png "Albums")
 ![alt text](https://github.com/gk4m/vue-spotify/blob/master/public/example/PlaylistView.png "Playlist")
 
@@ -20,6 +21,8 @@ In progress ...
 * Create playlists
 
 #### Player
+* Get a user's available devices
+* Connect to another device
 * Start/Resume a User's Playback
 * Get the User's Currently Playing Track
 * Set volume
