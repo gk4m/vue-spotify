@@ -17,7 +17,7 @@ const plugin = store => {
     } else if (status === 404) {
       throw error.response;
     } else if (status === 403) {
-      console.info('403 - you need premium account')
+      console.info('403')
     } else {
       store.dispatch('auth/login');
     }

@@ -12,8 +12,11 @@
         <img class="device-picker__header" :src="require('@/assets/img/connect-header.png')" alt="connect-header"/>
 
         <ul class="device-picker__list">
-          <li v-for="(device, index) in devices" :key="index" class="device-picker__list-item"
-              :class="{'device-picker__list-item--active': device.is_active}">
+          <li
+            v-for="(device, index) in devices"
+            :key="index" class="device-picker__list-item"
+            :class="{'device-picker__list-item--active': device.is_active}">
+
             <button class="device-picker__list-item" @click="onDeviceConnect(device.id)">
               <icon v-if="device.type==='Smartphone'" name="mobile-alt" class="device-picker__device-icon"/>
               <icon v-if="device.type==='Computer'" name="laptop" class="device-picker__device-icon"/>
@@ -71,7 +74,7 @@
       },
 
       clickOutEvent: function (e) {
-        const $dropdown = this.$el.children[0];
+        const $dropdown = this.$el.children[1];
         if (e.target !== $dropdown && !$dropdown.contains(e.target)) {
           this.close();
         }
@@ -92,7 +95,9 @@
 
       async onDeviceConnect(id) {
         try {
-          await api.spotify.player.transferUsersPlayback([id]);
+          await api.spotify.player.transferUsersPlayback([id], true);
+
+          this.close();
 
           setTimeout(() => {
             this.getUserDevices();
@@ -117,7 +122,7 @@
 
     &--opened
       .device-picker__button
-        color: $c-green
+      color: $c-green
 
     &__button
       color: $c-gray
@@ -134,13 +139,18 @@
     &__container
       position: absolute
       bottom: 45px
-      right: -125px
-      width: 250px
+      right: -110px
+      width: 244px
       z-index: 1000
       padding: 8px 0 0
       background: $c-shark
       box-shadow: 0 6px 12px rgba(0, 0, 0, .175)
       color: $c-white
+
+      &:after
+        +css-triangle(10px, $c-shark, down)
+        +horizontal-center
+        bottom: -10px
 
     &__content
       height: 250px !important
@@ -156,11 +166,6 @@
       width: 100%
       padding: 5px 40px
 
-    &__list-item--active
-      .device-picker__list-item,
-      .device-picker__device-subtitle
-        color: $c-green
-
     &__list-item
       display: flex
       align-items: center
@@ -173,6 +178,11 @@
 
       &:hover
         background: $c-mine-shaft
+
+      &--active
+        .device-picker__list-item,
+        .device-picker__device-subtitle
+          color: $c-green
 
     &__device-info
       display: flex
@@ -191,6 +201,5 @@
       width: 30px
       height: 30px
       margin: 5px 15px 5px 5px
-
 
 </style>

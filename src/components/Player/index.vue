@@ -17,7 +17,7 @@
 </template>
 
 <script>
-  import {mapGetters, mapActions} from 'vuex'
+  import {mapGetters} from 'vuex'
   import VolumeBar from './VolumeBar'
   import CurrentTrack from './CurrentTrack'
   import PlayerControls from './PlayerControls'

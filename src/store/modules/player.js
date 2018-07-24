@@ -59,7 +59,7 @@ const actions = {
 
       // eslint-disable-next-line
       const player = new Player({
-        name: 'Spotify Web Player',
+        name: 'Vue Spotify Web Player',
         getOAuthToken: cb => {
           cb(token);
         }
