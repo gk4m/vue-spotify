@@ -59,7 +59,7 @@ const actions = {
     }
   },
 
-  clearUserPlaylistst({commit}) {
+  clearUserPlaylists({commit}) {
     commit('CLEAR_PLAYLISTS');
   }
 };

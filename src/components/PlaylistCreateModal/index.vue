@@ -56,7 +56,7 @@
       ...mapActions({
         addNotification: 'notification/addNotification',
         getUserPlaylists: 'user/getCurrentUserPlaylists',
-        clearUserPlaylistst: 'user/clearUserPlaylistst',
+        clearUserPlaylists: 'user/clearUserPlaylists',
       }),
 
       hide() {
@@ -89,7 +89,7 @@
           try {
             const response = await api.spotify.playlists.createPlaylist(this.user.id, this.name, this.description);
 
-            this.clearUserPlaylistst();
+            this.clearUserPlaylists();
             this.getUserPlaylists();
 
             this.$router.push({

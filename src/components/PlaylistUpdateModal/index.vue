@@ -66,7 +66,7 @@
       ...mapActions({
         addNotification: 'notification/addNotification',
         getUserPlaylists: 'user/getCurrentUserPlaylists',
-        clearUserPlaylistst: 'user/clearUserPlaylistst',
+        clearUserPlaylists: 'user/clearUserPlaylists',
         fetchPlaylist: 'playlist/fetchPlaylist',
       }),
 
@@ -127,6 +127,9 @@
             await api.spotify.playlists.updatePlaylist(this.user.id, playlistID, this.name, this.description);
 
             this.fetchPlaylist({userID: this.userID, playlistID});
+
+            this.clearUserPlaylists();
+            this.getUserPlaylists();
 
             this.addNotification({
               type: 'success',
