@@ -51,6 +51,7 @@
           total: 1,
           items: []
         },
+        isMore: false
       }
     },
 
@@ -76,7 +77,7 @@
             this.playlists.offset = response.data.offset + this.playlists.limit;
             this.playlists.total = response.data.total;
             this.playlists.items.push(...response.data.items);
-            this.more = false;
+            this.isMore = false;
           }
         } catch (e) {
           console.log(e)
@@ -84,12 +85,12 @@
       },
 
       async loadMore(ev) {
-        if (this.more) {
+        if (this.isMore) {
           return false;
         }
 
         if (ev.detail.scrollbarV.percent > 70) {
-          this.more = true;
+          this.isMore = true;
           this.getUserPlaylists(this.userID);
         }
       }
