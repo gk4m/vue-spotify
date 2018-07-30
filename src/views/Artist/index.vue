@@ -11,7 +11,7 @@
       />
 
       <entity-header title="Popular" :small="true"/>
-      <tracks-list :tracks="tracks" />
+      <tracks-list :tracks="tracks"/>
 
       <entity-header v-if="albums" title="Albums" :small="true"/>
       <media-container>
@@ -41,7 +41,7 @@
   import TracksList from '@/components/TracksList'
 
   export default {
-    name: 'artist',
+    name: 'artist-view',
 
     components: {
       EntityHeader,
@@ -53,14 +53,13 @@
 
     data() {
       return {
-        artist: '',
-        tracks: '',
+        artistID: null,
+        artist: null,
+        tracks: null,
         albums: null,
-        more: null
+        isMore: null
       }
     },
-
-    computed: {},
 
     methods: {
       ...mapActions({
@@ -68,8 +67,8 @@
       }),
 
       initData() {
-        this.artist = '';
-        this.tracks = '';
+        this.artist = null;
+        this.tracks = null;
         this.albums = {
           limit: 25,
           offset: 0,
@@ -78,9 +77,8 @@
         };
       },
 
-      async getArtist() {
+      async getArtist(artistID) {
         try {
-          const artistID = this.$route.params.id;
           const response = await api.spotify.artists.getArtist(artistID);
           this.artist = response.data;
         } catch (e) {
@@ -88,27 +86,24 @@
         }
       },
 
-      async getArtistAlbums() {
+      async getArtistAlbums(artistID) {
         try {
           if (this.albums.total > this.albums.offset) {
-            const artistID = this.$route.params.id;
             const response = await api.spotify.artists.getArtistAlbums(artistID, 'album,single', this.albums.offset, this.albums.limit);
 
             this.albums.offset = response.data.offset + this.albums.limit;
             this.albums.total = response.data.total;
             this.albums.items.push(...response.data.items);
-            this.more = false;
+            this.isMore = false;
           }
         } catch (e) {
           console.log(e)
         }
       },
 
-      async getArtistTopTracks() {
+      async getArtistTopTracks(artistID) {
         try {
-          const artistID = this.$route.params.id;
           const response = await api.spotify.artists.getArtistTopTracks(artistID, 'PL');
-
           this.tracks = response.data.tracks;
         } catch (e) {
           console.log(e)
@@ -116,32 +111,35 @@
       },
 
       async loadMore(ev) {
-        if (this.more) {
+        if (this.isMore) {
           return false;
         }
 
         if (ev.detail.scrollbarV.percent > 70) {
-          this.more = true;
-          this.getArtistAlbums();
+          this.isMore = true;
+          this.getArtistAlbums(this.artistID);
         }
+      },
+
+      init() {
+        this.artistID = this.$route.params.id;
+        this.initData();
+        this.getArtist(this.artistID);
+        this.getArtistAlbums(this.artistID);
+        this.getArtistTopTracks(this.artistID);
       }
+
     },
 
     watch: {
       $route() {
-        this.initData();
-        this.getArtist();
-        this.getArtistAlbums();
-        this.getArtistTopTracks();
+        this.init();
       }
     },
 
     created() {
-      this.initData();
-      this.getArtist();
-      this.getArtistAlbums();
-      this.getArtistTopTracks();
-    },
+      this.init();
+    }
   }
 </script>
 

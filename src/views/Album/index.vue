@@ -1,16 +1,18 @@
 <template>
-  <div class="album-view">
-    <entity-info
-      v-if="album"
-      :coverImg="album.images"
-      :type="album.type"
-      :name="album.name"
-      :description="album.description"
-      :artists="album.artists"
-      :uri="album.uri"
-    />
+  <div class="album-view" v-scroll>
+    <div>
+      <entity-info
+        v-if="album"
+        :coverImg="album.images"
+        :type="album.type"
+        :name="album.name"
+        :description="album.description"
+        :artists="album.artists"
+        :uri="album.uri"
+      />
 
-    <tracks-list :tracks="tracks" :showArtists="true" :contextUri="album.uri"/>
+      <tracks-list :tracks="tracks" :showArtists="true" :contextUri="album.uri"/>
+    </div>
   </div>
 </template>
 
@@ -30,21 +32,19 @@
 
     data() {
       return {
-        album: '',
-        tracks: ''
+        albumID: null,
+        album: null,
+        tracks: null
       }
     },
-
-    computed: {},
 
     methods: {
       ...mapActions({
         notFoundPage: 'app/notFoundPage',
       }),
 
-      async getAlbum() {
+      async getAlbum(albumID) {
         try {
-          const albumID = this.$route.params.id;
           const response = await api.spotify.albums.getAlbum(albumID);
           this.album = response.data;
         } catch (e) {
@@ -52,9 +52,7 @@
         }
       },
 
-      async getAlbumTracks() {
-        const albumID = this.$route.params.id;
-
+      async getAlbumTracks(albumID) {
         try {
           const response = await api.spotify.albums.getAlbumTracks(albumID);
           this.tracks = response.data.items;
@@ -65,8 +63,9 @@
     },
 
     created() {
-      this.getAlbum();
-      this.getAlbumTracks();
+      this.albumID = this.$route.params.id;
+      this.getAlbum(this.albumID);
+      this.getAlbumTracks(this.albumID);
     },
   }
 </script>

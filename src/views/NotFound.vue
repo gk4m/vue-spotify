@@ -26,6 +26,7 @@
 </script>
 
 <style scoped lang="sass">
+
   .not-found-view
     width: 100%
     height: 100%

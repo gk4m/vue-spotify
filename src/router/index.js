@@ -11,7 +11,6 @@ import NewReleasesView from '@/views/Browse/NewReleases'
 import ArtistView from '@/views/Artist'
 import AlbumView from '@/views/Album'
 import PlaylistView from '@/views/Playlist'
-import NotFoundView from '@/views/NotFound'
 import TracksCollectionView from '@/views/Collection/Tracks'
 import AlbumsCollectionView from '@/views/Collection/Albums'
 
@@ -98,7 +97,6 @@ const router = new Router({
 
     {
       path: '*',
-      component: NotFoundView,
       beforeEnter: function (to, from, next) {
         store.dispatch('app/notFoundPage', true);
         next();

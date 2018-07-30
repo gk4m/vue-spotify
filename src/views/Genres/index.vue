@@ -93,6 +93,7 @@
 </script>
 
 <style lang="sass">
+
   .genres-view
     .entity-header__title
       &:first-letter

@@ -27,11 +27,12 @@
 
 <script>
   export default {
-    name: 'browse',
+    name: 'browse-view',
   }
 </script>
 
 <style scoped lang="sass">
+
   .browse-view
     padding: 8px
 

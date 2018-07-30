@@ -21,7 +21,6 @@
       const {access_token, refresh_token, expires_in, error} = this.$route.query;
 
       if (error) {
-        //@todo add notification
         console.log(error);
       } else if (access_token && refresh_token && expires_in) {
         this.setAccessToken(access_token);

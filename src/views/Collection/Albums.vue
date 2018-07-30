@@ -41,7 +41,7 @@
           total: 1,
           items: []
         },
-        more: null
+        isMore: null
       }
     },
 
@@ -54,7 +54,7 @@
             this.albums.offset = response.data.offset + this.albums.limit;
             this.albums.total = response.data.total;
             this.albums.items.push(...response.data.items);
-            this.more = false;
+            this.isMore = false;
           }
         } catch (e) {
           console.log(e)
@@ -62,12 +62,12 @@
       },
 
       async loadMore(ev) {
-        if (this.more) {
+        if (this.isMore) {
           return false;
         }
 
         if (ev.detail.scrollbarV.percent > 70) {
-          this.more = true;
+          this.isMore = true;
           this.getAlbums();
         }
       }
