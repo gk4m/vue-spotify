@@ -18,7 +18,7 @@ export default {
     });
   },
 
-  getPlalistsTracks(user_id, playlist_id, offset = 0, limit = 50, fields) {
+  getPlalistsTracks(user_id, playlist_id, offset, limit, fields) {
     return request.get(`users/${user_id}/playlists/${playlist_id}/tracks`, {
       params: {
         fields,
@@ -28,7 +28,7 @@ export default {
     });
   },
 
-  getUserPlalists(user_id, offset = 0, limit = 50) {
+  getUserPlalists(user_id, offset, limit) {
     return request.get(`users/${user_id}/playlists`, {
       params: {
         limit,
@@ -51,6 +51,7 @@ export default {
     });
   },
 
+  //@todo something doesn't works it return 400 O_o
   updatePlaylistCover(user_id, playlist_id, base64) {
     return request({
       method: 'put',

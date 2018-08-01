@@ -6,6 +6,7 @@ import library from './library';
 import browse from './browse';
 import albums from './albums';
 import artists from './artists';
+import follow from './follow';
 
 export default {
   request,
@@ -15,6 +16,7 @@ export default {
   library,
   browse,
   albums,
-  artists
+  artists,
+  follow
 };
 
