@@ -10,6 +10,7 @@
         :author="playlist.owner.display_name"
         :followers="playlist.followers.total"
         :uri="playlist.uri"
+        :playlistID="playlistID"
         :ownerID="playlist.owner.id"
       />
       <tracks-table :tracks="tracks.items" :contextUri="playlist.uri"/>

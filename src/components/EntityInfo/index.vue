@@ -2,9 +2,9 @@
   <div :class="elClass">
     <div class="entity-info__cover">
       <img v-if="coverImg[0]" class="entity-info__cover-img" :src="coverImg[0].url" alt="cover"/>
-      <icon class="entity-info__cover-icon" name="music" />
+      <icon class="entity-info__cover-icon" name="music"/>
       <div @click="onCoverClick" class="entity-info__cover-hover" title="Edit image">
-        <icon class="entity-info__cover-icon" name="pencil-alt" />
+        <icon class="entity-info__cover-icon" name="pencil-alt"/>
       </div>
     </div>
 
@@ -27,34 +27,36 @@
       </div>
 
       <div v-if="author" class="entity-info__author">Author: {{author}}</div>
-      <v-button :onClick="onPlay" class="entity-info__action entity-info__action--play">Play</v-button>
-      <v-button :onClick="onPause" class="entity-info__action entity-info__action--pause">Pause</v-button>
+      <entity-action :type="type" :playlistID="playlistID" :uri="uri" :ownerID="ownerID"/>
     </div>
 
     <div v-if="followers" class="entity-info__followers">
       <div>Followers</div>
       {{ followers}}
     </div>
-    <playlist-update-modal  v-if="ownerID === user.id && type === 'playlist'"/>
+    <playlist-update-modal v-if="ownerID === user.id && type === 'playlist'"/>
   </div>
 </template>
 
 <script>
-  import api from '@/api'
   import {mapGetters} from 'vuex'
-  import vButton from '@/components/VButton'
   import PlaylistUpdateModal from "@/components/PlaylistUpdateModal"
+  import EntityAction from "./EntityAction"
 
   export default {
     name: 'entity-info',
 
     components: {
-      vButton,
-      PlaylistUpdateModal
+      PlaylistUpdateModal,
+      EntityAction
     },
 
     props: {
       uri: {
+        required: true
+      },
+      playlistID: {
+        type: String,
         required: true
       },
       coverImg: {
@@ -97,7 +99,6 @@
 
     computed: {
       ...mapGetters({
-        playbackContext: 'player/getPlaybackContext',
         user: 'user/getProfile',
       }),
 
@@ -106,7 +107,6 @@
           'entity-info',
           {
             'entity-info--editable': this.ownerID === this.user.id && this.type === 'playlist',
-            'entity-info--playing': !this.playbackContext.paused && this.playbackContext.context && this.playbackContext.context.uri === this.uri,
           }]
       }
     },
@@ -114,39 +114,18 @@
     methods: {
       onCoverClick() {
         this.$modal.show('playlist-update-modal');
-      },
-
-      onPlay(e) {
-        e.stopPropagation();
-        if (this.playbackContext.context.uri === this.uri) {
-          api.spotify.player.play();
-        } else {
-          api.spotify.player.play(this.uri);
-        }
-      },
-
-      onPause(e) {
-        e.stopPropagation();
-        api.spotify.player.pause();
       }
     },
   }
 </script>
 
-<style lang="sass">
+<style scoped lang="sass">
 
   .entity-info
     display: flex
     position: relative
     padding: 15px
     font-size: 12px
-
-    &--playing
-      .entity-info__action--play
-        display: none
-
-      .entity-info__action--pause
-        display: block
 
     &--editable
       .entity-info__cover
@@ -162,6 +141,7 @@
       width: 40%
       min-width: 150px
       max-width: 200px
+      max-height: 200px
       background: $c-mine-shaft
       box-shadow: 2px 2px 10px 3px rgba(0, 0, 0, .4)
 
@@ -183,7 +163,7 @@
       z-index: 10
       width: 100%
       height: 100%
-      background: rgba(0,0,0, 0.7)
+      background: rgba(0, 0, 0, 0.7)
       cursor: pointer
 
     &__info
@@ -206,13 +186,6 @@
 
     &__artists
       color: $c-gray
-
-    &__action
-      width: 130px
-      margin: 15px 0 0
-
-      &--pause
-        display: none
 
     &__followers
       display: block !important
