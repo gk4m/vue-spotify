@@ -27,7 +27,7 @@
       </div>
 
       <div v-if="author" class="entity-info__author">Author: {{author}}</div>
-      <entity-action :type="type" :uri="uri" :ownerID="ownerID"/>
+      <entity-action :type="type" :playlistID="playlistID" :uri="uri" :ownerID="ownerID"/>
     </div>
 
     <div v-if="followers" class="entity-info__followers">
@@ -53,6 +53,10 @@
 
     props: {
       uri: {
+        required: true
+      },
+      playlistID: {
+        type: String,
         required: true
       },
       coverImg: {
