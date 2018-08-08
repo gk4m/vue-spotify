@@ -20,6 +20,10 @@ In progress ...
 * Get a user's playlists
 * Create playlists
 
+#### Follow
+* Follow a playlist
+* Unfollow a playlist
+
 #### Player
 * Get a user's available devices
 * Connect to another device
