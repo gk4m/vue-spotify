@@ -79,6 +79,4 @@
   }
 </script>
 
-<style scoped lang="sass">
-
-</style>
+<style scoped lang="sass"></style>

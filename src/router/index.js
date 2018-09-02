@@ -13,6 +13,7 @@ import AlbumView from '@/views/Album'
 import PlaylistView from '@/views/Playlist'
 import TracksCollectionView from '@/views/Collection/Tracks'
 import AlbumsCollectionView from '@/views/Collection/Albums'
+import ArtistsCollectionView from '@/views/Collection/Artists'
 
 Vue.use(Router);
 
@@ -87,6 +88,12 @@ const router = new Router({
       path: '/collection/albums',
       name: 'albums-collection',
       component: AlbumsCollectionView
+    },
+
+    {
+      path: '/collection/artists',
+      name: 'artists-collection',
+      component: ArtistsCollectionView
     },
 
     {

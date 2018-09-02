@@ -2,9 +2,10 @@
   <div :class="elClass">
     <v-button :onClick="onPlay" class="entity-action__btn entity-action__btn--play">Play</v-button>
     <v-button :onClick="onPause" class="entity-action__btn entity-action__btn--pause">Pause</v-button>
-    <v-button :onClick="onFollow" class="entity-action__btn entity-action__btn--follow" isBlack="true">Follow</v-button>
-    <v-button :onClick="onUnfollow" class="entity-action__btn entity-action__btn--unfollow" isBlack="true">Unfollow
-    </v-button>
+    <template v-if="type === 'playlist'">
+      <v-button :onClick="onFollow" class="entity-action__btn entity-action__btn--follow" isBlack="true">Follow</v-button>
+      <v-button :onClick="onUnfollow" class="entity-action__btn entity-action__btn--unfollow" isBlack="true">Unfollow</v-button>
+    </template>
   </div>
 </template>
 

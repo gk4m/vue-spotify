@@ -40,6 +40,15 @@ export default {
 
   unfollowPlaylist(owner_id, playlist_id) {
     return request.delete(`users/${owner_id}/playlists/${playlist_id}/followers`);
-  }
+  },
+
+  getFollowedArtists(limit, after) {
+    return request.get(`me/following?type=artist`, {
+      params: {
+        limit,
+        after
+      }
+    });
+  },
 };
 
