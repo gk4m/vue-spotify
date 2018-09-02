@@ -11,7 +11,12 @@
         :uri="album.uri"
       />
 
-      <tracks-list :tracks="tracks" :showArtists="true" :contextUri="album.uri"/>
+      <tracks-list
+        v-if="album && tracks"
+        :tracks="tracks"
+        :showArtists="true"
+        :contextUri="album.uri"
+      />
     </div>
   </div>
 </template>

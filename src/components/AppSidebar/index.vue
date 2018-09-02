@@ -50,6 +50,10 @@
           {
             type: 'albums-collection',
             name: 'Albums'
+          },
+          {
+            type: 'artists-collection',
+            name: 'Artists'
           }
         ]
       }

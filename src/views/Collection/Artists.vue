@@ -1,18 +1,19 @@
 <template>
-  <div class="albums-view" v-scroll @vScroll="loadMore">
-    <entity-header title="Albums"/>
-    <div class="albums-view__content">
+  <div class="artists-view" v-scroll @vScroll="loadMore">
+    <entity-header title="Artists"/>
+    <div class="artists-view__content">
       <media-container>
-        <media-object
-          v-for="(item, index) in albums.items"
-          :key="index"
-          :id="item.album.id"
-          :uri="item.album.uri"
-          :coverImg="item.album.images"
-          :name="item.album.name"
-          :artists="item.album.artists"
-          :type="item.album.type"
-        />
+        <template>
+          <media-object
+            v-for="(item) in artists.items"
+            :key="item.id"
+            :id="item.id"
+            :uri="item.uri"
+            :name="item.name"
+            :type="item.type"
+            :coverImg="item.images"
+          />
+        </template>
       </media-container>
     </div>
   </div>
@@ -25,7 +26,7 @@
   import MediaContainer from '@/components/MediaContainer'
 
   export default {
-    name: 'Albums',
+    name: 'ArtistsView',
 
     components: {
       MediaObject,
@@ -35,7 +36,7 @@
 
     data() {
       return {
-        albums: {
+        artists: {
           limit: 25,
           offset: 0,
           total: 1,
@@ -46,18 +47,18 @@
     },
 
     methods: {
-      async getAlbums() {
+      async getArtist() {
         try {
-          if (this.albums.total > this.albums.offset) {
-            const response = await api.spotify.library.getAlbums(this.albums.offset, this.albums.limit);
+          if (this.artists.total > this.artists.offset) {
+            const response = await api.spotify.follow.getFollowedArtists();
 
-            this.albums.offset = response.data.offset + this.albums.limit;
-            this.albums.total = response.data.total;
-            this.albums.items.push(...response.data.items);
+            this.artists.offset = response.data.offset + this.artists.limit;
+            this.artists.total = response.data.total;
+            this.artists.items.push(...response.data.artists.items);
             this.isMore = false;
           }
         } catch (e) {
-          console.log(e)
+          console.error(e)
         }
       },
 
@@ -68,13 +69,13 @@
 
         if (ev.detail.scrollbarV.percent > 70) {
           this.isMore = true;
-          this.getAlbums();
+          this.getArtist();
         }
       }
     },
 
     created() {
-      this.getAlbums();
+      this.getArtist();
     }
   }
 </script>

@@ -71,8 +71,14 @@
         return [
           'media-object',
           {
-            'media-object--playing': this.playbackContext && !this.playbackContext.paused && this.playbackContext.context.uri && this.playbackContext.context.uri.indexOf(this.id) >= 0,
-            'media-object--active': this.playbackContext && this.playbackContext.context.uri && this.playbackContext.context.uri.indexOf(this.id) >= 0,
+            'media-object--playing': this.playbackContext
+              && !this.playbackContext.paused
+              && this.playbackContext.context.uri
+              && this.playbackContext.context.uri.indexOf(this.id) >= 0,
+
+            'media-object--active': this.playbackContext
+              && this.playbackContext.context.uri
+              && this.playbackContext.context.uri.indexOf(this.id) >= 0,
             'media-object--no-image': !this.coverImg[0]
           }
         ]
@@ -89,9 +95,14 @@
             url = {name: 'album', params: {id: this.id}};
             break;
 
-          case 'playlist':
+          case 'artist':
+            url = {name: 'artist', params: {id: this.id}};
+            break;
+
+            case 'playlist':
             url = {name: 'playlist', params: {user_id: chunks[2], playlist_id: chunks[chunks.length - 1]}};
             break;
+
         }
 
         return url;

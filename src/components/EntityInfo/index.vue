@@ -27,7 +27,7 @@
       </div>
 
       <div v-if="author" class="entity-info__author">Author: {{author}}</div>
-      <entity-action :type="type" :playlistID="playlistID" :uri="uri" :ownerID="ownerID"/>
+      <entity-action v-if="type ==='playlist'" :type="type" :playlistID="playlistID" :uri="uri" :ownerID="ownerID" />
     </div>
 
     <div v-if="followers" class="entity-info__followers">
@@ -57,7 +57,7 @@
       },
       playlistID: {
         type: String,
-        required: true
+        required: false
       },
       coverImg: {
         type: Array,
