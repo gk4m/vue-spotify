@@ -24,6 +24,7 @@
   import EntityHeader from '@/components/EntityHeader'
   import MediaObject from '@/components/MediaObject'
   import MediaContainer from '@/components/MediaContainer'
+  import {getParameterByName} from '@/utils'
 
   export default {
     name: 'ArtistsView',
@@ -37,9 +38,10 @@
     data() {
       return {
         artists: {
-          limit: 25,
+          limit: 1,
           offset: 0,
           total: 1,
+          after: null,
           items: []
         },
         isMore: null
@@ -50,11 +52,12 @@
       async getArtist() {
         try {
           if (this.artists.total > this.artists.offset) {
-            const response = await api.spotify.follow.getFollowedArtists();
+            const response = await api.spotify.follow.getFollowedArtists(this.artists.limit, this.artists.after);
 
-            this.artists.offset = response.data.offset + this.artists.limit;
-            this.artists.total = response.data.total;
+            this.artists.after = getParameterByName('after', response.data.artists.next);
+            this.artists.total = response.data.artists.total;
             this.artists.items.push(...response.data.artists.items);
+            this.artists.offset = this.artists.items.length;
             this.isMore = false;
           }
         } catch (e) {
@@ -71,7 +74,7 @@
           this.isMore = true;
           this.getArtist();
         }
-      }
+      },
     },
 
     created() {
