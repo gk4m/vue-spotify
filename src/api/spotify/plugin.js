@@ -1,5 +1,7 @@
 import request from './request';
 
+let isFetchingToken = false;
+
 const plugin = store => {
   request.interceptors.request.use(function (config) {
     if (store.getters['auth/getAccessToken']) {
@@ -11,13 +13,15 @@ const plugin = store => {
   request.interceptors.response.use(null, (error) => {
     const {status} = error.response;
 
-    if (store.getters['auth/getAccessToken'] && status === 401) {
-      store.dispatch('auth/refreshToken');
-      //store.dispatch('auth/login');
+    if (store.getters['auth/getAccessToken'] && status === 401 && !isFetchingToken) {
+      isFetchingToken = true;
+      store.dispatch('auth/refreshToken').then(()=>{
+        isFetchingToken = false;
+      });
     } else if (status === 404) {
       throw error.response;
     } else if (status === 403) {
-      console.info('403')
+      console.warn('403 - You need to have premium account')
     } else {
       store.dispatch('auth/login');
     }

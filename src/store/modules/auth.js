@@ -38,13 +38,17 @@ const actions = {
     }
   },
 
-  refreshToken: async function ({commit, state, dispatch}) {
-    //@todo Check if refresh token working correctly
+  refreshToken: async function ({commit, state}) {
     try {
       if (state.refreshToken) {
         const response = await api.auth.refreshToken(state.refreshToken);
         commit('SET_ACCESS_TOKEN', response.data.access_token);
-        location.reload();
+
+        setTimeout(()=>{
+          location.reload();
+        }, 200);
+
+        return response;
       }
     } catch (e) {
       console.log(e);

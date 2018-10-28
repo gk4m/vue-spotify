@@ -50,7 +50,7 @@
     bottom: 0
     width: 100%
     height: 90px
-    z-index: 1
+    z-index: 2
     background: $c-shark
 
     &__inner

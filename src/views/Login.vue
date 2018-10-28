@@ -21,7 +21,7 @@
       const {access_token, refresh_token, expires_in, error} = this.$route.query;
 
       if (error) {
-        console.log(error);
+        console.error(error);
       } else if (access_token && refresh_token && expires_in) {
         this.setAccessToken(access_token);
         this.setRefreshToken(refresh_token);
