@@ -17,6 +17,7 @@ const plugin = store => {
       isFetchingToken = true;
       store.dispatch('auth/refreshToken').then(()=>{
         isFetchingToken = false;
+        location.reload();
       });
     } else if (status === 404) {
       throw error.response;

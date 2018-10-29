@@ -44,10 +44,6 @@ const actions = {
         const response = await api.auth.refreshToken(state.refreshToken);
         commit('SET_ACCESS_TOKEN', response.data.access_token);
 
-        setTimeout(()=>{
-          location.reload();
-        }, 200);
-
         return response;
       }
     } catch (e) {
