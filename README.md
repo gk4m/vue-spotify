@@ -1,5 +1,7 @@
 # vue-spotify
-In progress ...
+Spotify client built with vue.js / vuex.
+
+Authenticated users must have a valid Spotify Premium subscription because if it doesn't, Web Playback SDK will not work.
 
 ![alt text](https://github.com/gk4m/vue-spotify/blob/master/public/example/BrowseView.png "Browse")
 ![alt text](https://github.com/gk4m/vue-spotify/blob/master/public/example/AlbumsView.png "Albums")
@@ -35,3 +37,8 @@ In progress ...
 * Seek playback to a given position
 * Toggle Shuffle For User’s Playback
 * Set Repeat Mode On User’s Playback
+
+## Read more
+* [Spotify web API](https://developer.spotify.com/documentation/web-api/)
+* [Web Playback SDK](https://developer.spotify.com/documentation/web-playback-sdk/)
+
