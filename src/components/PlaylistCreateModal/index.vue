@@ -54,7 +54,7 @@
 
     methods: {
       ...mapActions({
-        addNotification: 'notification/addNotification',
+        addNotification: 'notification/add',
         getUserPlaylists: 'user/getCurrentUserPlaylists',
         clearUserPlaylists: 'user/clearUserPlaylists',
       }),
