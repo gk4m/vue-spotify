@@ -1,14 +1,6 @@
 <template>
   <div id="app" class="app">
-    <notification
-      v-for="notification in notifications"
-      :key="notification.id"
-      :message="notification.message"
-      :type="notification.type"
-      :duration="notification.duration"
-      v-on:close-notification="removeNotification(notification)">
-    </notification>
-
+    <notification />
     <app-layout v-if="!notFound" />
     <not-found-view v-if="notFound" />
   </div>

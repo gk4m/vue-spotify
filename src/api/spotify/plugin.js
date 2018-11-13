@@ -11,7 +11,7 @@ const plugin = store => {
   }, null);
 
   request.interceptors.response.use(null, (error) => {
-    const {status} = error.response;
+    const {status, data} = error.response;
 
     if (store.getters['auth/getAccessToken'] && status === 401 && !isFetchingToken) {
       isFetchingToken = true;
@@ -22,7 +22,12 @@ const plugin = store => {
     } else if (status === 404) {
       throw error.response;
     } else if (status === 403) {
-      console.warn('403 - You need to have premium account')
+      if( data.error.reason === 'PREMIUM_REQUIRED') {
+        store.dispatch('notification/add', {
+          type: 'warning',
+          message: 'You need to have premium account.',
+        })
+      }
     } else {
       store.dispatch('auth/login');
     }
