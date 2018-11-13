@@ -101,6 +101,16 @@
           return false;
         }
 
+        if (!this.description) {
+          this.addNotification({
+            type: 'error',
+            message: 'You must give your playlist a description.',
+            duration: 3000
+          });
+
+          return false;
+        }
+
         return valid;
       },
 
@@ -127,7 +137,6 @@
             await api.spotify.playlists.updatePlaylist(this.user.id, playlistID, this.name, this.description);
 
             this.fetchPlaylist({userID: this.userID, playlistID});
-
             this.clearUserPlaylists();
             this.getUserPlaylists();
 
@@ -138,7 +147,7 @@
             });
 
           } catch (e) {
-            console.log(e);
+            console.error(e);
           }
 
           this.hide();
