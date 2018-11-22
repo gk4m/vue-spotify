@@ -1,10 +1,10 @@
 <template>
   <div class="app-layout">
-    <app-top-bar/>
+    <navbar/>
     <div class="app-layout__wrap">
       <app-sidebar/>
       <div class="app-layout__main">
-        <router-view />
+        <router-view/>
       </div>
     </div>
     <player/>
@@ -12,7 +12,7 @@
 </template>
 
 <script>
-  import AppTopBar from '@/components/AppTopBar';
+  import Navbar from '@/components/Navbar';
   import AppSidebar from '@/components/AppSidebar';
   import Player from '@/components/Player';
 
@@ -20,7 +20,7 @@
     name: 'AppLayout',
 
     components: {
-      AppTopBar,
+      Navbar,
       AppSidebar,
       Player
     }

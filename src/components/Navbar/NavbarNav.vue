@@ -1,19 +1,19 @@
 <template>
-  <div v-if="user" class="user-menu">
-    <div class="user-menu__item">
+  <div v-if="user" class="navbar-nav">
+    <div class="navbar-nav__item">
       <router-link
         :to="{name: 'user', params: {id: user.id}}"
-        class="user-menu__link"
+        class="navbar-nav__link"
       >
         {{user.display_name}}
       </router-link>
-      <button class="user-menu__icon" @click="onClick">
+      <button class="navbar-nav__icon" @click="onClick">
         <icon name="chevron-down"/>
       </button>
     </div>
     <transition name="fade">
-      <ul class="user-menu__dropdown" v-show="isVisible">
-        <li class="user-menu__list-item" @click="logout">Logout</li>
+      <ul class="navbar-nav__dropdown" v-show="isVisible">
+        <li class="navbar-nav__list-item" @click="logout">Logout</li>
       </ul>
     </transition>
   </div>
@@ -23,7 +23,7 @@
   import {mapGetters, mapActions} from 'vuex'
 
   export default {
-    name: 'user-menu',
+    name: 'navbar-nav',
 
     data() {
       return {
@@ -70,7 +70,7 @@
 
 <style scoped lang="sass">
 
-  .user-menu
+  .navbar-nav
     position: relative
     z-index: 10
 
