@@ -4,6 +4,12 @@ import store from '@/store'
 
 import Login from '@/views/Login'
 import UserView from '@/views/User'
+import SearchView from '@/views/Search'
+import SearchResultView from '@/views/Search/SearchResult'
+import SearchAlbumView from '@/views/Search/SearchAlbum'
+import SearchArtistView from '@/views/Search/SearchArtist'
+import SearchPlaylistView from '@/views/Search/SearchPlaylist'
+import SearchTrackView from '@/views/Search/SearchTrack'
 import BrowseView from '@/views/Browse'
 import BrowseGenresView from '@/views/Browse/Genres'
 import GenresView from '@/views/Genres'
@@ -31,6 +37,39 @@ const router = new Router({
       redirect: {
         name: 'browse'
       },
+    },
+
+    {
+      path: '/search',
+      name: 'search',
+      component: SearchView,
+      children: [
+        {
+          path: 'result/:query',
+          name: 'search-result',
+          component: SearchResultView
+        },
+        {
+          path: 'album/:query',
+          name: 'search-album',
+          component: SearchAlbumView
+        },
+        {
+          path: 'artist/:query',
+          name: 'search-artist',
+          component: SearchArtistView
+        },
+        {
+          path: 'playlist/:query',
+          name: 'search-playlist',
+          component: SearchPlaylistView
+        },
+        {
+          path: 'track/:query',
+          name: 'search-track',
+          component: SearchTrackView
+        },
+      ]
     },
 
     {

@@ -1,21 +1,23 @@
 <template>
   <form class="navbar-search">
     <input
+      @focus="onFocus"
+      @keyup="onKeyup"
       class="navbar-search__input"
       type="search"
       placeholder="Search"
       aria-label="Search"
     >
-    <button
-      class="navbar-search__btn"
-      type="submit"
-    >
+    <button class="navbar-search__btn">
       <icon name="search"/>
     </button>
   </form>
 </template>
 
 <script>
+  import router from '@/router'
+  import {mapActions} from 'vuex'
+
   export default {
     name: 'navbar-search',
 
@@ -23,9 +25,36 @@
       return {}
     },
 
-    computed: {},
+    computed: {
+    },
 
-    methods: {}
+    methods: {
+      ...mapActions({
+        search: 'search/search',
+      }),
+
+      onFocus() {
+        const {
+          name,
+          params: { query },
+        } = this.$route;
+
+        if (name !== 'search' && !query) {
+          router.push('/search')
+        }
+      },
+
+      onKeyup(e) {
+        const {
+          value,
+        } = e.target;
+
+        if (value !== '') {
+          this.$router.replace({ name: "search-result", params: {query: value} });
+          this.search(value);
+        }
+      }
+    },
   }
 </script>
 
@@ -51,5 +80,6 @@
       margin: auto 0
       color: $c-shark
       outline: none
+      pointer-events: none
 
 </style>
