@@ -32,6 +32,7 @@
     +circles
     width: 80px
     height: 80px
+    z-index: 9999
 
     > div
       position: absolute
@@ -45,7 +46,7 @@
         width: 15%
         height: 15%
         margin: 0 auto
-        background-color: $c-black
+        background-color: $c-white
         border-radius: 100%
         animation: circleFadeDelay 1.2s infinite ease-in-out both
         content: ''

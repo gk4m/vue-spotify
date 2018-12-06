@@ -1,18 +1,27 @@
 <template>
   <div class="search-view">
-    <p v-if="!query">
+    <div
+      v-if="!query"
+      class="search-view__info"
+    >
       Find your favorite songs, artists, albums and playlists.
-    </p>
-
-    <template v-if="!isResult && query">
-      No result found for "{{query}}"
-      <div>Please make sure your words are spelled correctly or use less of different keywords.</div>
-    </template>
+    </div>
 
     <nav-view
       v-if="query"
       :links="navLinks"
     />
+
+    <div
+      v-if="isNoResultVisible"
+      class="search-view__info"
+    >
+      No result found for <strong>"{{query}}"</strong>
+      <div>Please make sure your words are spelled correctly or use less of different keywords.</div>
+    </div>
+
+
+    <loading-spinner v-if="isLoading"/>
 
     <div class="search-view__content">
       <router-view/>
@@ -28,12 +37,14 @@
   } from 'vuex'
 
   import NavView from '@/components/NavView'
+  import LoadingSpinner from '@/components/LoadingSpinner'
 
   export default {
     name: 'search-view',
 
     components: {
       NavView,
+      LoadingSpinner,
     },
 
     data() {
@@ -67,6 +78,10 @@
 
       isResult() {
         return this.isTracksExists || this.isAlbumsExists || this.isPlaylistsExists || this.isArtistsExists
+      },
+
+      isNoResultVisible() {
+        return !this.isResult && this.query && !this.isLoading;
       },
 
       navLinks() {
@@ -115,4 +130,14 @@
 </script>
 
 <style scoped lang="sass">
+
+  .search-view
+    position: relative
+    height: 100%
+
+    &__info
+      +absolute-center
+      text-align: center
+      line-height: 24px
+
 </style>
