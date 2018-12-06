@@ -10,6 +10,9 @@ const state = {
   albumsError: null,
 
   artists: '',
+  artistsIsLoading: false,
+  artistsError: null,
+
   playlists: '',
   tracks: '',
 };
@@ -35,6 +38,7 @@ const mutations = {
     state.error = error;
   },
 
+  /* ALBUMS */
   REQUEST_GET_ALBUMS(state) {
     state.albumsIsLoading = true;
   },
@@ -50,6 +54,24 @@ const mutations = {
   REQUEST_GET_ALBUMS_ERROR(state, error) {
     state.albumsIsLoading = false;
     state.albumsError = error;
+  },
+
+  /* ARTISTS */
+  REQUEST_GET_ARTISTS(state) {
+    state.artistsIsLoading = true;
+  },
+
+  REQUEST_GET_ARTISTS_SUCCESS(state, data) {
+    state.artistsIsLoading = false;
+    state.artists = {
+      ...data.artists,
+      items: [...state.artists.items, ...data.artists.items],
+    };
+  },
+
+  REQUEST_GET_ARTISTS_ERROR(state, error) {
+    state.artistsIsLoading = false;
+    state.artistsError = error;
   },
 };
 
@@ -75,6 +97,7 @@ const actions = {
     }
   },
 
+  /* ALBUMS */
   requestGetAlbums({commit}) {
     commit('REQUEST_GET_ALBUMS')
   },
@@ -97,6 +120,32 @@ const actions = {
       }
     } catch (e) {
       dispatch('requestGetAlbumsError', e);
+    }
+  },
+
+  /* ARTISTS */
+  requestGetArtists({commit}) {
+    commit('REQUEST_GET_ARTISTS')
+  },
+  requestGetArtistsSuccess({commit}, data) {
+    commit('REQUEST_GET_ARTISTS_SUCCESS', data)
+  },
+  requestGetArtistsError({commit}, error) {
+    commit('REQUEST_GET_ARTISTS_ERROR', error)
+  },
+
+  async getArtists({commit, dispatch, state: { artists }}, data) {
+    dispatch('requestGetArtists');
+
+    try {
+      if (artists.next){
+        const offset = artists.offset + artists.limit;
+        const response = await api.spotify.search.search(data, 'artist', offset);
+
+        dispatch('requestGetArtistsSuccess', response.data)
+      }
+    } catch (e) {
+      dispatch('requestGetArtistsError', e);
     }
   },
 };

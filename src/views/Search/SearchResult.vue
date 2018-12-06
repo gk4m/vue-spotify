@@ -3,21 +3,47 @@
     v-scroll
     class="search-result-view"
   >
-    <entity-header title="Albums" small/>
     <div class="search-result-view__content">
-      <media-container>
-        <media-object
-          v-for="(album, index) in albums"
-          v-if="index < maxResults"
-          :key="index"
-          :id="album.id"
-          :uri="album.uri"
-          :coverImg="album.images"
-          :name="album.name"
-          :artists="album.artists"
-          :type="album.type"
+      <template v-if="isAlbumsExists">
+        <entity-header
+          @click.native="goTo('search-album')"
+          title="Albums"
+          small
         />
-      </media-container>
+        <media-container>
+          <media-object
+            v-for="(album, index) in albums"
+            v-if="index < maxResults"
+            :key="album.id"
+            :id="album.id"
+            :uri="album.uri"
+            :coverImg="album.images"
+            :name="album.name"
+            :artists="album.artists"
+            :type="album.type"
+          />
+        </media-container>
+      </template>
+
+      <template v-if="isArtistsExists">
+        <entity-header
+          @click.native="goTo('search-artist')"
+          title="Artists"
+          small
+        />
+        <media-container>
+          <media-object
+            v-for="(artist, index) in artists"
+            v-if="index < maxResults"
+            :key="artist.id"
+            :id="artist.id"
+            :uri="artist.uri"
+            :name="artist.name"
+            :type="artist.type"
+            :coverImg="artist.images"
+          />
+        </media-container>
+      </template>
     </div>
   </div>
 </template>
@@ -27,7 +53,7 @@
     mapState,
     mapActions,
   } from 'vuex'
-
+  import router from '@/router'
   import EntityHeader from '@/components/EntityHeader'
   import MediaObject from '@/components/MediaObject'
   import MediaContainer from '@/components/MediaContainer'
@@ -58,8 +84,16 @@
         return this.result && this.result.albums && this.result.albums.total > 0
       },
 
+      isArtistsExists() {
+        return this.result && this.result.artists && this.result.artists.total > 0
+      },
+
       albums() {
         return this.result && this.result.albums && this.result.albums.items;
+      },
+
+      artists() {
+        return this.result && this.result.artists && this.result.artists.items;
       }
     },
 
@@ -67,6 +101,11 @@
       ...mapActions({
         notFoundPage: 'app/notFoundPage',
       }),
+
+      goTo(name) {
+        const {query} = this.$route.params;
+        router.push({ name, params: { query }})
+      }
     },
   }
 </script>

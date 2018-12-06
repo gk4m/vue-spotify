@@ -10,8 +10,8 @@
     <div class="search-album-view__content">
       <media-container>
         <media-object
-          v-for="(album, index) in albums.items"
-          :key="index"
+          v-for="(album) in albums.items"
+          :key="album.id"
           :id="album.id"
           :uri="album.uri"
           :coverImg="album.images"
