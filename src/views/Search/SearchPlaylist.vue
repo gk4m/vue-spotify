@@ -1,31 +1,69 @@
 <template>
-  <div class="search-view">
-    search-playlist
+  <div
+    v-scroll
+    @vScroll="loadMore"
+    class="search-playlist-view"
+  >
+    <entity-header title="Playlists" small/>
+
+    <div class="search-playlist-view__content">
+      <media-container>
+        <media-object
+          v-for="(item) in playlists.items"
+          :key="item.id"
+          :id="item.id"
+          :uri="item.uri"
+          :coverImg="item.images"
+          :name="item.name"
+          :type="item.type"
+        />
+      </media-container>
+    </div>
   </div>
 </template>
 
 <script>
   import {
     mapState,
-    mapGetters,
     mapActions,
   } from 'vuex'
 
-  export default {
-    name: 'search-playlist',
+  import EntityHeader from '@/components/EntityHeader'
+  import MediaObject from '@/components/MediaObject'
+  import MediaContainer from '@/components/MediaContainer'
 
-    components: {},
+  export default {
+    name: 'search-playlist-view',
+
+    components: {
+      MediaObject,
+      EntityHeader,
+      MediaContainer
+    },
 
     computed: {
+      ...mapState('search', [
+        'playlists',
+      ]),
     },
 
     methods: {
       ...mapActions({
-        notFoundPage: 'app/notFoundPage',
+        getPlaylists: 'search/getPlaylists',
       }),
+
+      async loadMore(ev) {
+        const {query} = this.$route.params;
+
+        if(this.playlists.next && query && ev.detail.scrollbarV.percent > 70) {
+          this.getPlaylists(query);
+        }
+      }
     },
   }
 </script>
 
 <style scoped lang="sass">
+  .search-playlist-view
+    height: calc(100vh - 227px)
 </style>

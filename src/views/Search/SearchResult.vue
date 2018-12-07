@@ -4,6 +4,26 @@
     class="search-result-view"
   >
     <div class="search-result-view__content">
+      <template v-if="isPlaylistsExists">
+        <entity-header
+          @click.native="goTo('search-playlist')"
+          title="Playlists"
+          small
+        />
+        <media-container>
+          <media-object
+            v-for="(playlist, index) in playlists.items"
+            v-if="index < maxResults"
+            :key="playlist.id"
+            :id="playlist.id"
+            :uri="playlist.uri"
+            :coverImg="playlist.images"
+            :name="playlist.name"
+            :type="playlist.type"
+          />
+        </media-container>
+      </template>
+
       <template v-if="isAlbumsExists">
         <entity-header
           @click.native="goTo('search-album')"
@@ -12,7 +32,7 @@
         />
         <media-container>
           <media-object
-            v-for="(album, index) in albums"
+            v-for="(album, index) in albums.items"
             v-if="index < maxResults"
             :key="album.id"
             :id="album.id"
@@ -33,7 +53,7 @@
         />
         <media-container>
           <media-object
-            v-for="(artist, index) in artists"
+            v-for="(artist, index) in artists.items"
             v-if="index < maxResults"
             :key="artist.id"
             :id="artist.id"
@@ -49,10 +69,7 @@
 </template>
 
 <script>
-  import {
-    mapState,
-    mapActions,
-  } from 'vuex'
+  import {mapState} from 'vuex'
   import router from '@/router'
   import EntityHeader from '@/components/EntityHeader'
   import MediaObject from '@/components/MediaObject'
@@ -78,33 +95,28 @@
         'isLoading',
         'result',
         'error',
+        'albums',
+        'artists',
+        'playlists',
       ]),
 
       isAlbumsExists() {
-        return this.result && this.result.albums && this.result.albums.total > 0
+        return this.albums && this.albums.total > 0
       },
 
       isArtistsExists() {
-        return this.result && this.result.artists && this.result.artists.total > 0
+        return this.artists && this.artists.total > 0
       },
 
-      albums() {
-        return this.result && this.result.albums && this.result.albums.items;
+      isPlaylistsExists() {
+        return this.playlists && this.playlists.total > 0
       },
-
-      artists() {
-        return this.result && this.result.artists && this.result.artists.items;
-      }
     },
 
     methods: {
-      ...mapActions({
-        notFoundPage: 'app/notFoundPage',
-      }),
-
       goTo(name) {
         const {query} = this.$route.params;
-        router.push({ name, params: { query }})
+        router.push({name, params: {query}})
       }
     },
   }

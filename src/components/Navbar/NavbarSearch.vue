@@ -2,7 +2,7 @@
   <form class="navbar-search">
     <input
       @focus="onFocus"
-      @keyup="onKeyup"
+      @keyup="onKeyUp"
       class="navbar-search__input"
       type="search"
       placeholder="Search"
@@ -21,30 +21,27 @@
   export default {
     name: 'navbar-search',
 
-    data() {
-      return {}
-    },
-
-    computed: {
-    },
-
     methods: {
       ...mapActions({
         search: 'search/search',
       }),
 
-      onFocus() {
+      onFocus(e) {
         const {
           name,
           params: { query },
         } = this.$route;
 
-        if (name !== 'search' && !query) {
+        const { value } = e.target;
+
+        if(value) {
+          router.push({name:'search-result', params: {query: value}})
+        }else if (name !== 'search' && !query) {
           router.push('/search')
         }
       },
 
-      onKeyup(e) {
+      onKeyUp(e) {
         const {
           value,
         } = e.target;

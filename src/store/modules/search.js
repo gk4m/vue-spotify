@@ -14,6 +14,9 @@ const state = {
   artistsError: null,
 
   playlists: '',
+  playlistsIsLoading: false,
+  playlistsError: null,
+
   tracks: '',
 };
 
@@ -73,6 +76,24 @@ const mutations = {
     state.artistsIsLoading = false;
     state.artistsError = error;
   },
+
+  /* PLAYLISTS */
+  REQUEST_GET_PLAYLISTS(state) {
+    state.playlistsIsLoading = true;
+  },
+
+  REQUEST_GET_PLAYLISTS_SUCCESS(state, data) {
+    state.playlistsIsLoading = false;
+    state.playlists = {
+      ...data.playlists,
+      items: [...state.playlists.items, ...data.playlists.items],
+    };
+  },
+
+  REQUEST_GET_PLAYLISTS_ERROR(state, error) {
+    state.playlistsIsLoading = false;
+    state.playlistsError = error;
+  },
 };
 
 const actions = {
@@ -116,7 +137,7 @@ const actions = {
         const offset = albums.offset + albums.limit;
         const response = await api.spotify.search.search(data, 'album', offset);
 
-        dispatch('requestGetAlbumsSuccess', response.data)
+        setTimeout(()=> dispatch('requestGetAlbumsSuccess', response.data), 2000);
       }
     } catch (e) {
       dispatch('requestGetAlbumsError', e);
@@ -148,6 +169,33 @@ const actions = {
       dispatch('requestGetArtistsError', e);
     }
   },
+
+  /* PLAYLISTS */
+  requestGetPlaylists({commit}) {
+    commit('REQUEST_GET_PLAYLISTS')
+  },
+  requestGetPlaylistsSuccess({commit}, data) {
+    commit('REQUEST_GET_PLAYLISTS_SUCCESS', data)
+  },
+  requestGetPlaylistsError({commit}, error) {
+    commit('REQUEST_GET_PLAYLISTS_ERROR', error)
+  },
+
+  async getPlaylists({commit, dispatch, state: { playlists }}, data) {
+    dispatch('requestGetPlaylists');
+
+    try {
+      if (playlists.next){
+        const offset = playlists.offset + playlists.limit;
+        const response = await api.spotify.search.search(data, 'playlist', offset);
+
+        dispatch('requestGetPlaylistsSuccess', response.data)
+      }
+    } catch (e) {
+      dispatch('requestGetPlaylistsError', e);
+    }
+  },
+
 };
 
 const module = {

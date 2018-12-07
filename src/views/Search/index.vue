@@ -6,7 +6,7 @@
     >
       Find your favorite songs, artists, albums and playlists.
     </div>
-
+    {{query}}
     <nav-view
       v-if="query"
       :links="navLinks"
@@ -20,8 +20,7 @@
       <div>Please make sure your words are spelled correctly or use less of different keywords.</div>
     </div>
 
-
-    <loading-spinner v-if="isLoading"/>
+    <loading-spinner v-if="isLoadingData"/>
 
     <div class="search-view__content">
       <router-view/>
@@ -56,9 +55,16 @@
     computed: {
       ...mapState('search', [
         'isLoading',
+        'albumsIsLoading',
+        'artistsIsLoading',
+        'playlistsIsLoading',
         'result',
         'error',
       ]),
+
+      isLoadingData() {
+        return this.isLoading || this.albumsIsLoading || this.artistsIsLoading || this.playlistsIsLoading;
+      },
 
       isTracksExists() {
         return this.result && this.result.tracks && this.result.tracks.total > 0

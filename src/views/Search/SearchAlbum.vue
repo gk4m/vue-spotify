@@ -1,6 +1,5 @@
 <template>
   <div
-    v-if="isAlbumsExists"
     v-scroll
     @vScroll="loadMore"
     class="search-album-view"
@@ -46,13 +45,7 @@
     computed: {
       ...mapState('search', [
         'albums',
-        'albumsIsLoading',
-        'albumsError',
       ]),
-
-      isAlbumsExists() {
-        return this.albums && this.albums.total > 0
-      },
     },
 
     methods: {

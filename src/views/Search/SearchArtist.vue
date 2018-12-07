@@ -1,6 +1,5 @@
 <template>
   <div
-    v-if="isArtistsExists"
     v-scroll
     @vScroll="loadMore"
     class="search-artist-view"
@@ -45,13 +44,7 @@
     computed: {
       ...mapState('search', [
         'artists',
-        'artistsIsLoading',
-        'artistsError',
       ]),
-
-      isArtistsExists() {
-        return this.artists && this.artists.total > 0
-      },
     },
 
     methods: {
