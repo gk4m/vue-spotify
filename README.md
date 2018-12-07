@@ -14,6 +14,8 @@ Authenticated users must have a valid Spotify Premium subscription because if it
 * Logout
 * Refresh token
 
+#### Search
+* Get Spotify Catalog information about artists, albums, tracks or playlists that match a keyword string.
 #### Browse
 * Get a List of Categories
 * Get New Releases
