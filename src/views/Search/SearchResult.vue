@@ -92,8 +92,9 @@
 
     computed: {
       ...mapState('search', [
-        'isLoading',
+        'query',
         'result',
+        'isLoading',
         'error',
         'albums',
         'artists',
@@ -115,8 +116,7 @@
 
     methods: {
       goTo(name) {
-        const {query} = this.$route.params;
-        router.push({name, params: {query}})
+        router.push({name, params: {query: this.query}})
       }
     },
   }

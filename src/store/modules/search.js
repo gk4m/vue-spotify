@@ -1,6 +1,7 @@
 import api from '@/api'
 
 const state = {
+  query: '',
   result: '',
   isLoading: false,
   error: null,
@@ -23,6 +24,10 @@ const state = {
 const getters = {};
 
 const mutations = {
+  SET_SEARCH_QUERY(state, data) {
+    state.query = data;
+  },
+
   REQUEST_SEARCH(state) {
     state.isLoading = true;
   },
@@ -97,6 +102,10 @@ const mutations = {
 };
 
 const actions = {
+  setSearchQuery({commit}, query) {
+    commit('SET_SEARCH_QUERY', query)
+  },
+
   requestSearch({commit}) {
     commit('REQUEST_SEARCH')
   },
@@ -107,11 +116,12 @@ const actions = {
     commit('REQUEST_SEARCH_ERROR', error)
   },
 
-  async search({commit, dispatch}, data) {
+  async search({commit, dispatch}, query) {
     dispatch('requestSearch');
+    dispatch('setSearchQuery', query);
 
     try {
-      const response = await api.spotify.search.search(data);
+      const response = await api.spotify.search.search(query);
       dispatch('requestSearchSuccess', response.data)
     } catch (e) {
       dispatch('requestSearchError', e);
@@ -122,20 +132,22 @@ const actions = {
   requestGetAlbums({commit}) {
     commit('REQUEST_GET_ALBUMS')
   },
+
   requestGetAlbumsSuccess({commit}, data) {
     commit('REQUEST_GET_ALBUMS_SUCCESS', data)
   },
+
   requestGetAlbumsError({commit}, error) {
     commit('REQUEST_GET_ALBUMS_ERROR', error)
   },
 
-  async getAlbums({commit, dispatch, state: { albums }}, data) {
+  async getAlbums({commit, dispatch, state: { albums, query }}) {
     dispatch('requestGetAlbums');
 
     try {
       if (albums.next){
         const offset = albums.offset + albums.limit;
-        const response = await api.spotify.search.search(data, 'album', offset);
+        const response = await api.spotify.search.search(query, 'album', offset);
 
         setTimeout(()=> dispatch('requestGetAlbumsSuccess', response.data), 2000);
       }
@@ -148,20 +160,22 @@ const actions = {
   requestGetArtists({commit}) {
     commit('REQUEST_GET_ARTISTS')
   },
+
   requestGetArtistsSuccess({commit}, data) {
     commit('REQUEST_GET_ARTISTS_SUCCESS', data)
   },
+
   requestGetArtistsError({commit}, error) {
     commit('REQUEST_GET_ARTISTS_ERROR', error)
   },
 
-  async getArtists({commit, dispatch, state: { artists }}, data) {
+  async getArtists({commit, dispatch, state: { artists, query }}) {
     dispatch('requestGetArtists');
 
     try {
       if (artists.next){
         const offset = artists.offset + artists.limit;
-        const response = await api.spotify.search.search(data, 'artist', offset);
+        const response = await api.spotify.search.search(query, 'artist', offset);
 
         dispatch('requestGetArtistsSuccess', response.data)
       }
@@ -174,20 +188,22 @@ const actions = {
   requestGetPlaylists({commit}) {
     commit('REQUEST_GET_PLAYLISTS')
   },
+
   requestGetPlaylistsSuccess({commit}, data) {
     commit('REQUEST_GET_PLAYLISTS_SUCCESS', data)
   },
+
   requestGetPlaylistsError({commit}, error) {
     commit('REQUEST_GET_PLAYLISTS_ERROR', error)
   },
 
-  async getPlaylists({commit, dispatch, state: { playlists }}, data) {
+  async getPlaylists({commit, dispatch, state: { playlists, query }}) {
     dispatch('requestGetPlaylists');
 
     try {
       if (playlists.next){
         const offset = playlists.offset + playlists.limit;
-        const response = await api.spotify.search.search(data, 'playlist', offset);
+        const response = await api.spotify.search.search(query, 'playlist', offset);
 
         dispatch('requestGetPlaylistsSuccess', response.data)
       }

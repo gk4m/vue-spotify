@@ -53,10 +53,8 @@
       }),
 
       async loadMore(ev) {
-        const {query} = this.$route.params;
-
-        if(this.playlists.next && query && ev.detail.scrollbarV.percent > 70) {
-          this.getPlaylists(query);
+        if(this.playlists.next && ev.detail.scrollbarV.percent > 70) {
+          this.getPlaylists();
         }
       }
     },

@@ -53,10 +53,8 @@
       }),
 
       async loadMore(ev) {
-        const {query} = this.$route.params;
-
-        if(this.artists.next && query && ev.detail.scrollbarV.percent > 70) {
-          this.getArtists(query);
+        if(this.artists.next && ev.detail.scrollbarV.percent > 70) {
+          this.getArtists();
         }
       }
     },

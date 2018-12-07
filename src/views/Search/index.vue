@@ -6,7 +6,7 @@
     >
       Find your favorite songs, artists, albums and playlists.
     </div>
-    {{query}}
+
     <nav-view
       v-if="query"
       :links="navLinks"
@@ -46,20 +46,15 @@
       LoadingSpinner,
     },
 
-    data() {
-      return {
-        query: ''
-      }
-    },
-
     computed: {
       ...mapState('search', [
+        'query',
+        'result',
         'isLoading',
+        'error',
         'albumsIsLoading',
         'artistsIsLoading',
         'playlistsIsLoading',
-        'result',
-        'error',
       ]),
 
       isLoadingData() {
@@ -125,13 +120,6 @@
         notFoundPage: 'app/notFoundPage',
       }),
     },
-
-    watch: {
-      '$route': function (route) {
-        const {query} = route.params;
-        this.query = query || '';
-      }
-    }
   }
 </script>
 
