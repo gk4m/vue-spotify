@@ -4,8 +4,6 @@
     @vScroll="loadMore"
     class="search-artist-view"
   >
-    <entity-header title="Artists" small/>
-
     <div class="search-artist-view__content">
       <media-container>
         <media-object
@@ -28,7 +26,6 @@
     mapActions,
   } from 'vuex'
 
-  import EntityHeader from '@/components/EntityHeader'
   import MediaObject from '@/components/MediaObject'
   import MediaContainer from '@/components/MediaContainer'
 
@@ -37,7 +34,6 @@
 
     components: {
       MediaObject,
-      EntityHeader,
       MediaContainer
     },
 

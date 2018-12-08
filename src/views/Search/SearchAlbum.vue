@@ -4,8 +4,6 @@
     @vScroll="loadMore"
     class="search-album-view"
   >
-    <entity-header title="Albums" small/>
-
     <div class="search-album-view__content">
       <media-container>
         <media-object
@@ -29,7 +27,6 @@
     mapActions,
   } from 'vuex'
 
-  import EntityHeader from '@/components/EntityHeader'
   import MediaObject from '@/components/MediaObject'
   import MediaContainer from '@/components/MediaContainer'
 
@@ -38,7 +35,6 @@
 
     components: {
       MediaObject,
-      EntityHeader,
       MediaContainer
     },
 

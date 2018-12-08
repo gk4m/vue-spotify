@@ -55,10 +55,15 @@
         'albumsIsLoading',
         'artistsIsLoading',
         'playlistsIsLoading',
+        'tracksIsLoading',
       ]),
 
       isLoadingData() {
-        return this.isLoading || this.albumsIsLoading || this.artistsIsLoading || this.playlistsIsLoading;
+        return this.isLoading
+          || this.tracksIsLoading
+          || this.albumsIsLoading
+          || this.artistsIsLoading
+          || this.playlistsIsLoading;
       },
 
       isTracksExists() {

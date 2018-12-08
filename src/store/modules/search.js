@@ -19,6 +19,8 @@ const state = {
   playlistsError: null,
 
   tracks: '',
+  tracksIsLoading: false,
+  tracksError: null,
 };
 
 const getters = {};
@@ -98,6 +100,24 @@ const mutations = {
   REQUEST_GET_PLAYLISTS_ERROR(state, error) {
     state.playlistsIsLoading = false;
     state.playlistsError = error;
+  },
+
+  /* TRACKS */
+  REQUEST_GET_TRACKS(state) {
+    state.tracksIsLoading = true;
+  },
+
+  REQUEST_GET_TRACKS_SUCCESS(state, data) {
+    state.tracksIsLoading = false;
+    state.tracks = {
+      ...data.tracks,
+      items: [...state.tracks.items, ...data.tracks.items],
+    };
+  },
+
+  REQUEST_GET_TRACKS_ERROR(state, error) {
+    state.tracksIsLoading = false;
+    state.tracksError = error;
   },
 };
 
@@ -212,6 +232,33 @@ const actions = {
     }
   },
 
+  /* TRACKS */
+  requestGetTracks({commit}) {
+    commit('REQUEST_GET_TRACKS')
+  },
+
+  requestGetTracksSuccess({commit}, data) {
+    commit('REQUEST_GET_TRACKS_SUCCESS', data)
+  },
+
+  requestGetTracksError({commit}, error) {
+    commit('REQUEST_GET_TRACKS_ERROR', error)
+  },
+
+  async getTracks({commit, dispatch, state: { tracks, query }}) {
+    dispatch('requestGetTracks');
+
+    try {
+      if (tracks.next){
+        const offset = tracks.offset + tracks.limit;
+        const response = await api.spotify.search.search(query, 'track', offset);
+
+        dispatch('requestGetTracksSuccess', response.data)
+      }
+    } catch (e) {
+      dispatch('requestGetTracksError', e);
+    }
+  },
 };
 
 const module = {
