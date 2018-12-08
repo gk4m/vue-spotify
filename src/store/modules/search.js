@@ -169,7 +169,7 @@ const actions = {
         const offset = albums.offset + albums.limit;
         const response = await api.spotify.search.search(query, 'album', offset);
 
-        setTimeout(()=> dispatch('requestGetAlbumsSuccess', response.data), 2000);
+        dispatch('requestGetAlbumsSuccess', response.data);
       }
     } catch (e) {
       dispatch('requestGetAlbumsError', e);
