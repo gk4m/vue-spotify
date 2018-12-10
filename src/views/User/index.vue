@@ -13,8 +13,8 @@
     <entity-header v-if="playlists.items.length" title="Public Playlists" :small="true"/>
     <media-container>
       <media-object
-        v-for="(item, index) in playlists.items"
-        :key="index"
+        v-for="(item) in playlists.items"
+        :key="item.id"
         :id="item.id"
         :uri="item.uri"
         :coverImg="item.images"

@@ -5,6 +5,7 @@ import vuexPersistedstate from 'vuex-persistedstate';
 import app from './modules/app';
 import auth from './modules/auth';
 import user from './modules/user';
+import search from './modules/search';
 import player from './modules/player';
 import library from './modules/library';
 import playlist from './modules/playlist';
@@ -28,6 +29,7 @@ export default new Vuex.Store({
     app,
     auth,
     user,
+    search,
     player,
     library,
     playlist,

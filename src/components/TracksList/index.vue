@@ -1,5 +1,5 @@
 <template>
-  <div class="tracks-list">
+  <div v-if="tracks" class="tracks-list">
     <div
       v-for="(item, index) in tracks"
       :key="index"

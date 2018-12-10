@@ -1,9 +1,9 @@
 <template>
-  <div class="arrow-nav">
-    <a class="arrow-nav__link" @click="onPrevClick">
+  <div class="navbar-history">
+    <a class="navbar-history__link" @click="onPrevClick">
       <icon name="chevron-left" />
     </a>
-    <a class="arrow-nav__link" @click="onNextClick">
+    <a class="navbar-history__link" @click="onNextClick">
       <icon name="chevron-right" />
     </a>
   </div>
@@ -11,7 +11,7 @@
 
 <script>
   export default {
-    name: 'arrow-nav',
+    name: 'navbar-history',
 
     methods: {
       onNextClick() {
@@ -27,9 +27,8 @@
 
 <style scoped lang="sass">
 
-  .arrow-nav
+  .navbar-history
     display: inline-block
-    margin-left: 15px
 
     &__link
       margin: auto 5px
