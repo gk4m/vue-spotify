@@ -61,6 +61,7 @@
 
     props: {
       tracks: {
+        type: Array,
         required: true
       },
       showArtists: {
@@ -68,13 +69,13 @@
         default: false
       },
       contextUri: {
+        type: String,
         required: false
       }
     },
 
     data() {
       return {
-        tracksUris: '',
         tracksIds: '',
         savedTracks: [],
       }
@@ -86,18 +87,14 @@
           playback: 'getPlayback',
           context: 'getPlaybackContext'
         }
-      )
+      ),
+
+      tracksUris() {
+        return this.tracks ? this.tracks.map((el) => el.uri) : [];
+      }
     },
 
     methods: {
-      fetchTrackUris() {
-        if (this.tracks) {
-          this.tracksUris = this.tracks.map((el) => {
-            return el.uri;
-          });
-        }
-      },
-
       fetchTrackIds() {
         if (this.tracks) {
           this.tracksIds = this.tracks.map((el) => {
@@ -144,7 +141,6 @@
 
     watch: {
       tracks() {
-        this.fetchTrackUris();
         this.fetchTrackIds();
         this.checkSavedTracks();
       }
