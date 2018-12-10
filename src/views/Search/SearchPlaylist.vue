@@ -1,7 +1,7 @@
 <template>
   <div
     v-scroll
-    @vScroll="loadMore"
+    @vScroll="loadMore($event, playlists.next, getPlaylists)"
     class="search-playlist-view"
   >
     <div class="search-playlist-view__content">
@@ -26,11 +26,14 @@
     mapActions,
   } from 'vuex'
 
+  import {loadMore} from '@/mixins'
   import MediaObject from '@/components/MediaObject'
   import MediaContainer from '@/components/MediaContainer'
 
   export default {
     name: 'search-playlist-view',
+
+    mixins: [loadMore],
 
     components: {
       MediaObject,
@@ -47,17 +50,13 @@
       ...mapActions({
         getPlaylists: 'search/getPlaylists',
       }),
-
-      async loadMore(ev) {
-        if(this.playlists.next && ev.detail.scrollbarV.percent > 70) {
-          this.getPlaylists();
-        }
-      }
     },
   }
 </script>
 
 <style scoped lang="sass">
+
   .search-playlist-view
     height: calc(100vh - 227px)
+
 </style>

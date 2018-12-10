@@ -1,7 +1,7 @@
 <template>
   <div
     v-scroll
-    @vScroll="loadMore"
+    @vScroll="loadMore($event, artists.next, getArtists)"
     class="search-artist-view"
   >
     <div class="search-artist-view__content">
@@ -26,11 +26,14 @@
     mapActions,
   } from 'vuex'
 
+  import {loadMore} from '@/mixins'
   import MediaObject from '@/components/MediaObject'
   import MediaContainer from '@/components/MediaContainer'
 
   export default {
     name: 'search-artist-view',
+
+    mixins: [loadMore],
 
     components: {
       MediaObject,
@@ -47,12 +50,6 @@
       ...mapActions({
         getArtists: 'search/getArtists',
       }),
-
-      async loadMore(ev) {
-        if(this.artists.next && ev.detail.scrollbarV.percent > 70) {
-          this.getArtists();
-        }
-      }
     },
   }
 </script>
