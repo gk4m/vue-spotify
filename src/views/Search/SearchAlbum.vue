@@ -2,22 +2,19 @@
   <div
     v-scroll
     @vScroll="loadMore($event, albums.next, getAlbums)"
-    class="search-album-view"
   >
-    <div class="search-album-view__content">
-      <media-container>
-        <media-object
-          v-for="(album) in albums.items"
-          :key="album.id"
-          :id="album.id"
-          :uri="album.uri"
-          :coverImg="album.images"
-          :name="album.name"
-          :artists="album.artists"
-          :type="album.type"
-        />
-      </media-container>
-    </div>
+    <media-container>
+      <media-object
+        v-for="(album) in albums.items"
+        :key="album.id"
+        :id="album.id"
+        :uri="album.uri"
+        :coverImg="album.images"
+        :name="album.name"
+        :artists="album.artists"
+        :type="album.type"
+      />
+    </media-container>
   </div>
 </template>
 
@@ -54,10 +51,3 @@
     },
   }
 </script>
-
-<style scoped lang="sass">
-
-  .search-album-view
-    height: calc(100vh - 227px)
-
-</style>

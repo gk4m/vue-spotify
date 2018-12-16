@@ -2,11 +2,8 @@
   <div
     v-scroll
     @vScroll="loadMore($event, tracks.next, getTracks)"
-    class="search-track-view"
   >
-    <div class="search-track-view__content">
-      <tracks-list :tracks="tracks.items"/>
-    </div>
+    <tracks-list :tracks="tracks.items"/>
   </div>
 </template>
 
@@ -41,10 +38,3 @@
     },
   }
 </script>
-
-<style scoped lang="sass">
-
-  .search-track-view
-    height: calc(100vh - 227px)
-
-</style>

@@ -2,21 +2,18 @@
   <div
     v-scroll
     @vScroll="loadMore($event, artists.next, getArtists)"
-    class="search-artist-view"
   >
-    <div class="search-artist-view__content">
-      <media-container>
-        <media-object
-          v-for="(item) in artists.items"
-          :key="item.id"
-          :id="item.id"
-          :uri="item.uri"
-          :name="item.name"
-          :type="item.type"
-          :coverImg="item.images"
-        />
-      </media-container>
-    </div>
+    <media-container>
+      <media-object
+        v-for="(item) in artists.items"
+        :key="item.id"
+        :id="item.id"
+        :uri="item.uri"
+        :name="item.name"
+        :type="item.type"
+        :coverImg="item.images"
+      />
+    </media-container>
   </div>
 </template>
 
@@ -53,8 +50,3 @@
     },
   }
 </script>
-
-<style scoped lang="sass">
-  .search-artist-view
-    height: calc(100vh - 227px)
-</style>

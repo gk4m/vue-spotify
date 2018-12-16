@@ -17,7 +17,9 @@
       class="search-view__info"
     >
       No result found for <strong>"{{query}}"</strong>
-      <div>Please make sure your words are spelled correctly or use less of different keywords.</div>
+      <div>
+        Please make sure your words are spelled correctly or use less of different keywords.
+      </div>
     </div>
 
     <loading-spinner v-if="isLoadingData"/>
@@ -138,5 +140,8 @@
       +absolute-center
       text-align: center
       line-height: 24px
+
+    &__content
+      height: calc(100vh - 227px)
 
 </style>
