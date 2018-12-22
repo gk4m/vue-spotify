@@ -1,9 +1,6 @@
 <template>
-  <div
-    v-scroll
-    class="search-result-view"
-  >
-    <div class="search-result-view__content">
+  <div v-scroll>
+    <div>
       <template v-if="isTracksExists">
         <entity-header
           @click.native="goTo('search-track')"
@@ -82,6 +79,7 @@
 <script>
   import {mapState} from 'vuex'
   import router from '@/router'
+
   import EntityHeader from '@/components/EntityHeader'
   import MediaObject from '@/components/MediaObject'
   import MediaContainer from '@/components/MediaContainer'
@@ -147,10 +145,3 @@
     },
   }
 </script>
-
-<style scoped lang="sass">
-
-  .search-result-view
-    height: calc(100vh - 227px)
-
-</style>

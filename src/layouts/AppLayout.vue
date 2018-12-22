@@ -2,7 +2,7 @@
   <div class="app-layout">
     <navbar/>
     <div class="app-layout__wrap">
-      <app-sidebar/>
+      <sidebar/>
       <div class="app-layout__main">
         <router-view/>
       </div>
@@ -13,7 +13,7 @@
 
 <script>
   import Navbar from '@/components/Navbar';
-  import AppSidebar from '@/components/AppSidebar';
+  import Sidebar from '@/components/Sidebar';
   import Player from '@/components/Player';
 
   export default {
@@ -21,7 +21,7 @@
 
     components: {
       Navbar,
-      AppSidebar,
+      Sidebar,
       Player
     }
   }

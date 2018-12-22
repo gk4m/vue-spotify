@@ -4,7 +4,7 @@ Spotify client built with vue.js / vuex.
 Authenticated users must have a valid Spotify Premium subscription because if it doesn't, Web Playback SDK will not work.
 
 ![alt text](https://github.com/gk4m/vue-spotify/blob/master/public/example/BrowseView.png "Browse")
-![alt text](https://github.com/gk4m/vue-spotify/blob/master/public/example/AlbumsView.png "Albums")
+![alt text](https://github.com/gk4m/vue-spotify/blob/master/public/example/SearchView.png "Search")
 ![alt text](https://github.com/gk4m/vue-spotify/blob/master/public/example/PlaylistView.png "Playlist")
 
 ## Features
@@ -16,6 +16,7 @@ Authenticated users must have a valid Spotify Premium subscription because if it
 
 #### Search
 * Get Spotify Catalog information about artists, albums, tracks or playlists that match a keyword string.
+
 #### Browse
 * Get a List of Categories
 * Get New Releases
