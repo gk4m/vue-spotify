@@ -1,17 +1,26 @@
 <template>
-  <div class="nav-bar">
-    <h2 v-if="title" class="nav-bar__title">{{title}}</h2>
+  <div class="sidebar-nav">
+    <h2
+      v-if="title"
+      class="sidebar-nav__title"
+    >
+      {{title}}
+    </h2>
     <ul>
       <router-link
         tag="li"
-        class="nav-bar__item"
-        active-class="nav-bar__item--active"
+        class="sidebar-nav__item"
+        active-class="sidebar-nav__item--active"
         v-for="(link, index) in links"
         :key="index"
         :to="createRoute(link)"
       >
         {{link.name}}
-        <button v-if="playbackContext.context && playbackContext.context.uri === link.uri" class="nav-bar__playing-icon icon-sound-on"></button>
+        <button
+          v-if="playbackContext.context && playbackContext.context.uri === link.uri"
+          class="sidebar-nav__playing-icon icon-sound-on"
+        >
+        </button>
       </router-link>
     </ul>
   </div>
@@ -21,7 +30,7 @@
   import {mapGetters} from 'vuex'
 
   export default {
-    name: 'nav-bar',
+    name: 'sidebar-nav',
 
     props: {
       title: {
@@ -29,7 +38,9 @@
         required: false
       },
       links: {
-        required: true
+        type: Array,
+        required: true,
+        default: () => [],
       }
     },
 
@@ -40,13 +51,6 @@
     },
 
     methods: {
-      test(uri) {
-
-        return {
-          'nav-bar__item--playing': this.context && this.context.uri === uri
-        }
-      },
-
       createRoute(item) {
         let to = {name: item.type};
 
@@ -59,13 +63,13 @@
 
         return to;
       }
-    }
+    },
   }
 </script>
 
 <style scoped lang="sass">
 
-  .nav-bar
+  .sidebar-nav
     padding-right: 10px
     color: $c-gray
     font-size: 14px
@@ -101,8 +105,9 @@
 
     &__playing-icon
       position: absolute
-      right: 0
-      top: 3px
+      right: 3px
+      top: 0
       color: $c-white
+      outline: none
 
 </style>

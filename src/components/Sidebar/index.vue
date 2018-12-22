@@ -1,9 +1,9 @@
 <template>
   <div class="sidebar">
     <div class="sidebar__inner" v-scroll @scrollReachBottom="loadMore">
-      <nav-bar :links="browse"/>
-      <nav-bar title="Library" :links="library"/>
-      <nav-bar title="Playlists" :links="playlists.items"/>
+      <sidebar-nav :links="browse"/>
+      <sidebar-nav title="Library" :links="library"/>
+      <sidebar-nav title="Playlists" :links="playlists.items"/>
     </div>
     <button class="sidebar__btn" @click="$modal.show('playlist-create-modal')">
       <icon class="sidebar__btn-icon" name="plus"/>
@@ -16,15 +16,15 @@
 
 <script>
   import {mapGetters, mapActions} from 'vuex'
-  import NavBar from './NavBar'
+  import SidebarNav from './SidebarNav'
   import PlaylistCreateModal from "@/components/PlaylistCreateModal"
 
   export default {
-    name: 'app-sidebar',
+    name: 'sidebar',
 
     components: {
       PlaylistCreateModal,
-      NavBar
+      SidebarNav
     },
 
     computed: {
@@ -107,7 +107,7 @@
     &__btn-icon
       margin: auto 8px
 
-    .nav-bar
+    .sidebar-nav
       &:not(:last-of-type)
         margin-bottom: 30px
 
