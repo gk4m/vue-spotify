@@ -38,12 +38,15 @@ const actions = {
     }
   },
 
-  refreshToken: async function ({commit, state}) {
+  refreshToken: async function ({commit, state, dispatch}) {
     try {
       if (state.refreshToken) {
         const response = await api.auth.refreshToken(state.refreshToken);
         commit('SET_ACCESS_TOKEN', response.data.access_token);
+        
+        const accessToken = response.data.access_token
 
+        dispatch("setAccessToken", accessToken)
         return response;
       }
     } catch (e) {
@@ -60,7 +63,7 @@ const actions = {
     window.localStorage.clear();
     window.sessionStorage.clear();
 
-    setTimeout(function () {
+    setTimeout(() => {
       location.reload();
     }, 1000)
   },

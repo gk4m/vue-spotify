@@ -1,37 +1,42 @@
 import request from './request';
 
-let isFetchingToken = false;
-
-const plugin = store => {
+const createRequestInterceptor = (store) => {
   request.interceptors.request.use(function (config) {
     if (store.getters['auth/getAccessToken']) {
       config.headers.common['Authorization'] = `Bearer ${store.getters['auth/getAccessToken']}`;
     }
     return config;
   }, null);
+}
 
-  request.interceptors.response.use(null, (error) => {
+const createResponseInterceptor = (store) => {
+ request.interceptors.response.use(null, async (error) => {
     const {status, data} = error.response;
-
-    if (store.getters['auth/getAccessToken'] && status === 401 && !isFetchingToken) {
-      isFetchingToken = true;
-      store.dispatch('auth/refreshToken').then(()=>{
-        isFetchingToken = false;
-        location.reload();
-      });
-    } else if (status === 404) {
-      throw error.response;
-    } else if (status === 403) {
-      if( data.error.reason === 'PREMIUM_REQUIRED') {
+    
+     if (status === 403 && data.error.reason === "PREMIUM_REQUIRED") {
         store.dispatch('notification/add', {
           type: 'warning',
           message: 'You need to have premium account.',
         })
       }
-    } else {
-      store.dispatch('auth/login');
-    }
+
+     // reject promise if custom error
+     if (status !== 401) {
+        return Promise.reject(error)
+     }
+
+     try {
+      store.dispatch('auth/refreshToken')
+     } catch(e) {
+       console.error(e)
+     }
   });
+}
+
+
+const plugin = store => {
+  createRequestInterceptor(store)
+  createResponseInterceptor(store)
 };
 
 export default plugin;
