@@ -1,6 +1,6 @@
 <template>
   <div class="albums-view" v-scroll @vScroll="loadMore">
-    <entity-header title="Albums"/>
+    <entity-header title="Albums" />
     <div class="albums-view__content">
       <media-container>
         <media-object
@@ -19,13 +19,13 @@
 </template>
 
 <script>
-  import api from '@/api'
-  import EntityHeader from '@/components/EntityHeader'
-  import MediaObject from '@/components/MediaObject'
-  import MediaContainer from '@/components/MediaContainer'
+  import api from "@/api";
+  import EntityHeader from "@/components/EntityHeader";
+  import MediaObject from "@/components/MediaObject";
+  import MediaContainer from "@/components/MediaContainer";
 
   export default {
-    name: 'Albums',
+    name: "Albums",
 
     components: {
       MediaObject,
@@ -42,14 +42,17 @@
           items: []
         },
         isMore: null
-      }
+      };
     },
 
     methods: {
       async getAlbums() {
         try {
           if (this.albums.total > this.albums.offset) {
-            const response = await api.spotify.library.getAlbums(this.albums.offset, this.albums.limit);
+            const response = await api.spotify.library.getAlbums(
+              this.albums.offset,
+              this.albums.limit
+            );
 
             this.albums.offset = response.data.offset + this.albums.limit;
             this.albums.total = response.data.total;
@@ -57,7 +60,7 @@
             this.isMore = false;
           }
         } catch (e) {
-          console.log(e)
+          console.log(e);
         }
       },
 
@@ -76,7 +79,7 @@
     created() {
       this.getAlbums();
     }
-  }
+  };
 </script>
 
 <style scoped lang="sass"></style>

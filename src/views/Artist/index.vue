@@ -10,13 +10,12 @@
         :followers="artist.followers.total"
       />
 
-      <entity-header title="Popular" :small="true"/>
-      <tracks-list :tracks="tracks"/>
+      <entity-header title="Popular" :small="true" />
+      <tracks-list :tracks="tracks" />
 
-      <entity-header v-if="albums" title="Albums" :small="true"/>
-      <media-container>
+      <entity-header v-if="albums" title="Albums" :small="true" />
+      <media-container v-if="albums">
         <media-object
-          v-if="albums"
           v-for="(item, index) in albums.items"
           :key="index"
           :id="item.id"
@@ -32,16 +31,16 @@
 </template>
 
 <script>
-  import api from '@/api'
-  import {mapActions} from 'vuex'
-  import EntityHeader from '@/components/EntityHeader'
-  import EntityInfo from '@/components/EntityInfo';
-  import MediaObject from '@/components/MediaObject'
-  import MediaContainer from '@/components/MediaContainer'
-  import TracksList from '@/components/TracksList'
+  import api from "@/api";
+  import { mapActions } from "vuex";
+  import EntityHeader from "@/components/EntityHeader";
+  import EntityInfo from "@/components/EntityInfo";
+  import MediaObject from "@/components/MediaObject";
+  import MediaContainer from "@/components/MediaContainer";
+  import TracksList from "@/components/TracksList";
 
   export default {
-    name: 'artist-view',
+    name: "artist-view",
 
     components: {
       EntityHeader,
@@ -58,12 +57,12 @@
         tracks: null,
         albums: null,
         isMore: null
-      }
+      };
     },
 
     methods: {
       ...mapActions({
-        notFoundPage: 'app/notFoundPage',
+        notFoundPage: "app/notFoundPage"
       }),
 
       initData() {
@@ -89,7 +88,12 @@
       async getArtistAlbums(artistID) {
         try {
           if (this.albums.total > this.albums.offset) {
-            const response = await api.spotify.artists.getArtistAlbums(artistID, 'album,single', this.albums.offset, this.albums.limit);
+            const response = await api.spotify.artists.getArtistAlbums(
+              artistID,
+              "album,single",
+              this.albums.offset,
+              this.albums.limit
+            );
 
             this.albums.offset = response.data.offset + this.albums.limit;
             this.albums.total = response.data.total;
@@ -97,16 +101,19 @@
             this.isMore = false;
           }
         } catch (e) {
-          console.log(e)
+          console.log(e);
         }
       },
 
       async getArtistTopTracks(artistID) {
         try {
-          const response = await api.spotify.artists.getArtistTopTracks(artistID, 'PL');
+          const response = await api.spotify.artists.getArtistTopTracks(
+            artistID,
+            "PL"
+          );
           this.tracks = response.data.tracks;
         } catch (e) {
-          console.log(e)
+          console.log(e);
         }
       },
 
@@ -128,7 +135,6 @@
         this.getArtistAlbums(this.artistID);
         this.getArtistTopTracks(this.artistID);
       }
-
     },
 
     watch: {
@@ -140,8 +146,7 @@
     created() {
       this.init();
     }
-  }
+  };
 </script>
 
-<style scoped lang="sass">
-</style>
+<style scoped lang="sass"></style>

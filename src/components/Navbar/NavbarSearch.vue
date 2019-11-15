@@ -7,52 +7,53 @@
       type="search"
       placeholder="Search"
       aria-label="Search"
-    >
+    />
     <button class="navbar-search__btn">
-      <icon name="search"/>
+      <icon name="search" />
     </button>
   </form>
 </template>
 
 <script>
-  import router from '@/router'
-  import {mapActions} from 'vuex'
+  import router from "@/router";
+  import { mapActions } from "vuex";
 
   export default {
-    name: 'navbar-search',
+    name: "navbar-search",
 
     methods: {
       ...mapActions({
-        search: 'search/search',
+        search: "search/search"
       }),
 
       onFocus(e) {
         const {
           name,
-          params: { query },
+          params: { query }
         } = this.$route;
 
         const { value } = e.target;
 
-        if(value) {
-          router.push({name:'search-result', params: {query: value}})
-        }else if (name !== 'search' && !query) {
-          router.push('/search')
+        if (value) {
+          router.push({ name: "search-result", params: { query: value } });
+        } else if (name !== "search" && !query) {
+          router.push("/search");
         }
       },
 
       onKeyUp(e) {
-        const {
-          value,
-        } = e.target;
+        const { value } = e.target;
 
-        if (value !== '') {
-          this.$router.replace({ name: "search-result", params: {query: value} });
+        if (value !== "") {
+          this.$router.replace({
+            name: "search-result",
+            params: { query: value }
+          });
           this.search(value);
         }
       }
-    },
-  }
+    }
+  };
 </script>
 
 <style scoped lang="sass">
@@ -78,5 +79,4 @@
       color: $c-shark
       outline: none
       pointer-events: none
-
 </style>

@@ -1,7 +1,6 @@
-import request from './../request'
+import request from "./../request";
 
 export default {
-
   followArtist(type, ids) {
     return request.put(`me/following`, {
       params: {
@@ -21,25 +20,30 @@ export default {
   },
 
   checkIfUserFollowPlaylist(owner_id, playlist_id, ids) {
-    return request.get(`users/${owner_id}/playlists/${playlist_id}/followers/contains`, {
-      params: {
-        ids
+    return request.get(
+      `users/${owner_id}/playlists/${playlist_id}/followers/contains`,
+      {
+        params: {
+          ids
+        }
       }
-    });
+    );
   },
 
   followPlaylist(owner_id, playlist_id) {
     return request({
-      method: 'put',
+      method: "put",
       url: `users/${owner_id}/playlists/${playlist_id}/followers`,
       headers: {
-        'content-type': 'application/json'
-      },
+        "content-type": "application/json"
+      }
     });
   },
 
   unfollowPlaylist(owner_id, playlist_id) {
-    return request.delete(`users/${owner_id}/playlists/${playlist_id}/followers`);
+    return request.delete(
+      `users/${owner_id}/playlists/${playlist_id}/followers`
+    );
   },
 
   getFollowedArtists(limit, after) {
@@ -49,6 +53,5 @@ export default {
         after
       }
     });
-  },
+  }
 };
-

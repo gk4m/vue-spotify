@@ -1,17 +1,21 @@
 <template>
   <div class="not-found-view">
     <div class="not-found-view__content">
-      <p>Sorry, it looks like we couldn't find what you're looking for. <br>Click the button below to go back.</p>
+      <p>
+        Sorry, it looks like we couldn't find what you're looking for.
+        <br />
+        Click the button below to go back.
+      </p>
       <v-button :onClick="onBackButton">Return to the app</v-button>
     </div>
   </div>
 </template>
 
 <script>
-  import vButton from '@/components/VButton'
+  import vButton from "@/components/VButton";
 
   export default {
-    name: 'NotFound',
+    name: "NotFound",
 
     components: {
       vButton
@@ -19,10 +23,10 @@
 
     methods: {
       onBackButton() {
-        this.$router.push('/');
+        this.$router.push("/");
       }
     }
-  }
+  };
 </script>
 
 <style scoped lang="sass">
@@ -51,5 +55,4 @@
 
       p
         font-size: 30px
-
 </style>

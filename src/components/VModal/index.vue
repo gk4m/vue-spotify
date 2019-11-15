@@ -16,22 +16,22 @@
 
 <script>
   export default {
-    name: 'v-modal',
+    name: "v-modal",
 
     props: {
       modalName: {
         type: String,
-        required: true,
+        required: true
       },
 
       width: {
         required: false,
-        default: '400px'
+        default: "400px"
       }
     },
 
     computed: {}
-  }
+  };
 </script>
 
 <style lang="sass">
@@ -63,5 +63,4 @@
     .v--modal
       background: $c-shark
       box-shadow: 2px 2px 20px 7px rgba(0, 0, 0, .4)
-
 </style>

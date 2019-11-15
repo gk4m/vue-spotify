@@ -11,18 +11,18 @@
 
 <script>
   export default {
-    name: 'navbar-history',
+    name: "navbar-history",
 
     methods: {
       onNextClick() {
-        this.$router.forward()
+        this.$router.forward();
       },
 
       onPrevClick() {
-        this.$router.back()
+        this.$router.back();
       }
     }
-  }
+  };
 </script>
 
 <style scoped lang="sass">
@@ -34,5 +34,4 @@
       margin: auto 5px
       line-height: 0
       cursor: pointer
-
 </style>

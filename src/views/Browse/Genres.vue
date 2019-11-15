@@ -1,15 +1,19 @@
 <template>
   <div class="genres-view" v-scroll>
-    <entity-header title="Genres & Moods" :small="true"/>
+    <entity-header title="Genres & Moods" :small="true" />
     <div class="genres-view__inner">
       <div
         class="genres-view__category"
         v-for="(item, index) in categories"
         :key="index"
       >
-        <router-link :to="{name: 'genres', params:{id: item.id}}">
-          <img class="genres-view__category-img" :src="item.icons[0].url" :alt="item.name">
-          <div class="genres-view__category-name">{{item.name}}</div>
+        <router-link :to="{ name: 'genres', params: { id: item.id } }">
+          <img
+            class="genres-view__category-img"
+            :src="item.icons[0].url"
+            :alt="item.name"
+          />
+          <div class="genres-view__category-name">{{ item.name }}</div>
         </router-link>
       </div>
     </div>
@@ -17,11 +21,11 @@
 </template>
 
 <script>
-  import api from '@/api'
-  import EntityHeader from '@/components/EntityHeader'
+  import api from "@/api";
+  import EntityHeader from "@/components/EntityHeader";
 
   export default {
-    name: 'genres',
+    name: "genres",
 
     components: {
       EntityHeader
@@ -29,8 +33,8 @@
 
     data() {
       return {
-        categories: ''
-      }
+        categories: ""
+      };
     },
 
     methods: {
@@ -39,7 +43,7 @@
           const response = await api.spotify.browse.getCategories();
           this.categories = response.data.categories.items;
         } catch (e) {
-          console.log(e)
+          console.log(e);
         }
       }
     },
@@ -47,7 +51,7 @@
     created() {
       this.getCategories();
     }
-  }
+  };
 </script>
 
 <style scoped lang="sass">
@@ -95,5 +99,4 @@
     .genres-view
       &__category
         width: 16.66%
-
 </style>

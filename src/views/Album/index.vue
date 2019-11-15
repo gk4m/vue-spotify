@@ -22,13 +22,13 @@
 </template>
 
 <script>
-  import api from '@/api'
-  import {mapActions} from 'vuex'
-  import EntityInfo from '@/components/EntityInfo';
-  import TracksList from '@/components/TracksList'
+  import api from "@/api";
+  import { mapActions } from "vuex";
+  import EntityInfo from "@/components/EntityInfo";
+  import TracksList from "@/components/TracksList";
 
   export default {
-    name: 'album-view',
+    name: "album-view",
 
     components: {
       EntityInfo,
@@ -40,12 +40,12 @@
         albumID: null,
         album: null,
         tracks: null
-      }
+      };
     },
 
     methods: {
       ...mapActions({
-        notFoundPage: 'app/notFoundPage',
+        notFoundPage: "app/notFoundPage"
       }),
 
       async getAlbum(albumID) {
@@ -71,10 +71,8 @@
       this.albumID = this.$route.params.id;
       this.getAlbum(this.albumID);
       this.getAlbumTracks(this.albumID);
-    },
-  }
+    }
+  };
 </script>
 
-<style scoped lang="sass">
-
-</style>
+<style scoped lang="sass"></style>

@@ -7,52 +7,71 @@
       :class="isActiveTrack(item)"
     >
       <div class="tracks-list__cell" v-if="item.album">
-        <img class="tracks-list__img" :src="item.album.images[2].url" :alt="item.album.name"/>
+        <img
+          class="tracks-list__img"
+          :src="item.album.images[2].url"
+          :alt="item.album.name"
+        />
       </div>
 
       <div class="tracks-list__cell tracks-list__cell--index">
-        <span class="tracks-list__cell-index">{{index + 1}}</span>
-        <track-playback :trackUri="item.uri" :tracksUris="tracksUris" :contextUri="contextUri" :offset="index"/>
+        <span class="tracks-list__cell-index">{{ index + 1 }}</span>
+        <track-playback
+          :trackUri="item.uri"
+          :tracksUris="tracksUris"
+          :contextUri="contextUri"
+          :offset="index"
+        />
       </div>
 
       <div class="tracks-list__cell">
-        <track-addition :trackID="item.id" :isSaved="savedTracks[index]" v-on:updateTrackstatus="onTrackUpdate"/>
+        <track-addition
+          :trackID="item.id"
+          :isSaved="savedTracks[index]"
+          v-on:updateTrackstatus="onTrackUpdate"
+        />
       </div>
 
       <div class="tracks-list__cell tracks-list__cell--name">
-        {{item.name}}
+        {{ item.name }}
         <span v-if="item.artists && showArtists">
-            &nbsp;-&nbsp;
-            <router-link
-              class="tracks-list__link"
-              v-for="(artist, index) in item.artists"
-              :key="artist.id"
-              :to="{name: 'artist', params:{id: artist.id}}">
-             {{artist.name}}
-            <template v-if="index !== (item.artists.length - 1)">,&nbsp;</template>
-            </router-link>
-           </span>
+          &nbsp;-&nbsp;
+          <router-link
+            class="tracks-list__link"
+            v-for="(artist, index) in item.artists"
+            :key="artist.id"
+            :to="{ name: 'artist', params: { id: artist.id } }"
+          >
+            {{ artist.name }}
+            <template v-if="index !== item.artists.length - 1">
+              ,&nbsp;
+            </template>
+          </router-link>
+        </span>
       </div>
 
-      <div v-if="item.explicit" class="tracks-list__cell tracks-list__cell--explicit">
+      <div
+        v-if="item.explicit"
+        class="tracks-list__cell tracks-list__cell--explicit"
+      >
         <span class="tracks-list__explicit-label">Explicit</span>
       </div>
 
       <div class="tracks-list__cell tracks-list__cell--duration">
-        {{item.duration_ms | msToMinutes}}
+        {{ item.duration_ms | msToMinutes }}
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  import api from '@/api'
-  import {mapGetters} from 'vuex'
-  import TrackAddition from '@/components/TrackAddition'
-  import TrackPlayback from '@/components/TrackPlayback'
+  import api from "@/api";
+  import { mapGetters } from "vuex";
+  import TrackAddition from "@/components/TrackAddition";
+  import TrackPlayback from "@/components/TrackPlayback";
 
   export default {
-    name: 'tracks-list',
+    name: "tracks-list",
 
     components: {
       TrackAddition,
@@ -76,18 +95,16 @@
 
     data() {
       return {
-        tracksIds: '',
-        savedTracks: [],
-      }
+        tracksIds: "",
+        savedTracks: []
+      };
     },
 
     computed: {
-      ...mapGetters(
-        'player', {
-          playback: 'getPlayback',
-          context: 'getPlaybackContext'
-        }
-      ),
+      ...mapGetters("player", {
+        playback: "getPlayback",
+        context: "getPlaybackContext"
+      }),
 
       tracksUris() {
         return this.tracks ? this.tracks.map((el) => el.uri) : [];
@@ -113,7 +130,11 @@
           };
 
           while (saved.total > saved.offset) {
-            const response = await api.spotify.library.checkUserSavedTracks(this.tracksIds.slice(saved.offset, saved.offset + saved.limit).toString());
+            const response = await api.spotify.library.checkUserSavedTracks(
+              this.tracksIds
+                .slice(saved.offset, saved.offset + saved.limit)
+                .toString()
+            );
             saved.offset = saved.offset + saved.limit;
             saved.items.push(...response.data);
           }
@@ -125,18 +146,19 @@
       },
 
       isActiveTrack(current) {
-        const isActiveTrack = this.playback.item && this.playback.item.id === current.id;
+        const isActiveTrack =
+          this.playback.item && this.playback.item.id === current.id;
 
         return {
-          'tracks-list__row--active': isActiveTrack,
-          'tracks-list__row--paused': isActiveTrack && this.context && this.context.paused
-        }
+          "tracks-list__row--active": isActiveTrack,
+          "tracks-list__row--paused":
+            isActiveTrack && this.context && this.context.paused
+        };
       },
 
       onTrackUpdate() {
         this.checkSavedTracks();
-      },
-
+      }
     },
 
     watch: {
@@ -145,7 +167,7 @@
         this.checkSavedTracks();
       }
     }
-  }
+  };
 </script>
 
 <style lang="sass">
@@ -228,5 +250,4 @@
 
     .track-playback
       display: none
-
 </style>

@@ -1,26 +1,26 @@
-import api from '@/api'
+import api from "@/api";
 
 const state = {
-  query: '',
-  result: '',
+  query: "",
+  result: "",
   isLoading: false,
   error: null,
 
-  albums: '',
+  albums: "",
   albumsIsLoading: false,
   albumsError: null,
 
-  artists: '',
+  artists: "",
   artistsIsLoading: false,
   artistsError: null,
 
-  playlists: '',
+  playlists: "",
   playlistsIsLoading: false,
   playlistsError: null,
 
-  tracks: '',
+  tracks: "",
   tracksIsLoading: false,
-  tracksError: null,
+  tracksError: null
 };
 
 const getters = {};
@@ -57,7 +57,7 @@ const mutations = {
     state.albumsIsLoading = false;
     state.albums = {
       ...data.albums,
-      items: [...state.albums.items, ...data.albums.items],
+      items: [...state.albums.items, ...data.albums.items]
     };
   },
 
@@ -75,7 +75,7 @@ const mutations = {
     state.artistsIsLoading = false;
     state.artists = {
       ...data.artists,
-      items: [...state.artists.items, ...data.artists.items],
+      items: [...state.artists.items, ...data.artists.items]
     };
   },
 
@@ -93,7 +93,7 @@ const mutations = {
     state.playlistsIsLoading = false;
     state.playlists = {
       ...data.playlists,
-      items: [...state.playlists.items, ...data.playlists.items],
+      items: [...state.playlists.items, ...data.playlists.items]
     };
   },
 
@@ -111,154 +111,170 @@ const mutations = {
     state.tracksIsLoading = false;
     state.tracks = {
       ...data.tracks,
-      items: [...state.tracks.items, ...data.tracks.items],
+      items: [...state.tracks.items, ...data.tracks.items]
     };
   },
 
   REQUEST_GET_TRACKS_ERROR(state, error) {
     state.tracksIsLoading = false;
     state.tracksError = error;
-  },
+  }
 };
 
 const actions = {
-  setSearchQuery({commit}, query) {
-    commit('SET_SEARCH_QUERY', query)
+  setSearchQuery({ commit }, query) {
+    commit("SET_SEARCH_QUERY", query);
   },
 
-  requestSearch({commit}) {
-    commit('REQUEST_SEARCH')
+  requestSearch({ commit }) {
+    commit("REQUEST_SEARCH");
   },
-  requestSearchSuccess({commit}, data) {
-    commit('REQUEST_SEARCH_SUCCESS', data)
+  requestSearchSuccess({ commit }, data) {
+    commit("REQUEST_SEARCH_SUCCESS", data);
   },
-  requestSearchError({commit}, error) {
-    commit('REQUEST_SEARCH_ERROR', error)
+  requestSearchError({ commit }, error) {
+    commit("REQUEST_SEARCH_ERROR", error);
   },
 
-  async search({commit, dispatch}, query) {
-    dispatch('requestSearch');
-    dispatch('setSearchQuery', query);
+  async search({ commit, dispatch }, query) {
+    dispatch("requestSearch");
+    dispatch("setSearchQuery", query);
 
     try {
       const response = await api.spotify.search.search(query);
-      dispatch('requestSearchSuccess', response.data)
+      dispatch("requestSearchSuccess", response.data);
     } catch (e) {
-      dispatch('requestSearchError', e);
+      dispatch("requestSearchError", e);
     }
   },
 
   /* ALBUMS */
-  requestGetAlbums({commit}) {
-    commit('REQUEST_GET_ALBUMS')
+  requestGetAlbums({ commit }) {
+    commit("REQUEST_GET_ALBUMS");
   },
 
-  requestGetAlbumsSuccess({commit}, data) {
-    commit('REQUEST_GET_ALBUMS_SUCCESS', data)
+  requestGetAlbumsSuccess({ commit }, data) {
+    commit("REQUEST_GET_ALBUMS_SUCCESS", data);
   },
 
-  requestGetAlbumsError({commit}, error) {
-    commit('REQUEST_GET_ALBUMS_ERROR', error)
+  requestGetAlbumsError({ commit }, error) {
+    commit("REQUEST_GET_ALBUMS_ERROR", error);
   },
 
-  async getAlbums({commit, dispatch, state: { albums, query }}) {
-    dispatch('requestGetAlbums');
+  async getAlbums({ commit, dispatch, state: { albums, query } }) {
+    dispatch("requestGetAlbums");
 
     try {
-      if (albums.next){
+      if (albums.next) {
         const offset = albums.offset + albums.limit;
-        const response = await api.spotify.search.search(query, 'album', offset);
+        const response = await api.spotify.search.search(
+          query,
+          "album",
+          offset
+        );
 
-        dispatch('requestGetAlbumsSuccess', response.data);
+        dispatch("requestGetAlbumsSuccess", response.data);
       }
     } catch (e) {
-      dispatch('requestGetAlbumsError', e);
+      dispatch("requestGetAlbumsError", e);
     }
   },
 
   /* ARTISTS */
-  requestGetArtists({commit}) {
-    commit('REQUEST_GET_ARTISTS')
+  requestGetArtists({ commit }) {
+    commit("REQUEST_GET_ARTISTS");
   },
 
-  requestGetArtistsSuccess({commit}, data) {
-    commit('REQUEST_GET_ARTISTS_SUCCESS', data)
+  requestGetArtistsSuccess({ commit }, data) {
+    commit("REQUEST_GET_ARTISTS_SUCCESS", data);
   },
 
-  requestGetArtistsError({commit}, error) {
-    commit('REQUEST_GET_ARTISTS_ERROR', error)
+  requestGetArtistsError({ commit }, error) {
+    commit("REQUEST_GET_ARTISTS_ERROR", error);
   },
 
-  async getArtists({commit, dispatch, state: { artists, query }}) {
-    dispatch('requestGetArtists');
+  async getArtists({ commit, dispatch, state: { artists, query } }) {
+    dispatch("requestGetArtists");
 
     try {
-      if (artists.next){
+      if (artists.next) {
         const offset = artists.offset + artists.limit;
-        const response = await api.spotify.search.search(query, 'artist', offset);
+        const response = await api.spotify.search.search(
+          query,
+          "artist",
+          offset
+        );
 
-        dispatch('requestGetArtistsSuccess', response.data)
+        dispatch("requestGetArtistsSuccess", response.data);
       }
     } catch (e) {
-      dispatch('requestGetArtistsError', e);
+      dispatch("requestGetArtistsError", e);
     }
   },
 
   /* PLAYLISTS */
-  requestGetPlaylists({commit}) {
-    commit('REQUEST_GET_PLAYLISTS')
+  requestGetPlaylists({ commit }) {
+    commit("REQUEST_GET_PLAYLISTS");
   },
 
-  requestGetPlaylistsSuccess({commit}, data) {
-    commit('REQUEST_GET_PLAYLISTS_SUCCESS', data)
+  requestGetPlaylistsSuccess({ commit }, data) {
+    commit("REQUEST_GET_PLAYLISTS_SUCCESS", data);
   },
 
-  requestGetPlaylistsError({commit}, error) {
-    commit('REQUEST_GET_PLAYLISTS_ERROR', error)
+  requestGetPlaylistsError({ commit }, error) {
+    commit("REQUEST_GET_PLAYLISTS_ERROR", error);
   },
 
-  async getPlaylists({commit, dispatch, state: { playlists, query }}) {
-    dispatch('requestGetPlaylists');
+  async getPlaylists({ commit, dispatch, state: { playlists, query } }) {
+    dispatch("requestGetPlaylists");
 
     try {
-      if (playlists.next){
+      if (playlists.next) {
         const offset = playlists.offset + playlists.limit;
-        const response = await api.spotify.search.search(query, 'playlist', offset);
+        const response = await api.spotify.search.search(
+          query,
+          "playlist",
+          offset
+        );
 
-        dispatch('requestGetPlaylistsSuccess', response.data)
+        dispatch("requestGetPlaylistsSuccess", response.data);
       }
     } catch (e) {
-      dispatch('requestGetPlaylistsError', e);
+      dispatch("requestGetPlaylistsError", e);
     }
   },
 
   /* TRACKS */
-  requestGetTracks({commit}) {
-    commit('REQUEST_GET_TRACKS')
+  requestGetTracks({ commit }) {
+    commit("REQUEST_GET_TRACKS");
   },
 
-  requestGetTracksSuccess({commit}, data) {
-    commit('REQUEST_GET_TRACKS_SUCCESS', data)
+  requestGetTracksSuccess({ commit }, data) {
+    commit("REQUEST_GET_TRACKS_SUCCESS", data);
   },
 
-  requestGetTracksError({commit}, error) {
-    commit('REQUEST_GET_TRACKS_ERROR', error)
+  requestGetTracksError({ commit }, error) {
+    commit("REQUEST_GET_TRACKS_ERROR", error);
   },
 
-  async getTracks({commit, dispatch, state: { tracks, query }}) {
-    dispatch('requestGetTracks');
+  async getTracks({ commit, dispatch, state: { tracks, query } }) {
+    dispatch("requestGetTracks");
 
     try {
-      if (tracks.next){
+      if (tracks.next) {
         const offset = tracks.offset + tracks.limit;
-        const response = await api.spotify.search.search(query, 'track', offset);
+        const response = await api.spotify.search.search(
+          query,
+          "track",
+          offset
+        );
 
-        dispatch('requestGetTracksSuccess', response.data)
+        dispatch("requestGetTracksSuccess", response.data);
       }
     } catch (e) {
-      dispatch('requestGetTracksError', e);
+      dispatch("requestGetTracksError", e);
     }
-  },
+  }
 };
 
 const module = {

@@ -6,8 +6,8 @@
 
 <script>
   export default {
-    name: 'media-container',
-  }
+    name: "media-container"
+  };
 </script>
 
 <style lang="sass">
@@ -37,5 +37,4 @@
     .media-container
       .media-object
         width: 16.66%
-
 </style>

@@ -6,7 +6,7 @@
 
 <script>
   export default {
-    name: 'Button',
+    name: "Button",
 
     props: {
       onClick: {
@@ -19,16 +19,16 @@
     },
 
     computed: {
-      elClass(){
+      elClass() {
         return [
-          'btn',
+          "btn",
           {
-            'btn--black': this.isBlack
+            "btn--black": this.isBlack
           }
-        ]
+        ];
       }
     }
-  }
+  };
 </script>
 
 <style lang="sass" scoped>
@@ -57,5 +57,4 @@
 
       &:hover
         background: $c-black + 30
-
 </style>

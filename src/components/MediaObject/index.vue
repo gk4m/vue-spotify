@@ -1,21 +1,34 @@
 <template>
   <div :class="elClass">
     <router-link tag="div" class="media-object__cover" :to="createUrl()">
-      <img v-if="coverImg[0]" class="media-object__cover-inner" v-lazy="coverImg[0].url" :alt="name + '-cover'"/>
+      <img
+        v-if="coverImg[0]"
+        class="media-object__cover-inner"
+        v-lazy="coverImg[0].url"
+        :alt="name + '-cover'"
+      />
       <div v-else class="media-object__cover-inner">
-          <icon class="media-object__music-icon" name="music" />
+        <icon class="media-object__music-icon" name="music" />
       </div>
 
       <div class="media-object__cover-hover">
-        <button class="media-object__play icon-play-circle" @click="onPlay"></button>
+        <button
+          class="media-object__play icon-play-circle"
+          @click="onPlay"
+        ></button>
         <button class="media-object__sound-on icon-sound-on"></button>
-        <button class="media-object__pause icon-pause-circle" @click="onPause"></button>
+        <button
+          class="media-object__pause icon-pause-circle"
+          @click="onPause"
+        ></button>
       </div>
     </router-link>
 
     <div class="media-object__info">
       <div>
-        <router-link class="media-object__name" :to="createUrl()">{{name}}</router-link>
+        <router-link class="media-object__name" :to="createUrl()">
+          {{ name }}
+        </router-link>
       </div>
 
       <router-link
@@ -23,20 +36,21 @@
         v-if="artists"
         v-for="(artist, index) in artists"
         :key="artist.id"
-        :to="{name: 'artist', params:{id: artist.id}}">
-        {{artist.name}}
-        <template v-if="index !== (artists.length - 1)">,&nbsp;</template>
+        :to="{ name: 'artist', params: { id: artist.id } }"
+      >
+        {{ artist.name }}
+        <template v-if="index !== artists.length - 1">,&nbsp;</template>
       </router-link>
     </div>
   </div>
 </template>
 
 <script>
-  import api from '@/api'
-  import {mapGetters} from 'vuex'
+  import api from "@/api";
+  import { mapGetters } from "vuex";
 
   export default {
-    name: 'media-object',
+    name: "media-object",
 
     props: {
       id: {
@@ -61,48 +75,53 @@
     },
 
     computed: {
-      ...mapGetters(
-        'player', {
-          playbackContext: 'getPlaybackContext'
-        }
-      ),
+      ...mapGetters("player", {
+        playbackContext: "getPlaybackContext"
+      }),
 
       elClass() {
         return [
-          'media-object',
+          "media-object",
           {
-            'media-object--playing': this.playbackContext
-              && !this.playbackContext.paused
-              && this.playbackContext.context.uri
-              && this.playbackContext.context.uri.indexOf(this.id) >= 0,
+            "media-object--playing":
+              this.playbackContext &&
+              !this.playbackContext.paused &&
+              this.playbackContext.context.uri &&
+              this.playbackContext.context.uri.indexOf(this.id) >= 0,
 
-            'media-object--active': this.playbackContext
-              && this.playbackContext.context.uri
-              && this.playbackContext.context.uri.indexOf(this.id) >= 0,
-            'media-object--no-image': !this.coverImg[0]
+            "media-object--active":
+              this.playbackContext &&
+              this.playbackContext.context.uri &&
+              this.playbackContext.context.uri.indexOf(this.id) >= 0,
+            "media-object--no-image": !this.coverImg[0]
           }
-        ]
-      },
+        ];
+      }
     },
 
     methods: {
       createUrl() {
-        const chunks = this.uri.split(':');
+        const chunks = this.uri.split(":");
         let url = null;
 
         switch (this.type) {
-          case 'album':
-            url = {name: 'album', params: {id: this.id}};
+          case "album":
+            url = { name: "album", params: { id: this.id } };
             break;
 
-          case 'artist':
-            url = {name: 'artist', params: {id: this.id}};
+          case "artist":
+            url = { name: "artist", params: { id: this.id } };
             break;
 
-            case 'playlist':
-            url = {name: 'playlist', params: {user_id: chunks[2], playlist_id: chunks[chunks.length - 1]}};
+          case "playlist":
+            url = {
+              name: "playlist",
+              params: {
+                user_id: chunks[2],
+                playlist_id: chunks[chunks.length - 1]
+              }
+            };
             break;
-
         }
 
         return url;
@@ -111,7 +130,11 @@
       onPlay(e) {
         e.stopPropagation();
 
-        if (this.playbackContext && this.playbackContext.context.uri && this.playbackContext.context.uri.indexOf(this.id) >= 0) {
+        if (
+          this.playbackContext &&
+          this.playbackContext.context.uri &&
+          this.playbackContext.context.uri.indexOf(this.id) >= 0
+        ) {
           api.spotify.player.play();
         } else {
           api.spotify.player.play(this.uri);
@@ -123,7 +146,7 @@
         api.spotify.player.pause();
       }
     }
-  }
+  };
 </script>
 
 <style scoped lang="sass">
@@ -231,5 +254,4 @@
       +absolute-center
       width: 40%
       height: 40%
-
 </style>

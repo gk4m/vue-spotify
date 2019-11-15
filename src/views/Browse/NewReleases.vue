@@ -1,6 +1,6 @@
 <template>
   <div class="new-releases-view" v-scroll @vScroll="loadMore">
-    <entity-header title="New albums & singles" :small="true"/>
+    <entity-header title="New albums & singles" :small="true" />
     <div class="new-releases-view__inner">
       <media-container>
         <media-object
@@ -19,13 +19,13 @@
 </template>
 
 <script>
-  import api from '@/api'
-  import MediaObject from '@/components/MediaObject'
-  import EntityHeader from '@/components/EntityHeader'
-  import MediaContainer from '@/components/MediaContainer'
+  import api from "@/api";
+  import MediaObject from "@/components/MediaObject";
+  import EntityHeader from "@/components/EntityHeader";
+  import MediaContainer from "@/components/MediaContainer";
 
   export default {
-    name: 'new-releases',
+    name: "new-releases",
 
     components: {
       EntityHeader,
@@ -42,22 +42,26 @@
           items: []
         },
         more: null
-      }
+      };
     },
 
     methods: {
       async getNewReleases() {
         try {
           if (this.albums.total > this.albums.offset) {
-            const response = await api.spotify.browse.getNewReleases(this.albums.offset, this.albums.limit);
+            const response = await api.spotify.browse.getNewReleases(
+              this.albums.offset,
+              this.albums.limit
+            );
 
-            this.albums.offset = response.data.albums.offset + this.albums.limit;
+            this.albums.offset =
+              response.data.albums.offset + this.albums.limit;
             this.albums.total = response.data.albums.total;
             this.albums.items.push(...response.data.albums.items);
             this.more = false;
           }
         } catch (e) {
-          console.log(e)
+          console.log(e);
         }
       },
 
@@ -74,14 +78,13 @@
     },
 
     created() {
-      this.getNewReleases()
+      this.getNewReleases();
     }
-  }
+  };
 </script>
 
 <style scoped lang="sass">
 
   .new-releases-view
     height: calc(100vh - 227px)
-
 </style>

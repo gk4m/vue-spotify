@@ -1,10 +1,7 @@
 <template>
   <div class="sidebar-nav">
-    <h2
-      v-if="title"
-      class="sidebar-nav__title"
-    >
-      {{title}}
+    <h2 v-if="title" class="sidebar-nav__title">
+      {{ title }}
     </h2>
     <ul>
       <router-link
@@ -15,22 +12,23 @@
         :key="index"
         :to="createRoute(link)"
       >
-        {{link.name}}
+        {{ link.name }}
         <button
-          v-if="playbackContext.context && playbackContext.context.uri === link.uri"
+          v-if="
+            playbackContext.context && playbackContext.context.uri === link.uri
+          "
           class="sidebar-nav__playing-icon icon-sound-on"
-        >
-        </button>
+        ></button>
       </router-link>
     </ul>
   </div>
 </template>
 
 <script>
-  import {mapGetters} from 'vuex'
+  import { mapGetters } from "vuex";
 
   export default {
-    name: 'sidebar-nav',
+    name: "sidebar-nav",
 
     props: {
       title: {
@@ -40,31 +38,33 @@
       links: {
         type: Array,
         required: true,
-        default: () => [],
+        default: () => []
       }
     },
 
     computed: {
-      ...mapGetters('player', {
-        playbackContext: 'getPlaybackContext',
-      }),
+      ...mapGetters("player", {
+        playbackContext: "getPlaybackContext"
+      })
     },
 
     methods: {
       createRoute(item) {
-        let to = {name: item.type};
+        let to = { name: item.type };
 
         switch (item.type) {
-          case 'playlist': {
-            Object.assign(to, {params: {user_id: item.owner.id, playlist_id: item.id}});
+          case "playlist": {
+            Object.assign(to, {
+              params: { user_id: item.owner.id, playlist_id: item.id }
+            });
             break;
           }
         }
 
         return to;
       }
-    },
-  }
+    }
+  };
 </script>
 
 <style scoped lang="sass">
@@ -109,5 +109,4 @@
       top: 0
       color: $c-white
       outline: none
-
 </style>

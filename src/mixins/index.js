@@ -1,1 +1,1 @@
-export {loadMore} from './loadMore'
+export { loadMore } from "./loadMore";

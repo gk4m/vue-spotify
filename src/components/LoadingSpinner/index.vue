@@ -1,13 +1,13 @@
 <template>
   <div class="loading-spinner">
-    <div v-for="i in 12" :class="['circle-' + i]"></div>
+    <div v-for="i in 12" :class="['circle-' + i]" :key="i" />
   </div>
 </template>
 
 <script>
   export default {
-    name: 'loading-spinner',
-  }
+    name: "loading-spinner"
+  };
 </script>
 
 <style scoped lang="sass">
@@ -57,5 +57,4 @@
 
     40%
       opacity: 1
-
 </style>

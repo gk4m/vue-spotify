@@ -13,19 +13,19 @@
         :playlistID="playlistID"
         :ownerID="playlist.owner.id"
       />
-      <tracks-table :tracks="tracks.items" :contextUri="playlist.uri"/>
+      <tracks-table :tracks="tracks.items" :contextUri="playlist.uri" />
     </div>
   </div>
 </template>
 
 <script>
-  import api from '@/api'
-  import {mapGetters, mapActions} from 'vuex'
-  import EntityInfo from '@/components/EntityInfo'
-  import TracksTable from '@/components/TracksTable'
+  import api from "@/api";
+  import { mapGetters, mapActions } from "vuex";
+  import EntityInfo from "@/components/EntityInfo";
+  import TracksTable from "@/components/TracksTable";
 
   export default {
-    name: 'playlist-view',
+    name: "playlist-view",
 
     components: {
       EntityInfo,
@@ -38,19 +38,19 @@
         playlistID: null,
         tracks: null,
         more: null
-      }
+      };
     },
 
     computed: {
-      ...mapGetters('playlist', {
-        playlist: 'getPlaylist',
-      }),
+      ...mapGetters("playlist", {
+        playlist: "getPlaylist"
+      })
     },
 
     methods: {
       ...mapActions({
-        notFoundPage: 'app/notFoundPage',
-        fetchPlaylist: 'playlist/fetchPlaylist',
+        notFoundPage: "app/notFoundPage",
+        fetchPlaylist: "playlist/fetchPlaylist"
       }),
 
       initData() {
@@ -59,13 +59,18 @@
           offset: 0,
           total: 1,
           items: []
-        }
+        };
       },
 
       async getPlaylistTracks(userID, playlistID) {
         try {
           if (this.tracks.total > this.tracks.offset) {
-            const response = await api.spotify.playlists.getPlalistsTracks(userID, playlistID, this.tracks.offset, this.tracks.limit);
+            const response = await api.spotify.playlists.getPlalistsTracks(
+              userID,
+              playlistID,
+              this.tracks.offset,
+              this.tracks.limit
+            );
 
             this.tracks.offset = response.data.offset + this.tracks.limit;
             this.tracks.total = response.data.total;
@@ -88,15 +93,18 @@
         }
       },
 
-      init(){
-        const {user_id, playlist_id} = this.$route.params;
+      init() {
+        const { user_id, playlist_id } = this.$route.params;
 
         this.userID = user_id;
         this.playlistID = playlist_id;
 
         this.initData();
         this.getPlaylistTracks(this.userID, this.playlistID);
-        this.fetchPlaylist({userID: this.userID, playlistID: this.playlistID})
+        this.fetchPlaylist({
+          userID: this.userID,
+          playlistID: this.playlistID
+        });
       }
     },
 
@@ -108,10 +116,8 @@
 
     created() {
       this.init();
-    },
-  }
+    }
+  };
 </script>
 
-<style scoped lang="sass">
-
-</style>
+<style scoped lang="sass"></style>

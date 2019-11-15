@@ -1,17 +1,30 @@
 <template>
   <div :class="elClass">
     <div class="entity-info__cover">
-      <img v-if="coverImg[0]" class="entity-info__cover-img" :src="coverImg[0].url" alt="cover"/>
-      <icon class="entity-info__cover-icon" name="music"/>
-      <div @click="onCoverClick" class="entity-info__cover-hover" title="Edit image">
-        <icon class="entity-info__cover-icon" name="pencil-alt"/>
+      <img
+        v-if="coverImg[0]"
+        class="entity-info__cover-img"
+        :src="coverImg[0].url"
+        alt="cover"
+      />
+      <icon class="entity-info__cover-icon" name="music" />
+      <div
+        @click="onCoverClick"
+        class="entity-info__cover-hover"
+        title="Edit image"
+      >
+        <icon class="entity-info__cover-icon" name="pencil-alt" />
       </div>
     </div>
 
     <div class="entity-info__info">
-      <div class="entity-info__type">{{type}}</div>
-      <h2 class="entity-info__name">{{name}}</h2>
-      <p class="entity-info__desc" v-if="description" v-html="$options.filters.convertURLs(description)"></p>
+      <div class="entity-info__type">{{ type }}</div>
+      <h2 class="entity-info__name">{{ name }}</h2>
+      <p
+        class="entity-info__desc"
+        v-if="description"
+        v-html="$options.filters.convertURLs(description)"
+      ></p>
 
       <div v-if="artists" class="entity-info__artists">
         By
@@ -19,32 +32,38 @@
           class="entity-info__link"
           v-for="(artist, index) in artists"
           :key="index"
-          :to="{name: 'artist', params: {id:artist.id}}"
+          :to="{ name: 'artist', params: { id: artist.id } }"
         >
-          {{artist.name}}
-          <template v-if="index !== (artists.length-1)">,&nbsp;</template>
+          {{ artist.name }}
+          <template v-if="index !== artists.length - 1">,&nbsp;</template>
         </router-link>
       </div>
 
-      <div v-if="author" class="entity-info__author">Author: {{author}}</div>
-      <entity-action v-if="type ==='playlist'" :type="type" :playlistID="playlistID" :uri="uri" :ownerID="ownerID" />
+      <div v-if="author" class="entity-info__author">Author: {{ author }}</div>
+      <entity-action
+        v-if="type === 'playlist'"
+        :type="type"
+        :playlistID="playlistID"
+        :uri="uri"
+        :ownerID="ownerID"
+      />
     </div>
 
     <div v-if="followers" class="entity-info__followers">
       <div>Followers</div>
-      {{ followers}}
+      {{ followers }}
     </div>
-    <playlist-update-modal v-if="ownerID === user.id && type === 'playlist'"/>
+    <playlist-update-modal v-if="ownerID === user.id && type === 'playlist'" />
   </div>
 </template>
 
 <script>
-  import {mapGetters} from 'vuex'
-  import PlaylistUpdateModal from "@/components/PlaylistUpdateModal"
-  import EntityAction from "./EntityAction"
+  import { mapGetters } from "vuex";
+  import PlaylistUpdateModal from "@/components/PlaylistUpdateModal";
+  import EntityAction from "./EntityAction";
 
   export default {
-    name: 'entity-info',
+    name: "entity-info",
 
     components: {
       PlaylistUpdateModal,
@@ -94,29 +113,31 @@
     },
 
     data() {
-      return {}
+      return {};
     },
 
     computed: {
       ...mapGetters({
-        user: 'user/getProfile',
+        user: "user/getProfile"
       }),
 
       elClass() {
         return [
-          'entity-info',
+          "entity-info",
           {
-            'entity-info--editable': this.ownerID === this.user.id && this.type === 'playlist',
-          }]
+            "entity-info--editable":
+              this.ownerID === this.user.id && this.type === "playlist"
+          }
+        ];
       }
     },
 
     methods: {
       onCoverClick() {
-        this.$modal.show('playlist-update-modal');
+        this.$modal.show("playlist-update-modal");
       }
-    },
-  }
+    }
+  };
 </script>
 
 <style scoped lang="sass">
@@ -204,5 +225,4 @@
 
       &:hover
         text-decoration: underline
-
 </style>

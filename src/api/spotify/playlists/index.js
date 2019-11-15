@@ -1,8 +1,8 @@
-import request from './../request'
+import request from "./../request";
 
 export default {
   getCurrentUserPlaylists(limit = 2, offset) {
-    return request.get('me/playlists', {
+    return request.get("me/playlists", {
       params: {
         limit,
         offset
@@ -54,12 +54,12 @@ export default {
   //@todo something doesn't works it return 400 O_o
   updatePlaylistCover(user_id, playlist_id, base64) {
     return request({
-      method: 'put',
+      method: "put",
       url: `users/${user_id}/playlists/${playlist_id}/images`,
       headers: {
-        'content-type': 'image/jpeg'
+        "content-type": "image/jpeg"
       },
-      data: {...base64}
+      data: { ...base64 }
     });
   }
 };

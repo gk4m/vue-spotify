@@ -1,4 +1,4 @@
-import request from './../request'
+import request from "./../request";
 
 export default {
   getAlbum(id) {
@@ -6,7 +6,7 @@ export default {
   },
 
   getAlbumTracks(id, offset = 0, limit = 50, market) {
-    return request.get(`albums/${id}/tracks`,{
+    return request.get(`albums/${id}/tracks`, {
       params: {
         limit,
         offset,
@@ -22,4 +22,3 @@ export default {
     });
   }
 };
-
