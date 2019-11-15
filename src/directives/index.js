@@ -1,28 +1,28 @@
-import Vue from 'vue'
-import { debounce} from "../utils";
+import Vue from "vue";
+import { debounce } from "../utils";
 
-Vue.directive('scroll', {
-  bind: function (el, binding, vnode) {
-    el.classList.add('optiscroll');
+Vue.directive("scroll", {
+  bind: function(el, binding, vnode) {
+    el.classList.add("optiscroll");
 
     let optiScroll = new Optiscroll(el, {});
 
-    el.addEventListener('scrollreachbottom', function (ev) {
+    el.addEventListener("scrollreachbottom", function(ev) {
       if (vnode.componentInstance) {
-        vnode.componentInstance.$emit('scrollReachBottom', ev);
+        vnode.componentInstance.$emit("scrollReachBottom", ev);
       } else {
-        vnode.elm.dispatchEvent(new CustomEvent('scrollReachBottom', ev));
+        vnode.elm.dispatchEvent(new CustomEvent("scrollReachBottom", ev));
       }
     });
 
-    const scrollHandler = debounce(function (ev) {
+    const scrollHandler = debounce(function(ev) {
       if (vnode.componentInstance) {
-        vnode.componentInstance.$emit('vScroll', ev);
+        vnode.componentInstance.$emit("vScroll", ev);
       } else {
-        vnode.elm.dispatchEvent(new CustomEvent('vScroll', ev));
+        vnode.elm.dispatchEvent(new CustomEvent("vScroll", ev));
       }
     }, 300);
 
-    el.addEventListener('scroll', scrollHandler);
+    el.addEventListener("scroll", scrollHandler);
   }
 });

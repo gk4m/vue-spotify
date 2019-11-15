@@ -8,7 +8,7 @@
           small
         />
 
-        <tracks-list :tracks="getTracks"/>
+        <tracks-list :tracks="getTracks" />
       </template>
 
       <template v-if="isPlaylistsExists">
@@ -77,16 +77,16 @@
 </template>
 
 <script>
-  import {mapState} from 'vuex'
-  import router from '@/router'
+  import { mapState } from "vuex";
+  import router from "@/router";
 
-  import EntityHeader from '@/components/EntityHeader'
-  import MediaObject from '@/components/MediaObject'
-  import MediaContainer from '@/components/MediaContainer'
-  import TracksList from '@/components/TracksList'
+  import EntityHeader from "@/components/EntityHeader";
+  import MediaObject from "@/components/MediaObject";
+  import MediaContainer from "@/components/MediaContainer";
+  import TracksList from "@/components/TracksList";
 
   export default {
-    name: 'search-result-view',
+    name: "search-result-view",
 
     components: {
       TracksList,
@@ -97,51 +97,51 @@
 
     data() {
       return {
-        maxResults: 12,
-      }
+        maxResults: 12
+      };
     },
 
     computed: {
-      ...mapState('search', [
-        'query',
-        'result',
-        'isLoading',
-        'error',
-        'albums',
-        'tracks',
-        'artists',
-        'playlists',
+      ...mapState("search", [
+        "query",
+        "result",
+        "isLoading",
+        "error",
+        "albums",
+        "tracks",
+        "artists",
+        "playlists"
       ]),
 
       isTracksExists() {
-        return this.tracks && this.tracks.total > 0
+        return this.tracks && this.tracks.total > 0;
       },
 
       isAlbumsExists() {
-        return this.albums && this.albums.total > 0
+        return this.albums && this.albums.total > 0;
       },
 
       isArtistsExists() {
-        return this.artists && this.artists.total > 0
+        return this.artists && this.artists.total > 0;
       },
 
       isPlaylistsExists() {
-        return this.playlists && this.playlists.total > 0
+        return this.playlists && this.playlists.total > 0;
       },
 
       getTracks() {
         return this.tracks && this.tracks.items
           ? Object.keys(this.tracks.items)
-            .slice(0, 5)
-            .map(key => ({...this.tracks.items[key]}))
-          : []
+              .slice(0, 5)
+              .map((key) => ({ ...this.tracks.items[key] }))
+          : [];
       }
     },
 
     methods: {
       goTo(name) {
-        router.push({name, params: {query: this.query}})
+        router.push({ name, params: { query: this.query } });
       }
-    },
-  }
+    }
+  };
 </script>

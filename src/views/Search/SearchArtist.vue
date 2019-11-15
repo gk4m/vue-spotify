@@ -1,11 +1,8 @@
 <template>
-  <div
-    v-scroll
-    @vScroll="loadMore($event, artists.next, getArtists)"
-  >
+  <div v-scroll @vScroll="loadMore($event, artists.next, getArtists)">
     <media-container>
       <media-object
-        v-for="(item) in artists.items"
+        v-for="item in artists.items"
         :key="item.id"
         :id="item.id"
         :uri="item.uri"
@@ -18,17 +15,14 @@
 </template>
 
 <script>
-  import {
-    mapState,
-    mapActions,
-  } from 'vuex'
+  import { mapState, mapActions } from "vuex";
 
-  import {loadMore} from '@/mixins'
-  import MediaObject from '@/components/MediaObject'
-  import MediaContainer from '@/components/MediaContainer'
+  import { loadMore } from "@/mixins";
+  import MediaObject from "@/components/MediaObject";
+  import MediaContainer from "@/components/MediaContainer";
 
   export default {
-    name: 'search-artist-view',
+    name: "search-artist-view",
 
     mixins: [loadMore],
 
@@ -38,15 +32,13 @@
     },
 
     computed: {
-      ...mapState('search', [
-        'artists',
-      ]),
+      ...mapState("search", ["artists"])
     },
 
     methods: {
       ...mapActions({
-        getArtists: 'search/getArtists',
-      }),
-    },
-  }
+        getArtists: "search/getArtists"
+      })
+    }
+  };
 </script>

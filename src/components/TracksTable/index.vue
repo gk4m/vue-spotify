@@ -17,11 +17,11 @@
       </div>
 
       <div class="tracks-table__cell tracks-table__cell--added-at">
-        <icon name="calendar-alt"/>
+        <icon name="calendar-alt" />
       </div>
 
       <div class="tracks-table__cell tracks-table__cell--duration">
-        <icon name="clock"/>
+        <icon name="clock" />
       </div>
     </div>
 
@@ -33,19 +33,28 @@
       :data-id="item.track.id"
     >
       <div class="tracks-table__cell tracks-table__cell--playback">
-        <track-playback :trackUri="item.track.uri" :tracksUris="tracksUris" :contextUri="contextUri" :offset="index"/>
+        <track-playback
+          :trackUri="item.track.uri"
+          :tracksUris="tracksUris"
+          :contextUri="contextUri"
+          :offset="index"
+        />
       </div>
 
       <div class="tracks-table__cell tracks-table__cell--addition">
-        <track-addition :trackID="item.track.id" :isSaved="savedTracks[index]" v-on:updateTrackstatus="onTrackUpdate"
-                        v-on:savedTrackRemove="onSavedTrackRemove"/>
+        <track-addition
+          :trackID="item.track.id"
+          :isSaved="savedTracks[index]"
+          v-on:updateTrackstatus="onTrackUpdate"
+          v-on:savedTrackRemove="onSavedTrackRemove"
+        />
       </div>
 
       <div class="tracks-table__cell">
-        {{item.track.name}}
+        {{ item.track.name }}
         <span v-if="item.track.explicit" class="tracks-table__explicit-label">
-            Explicit
-          </span>
+          Explicit
+        </span>
       </div>
 
       <div class="tracks-table__cell">
@@ -54,39 +63,44 @@
             class="tracks-table__link"
             v-for="(artist, index) in item.track.artists"
             :key="index"
-            :to="{name: 'artist', params:{id: artist.id}}"
+            :to="{ name: 'artist', params: { id: artist.id } }"
           >
-            {{artist.name}}
-            <template v-if="index !== (item.track.artists.length - 1)">,&nbsp;</template>
+            {{ artist.name }}
+            <template v-if="index !== item.track.artists.length - 1">
+              ,&nbsp;
+            </template>
           </router-link>
         </div>
       </div>
 
       <div class="tracks-table__cell">
-        <router-link class="tracks-table__link" :to="{name: 'album', params:{id: item.track.album.id}}">
-          {{item.track.album.name}}
+        <router-link
+          class="tracks-table__link"
+          :to="{ name: 'album', params: { id: item.track.album.id } }"
+        >
+          {{ item.track.album.name }}
         </router-link>
       </div>
 
       <div class="tracks-table__cell tracks-table__cell--added-at">
-        {{item.added_at | moment("MM-DD-YYYY")}}
+        {{ item.added_at | moment("MM-DD-YYYY") }}
       </div>
 
       <div class="tracks-table__cell tracks-table__cell--duration">
-        {{item.track.duration_ms | msToMinutes}}
+        {{ item.track.duration_ms | msToMinutes }}
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  import api from '@/api'
-  import {mapGetters} from 'vuex'
-  import TrackAddition from '@/components/TrackAddition'
-  import TrackPlayback from '@/components/TrackPlayback'
+  import api from "@/api";
+  import { mapGetters } from "vuex";
+  import TrackAddition from "@/components/TrackAddition";
+  import TrackPlayback from "@/components/TrackPlayback";
 
   export default {
-    name: 'tracks-table',
+    name: "tracks-table",
 
     components: {
       TrackAddition,
@@ -109,19 +123,18 @@
 
     data() {
       return {
-        tracksUris: '',
-        tracksIds: '',
-        savedTracks: [],
-      }
+        tracksUris: "",
+        tracksIds: "",
+        savedTracks: []
+      };
     },
 
     computed: {
       ...mapGetters({
-          user: 'user/getProfile',
-          playback: 'player/getPlayback',
-          context: 'player/getPlaybackContext'
-        }
-      )
+        user: "user/getProfile",
+        playback: "player/getPlayback",
+        context: "player/getPlaybackContext"
+      })
     },
 
     methods: {
@@ -151,7 +164,11 @@
           };
 
           while (saved.total > saved.offset) {
-            const response = await api.spotify.library.checkUserSavedTracks(this.tracksIds.slice(saved.offset, saved.offset + saved.limit).toString());
+            const response = await api.spotify.library.checkUserSavedTracks(
+              this.tracksIds
+                .slice(saved.offset, saved.offset + saved.limit)
+                .toString()
+            );
             saved.offset = saved.offset + saved.limit;
             saved.items.push(...response.data);
           }
@@ -163,12 +180,14 @@
       },
 
       isActiveTrack(current) {
-        const isActiveTrack = this.playback.item && this.playback.item.id === current.id;
+        const isActiveTrack =
+          this.playback.item && this.playback.item.id === current.id;
 
         return {
-          'tracks-table__row--active': isActiveTrack,
-          'tracks-table__row--paused': isActiveTrack && this.context && this.context.paused
-        }
+          "tracks-table__row--active": isActiveTrack,
+          "tracks-table__row--paused":
+            isActiveTrack && this.context && this.context.paused
+        };
       },
 
       onTrackUpdate() {
@@ -176,7 +195,7 @@
       },
 
       onSavedTrackRemove(id) {
-        if (this.type === 'library') {
+        if (this.type === "library") {
           document.querySelectorAll(`[data-id='${id}']`)[0].remove();
         }
         //@todo remove song from playback context
@@ -190,7 +209,7 @@
         this.checkSavedTracks();
       }
     }
-  }
+  };
 </script>
 
 <style lang="sass">
@@ -278,5 +297,4 @@
 
     .track-playback
       display: none
-
 </style>

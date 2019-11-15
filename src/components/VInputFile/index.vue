@@ -1,28 +1,37 @@
 <template>
   <label class="input-file" for="input-file__input">
-    <div class="input-file__avatar" :data-text='hoverText' :style="avatarStyles">
-      <input id="input-file__input" class="input-file__input" type="file" @change="onFileChange"/>
-      <icon class="input-file__icon" name="camera"/>
+    <div
+      class="input-file__avatar"
+      :data-text="hoverText"
+      :style="avatarStyles"
+    >
+      <input
+        id="input-file__input"
+        class="input-file__input"
+        type="file"
+        @change="onFileChange"
+      />
+      <icon class="input-file__icon" name="camera" />
     </div>
   </label>
 </template>
 
 <script>
   export default {
-    name: 'input-file',
+    name: "input-file",
 
     data() {
       return {
-        avatarImg: '',
-        avatarFile: ''
-      }
+        avatarImg: "",
+        avatarFile: ""
+      };
     },
 
     props: {
       hoverText: {
         type: String,
         required: false,
-        default: 'Upload photo'
+        default: "Upload photo"
       },
       coverUrl: {
         type: String,
@@ -53,7 +62,7 @@
 
         reader.readAsDataURL(this.avatarFile);
 
-        this.$emit('onFileChange', this.avatarFile);
+        this.$emit("onFileChange", this.avatarFile);
       }
     },
 
@@ -62,7 +71,7 @@
         this.avatarImg = this.coverUrl;
       }
     }
-  }
+  };
 </script>
 
 <style scoped lang="sass">
@@ -115,5 +124,4 @@
       margin: auto
       color: $c-white
       z-index: 2
-
 </style>

@@ -1,19 +1,27 @@
 <template>
   <div class="user-view" v-scroll @vScroll="loadMore">
     <div class="user-view__info">
-      <img v-if="!!(user.images && user.images[0])" class="user-view__avatar" :src="user.images[0].url">
+      <img
+        v-if="!!(user.images && user.images[0])"
+        class="user-view__avatar"
+        :src="user.images[0].url"
+      />
 
       <div v-else class="user-view__avatar">
-        <icon class="user-view__user-icon" name="user"/>
+        <icon class="user-view__user-icon" name="user" />
       </div>
 
-      <h1 class="user-view__name">{{user.display_name}}</h1>
+      <h1 class="user-view__name">{{ user.display_name }}</h1>
     </div>
 
-    <entity-header v-if="playlists.items.length" title="Public Playlists" :small="true"/>
+    <entity-header
+      v-if="playlists.items.length"
+      title="Public Playlists"
+      :small="true"
+    />
     <media-container>
       <media-object
-        v-for="(item) in playlists.items"
+        v-for="item in playlists.items"
         :key="item.id"
         :id="item.id"
         :uri="item.uri"
@@ -26,14 +34,14 @@
 </template>
 
 <script>
-  import api from '@/api'
-  import {mapActions} from 'vuex'
-  import EntityHeader from '@/components/EntityHeader'
-  import MediaObject from '@/components/MediaObject'
-  import MediaContainer from '@/components/MediaContainer'
+  import api from "@/api";
+  import { mapActions } from "vuex";
+  import EntityHeader from "@/components/EntityHeader";
+  import MediaObject from "@/components/MediaObject";
+  import MediaContainer from "@/components/MediaContainer";
 
   export default {
-    name: 'user-view',
+    name: "user-view",
 
     components: {
       EntityHeader,
@@ -43,8 +51,8 @@
 
     data() {
       return {
-        user: '',
-        userID: '',
+        user: "",
+        userID: "",
         playlists: {
           limit: 25,
           offset: 0,
@@ -52,12 +60,12 @@
           items: []
         },
         isMore: false
-      }
+      };
     },
 
     methods: {
       ...mapActions({
-        notFoundPage: 'app/notFoundPage',
+        notFoundPage: "app/notFoundPage"
       }),
 
       async getUser(id) {
@@ -65,14 +73,18 @@
           const response = await api.spotify.users.getUserProfile(id);
           this.user = response.data;
         } catch (e) {
-          this.notFoundPage(true)
+          this.notFoundPage(true);
         }
       },
 
       async getUserPlaylists(id) {
         try {
           if (this.playlists.total > this.playlists.offset) {
-            const response = await api.spotify.playlists.getUserPlalists(id, this.playlists.offset, this.playlists.limit);
+            const response = await api.spotify.playlists.getUserPlalists(
+              id,
+              this.playlists.offset,
+              this.playlists.limit
+            );
 
             this.playlists.offset = response.data.offset + this.playlists.limit;
             this.playlists.total = response.data.total;
@@ -80,7 +92,7 @@
             this.isMore = false;
           }
         } catch (e) {
-          console.log(e)
+          console.log(e);
         }
       },
 
@@ -102,7 +114,7 @@
       this.getUser(this.userID);
       this.getUserPlaylists(this.userID);
     }
-  }
+  };
 </script>
 
 <style scoped lang="sass">
@@ -125,5 +137,4 @@
       +absolute-center
       width: 40%
       height: 40%
-
 </style>

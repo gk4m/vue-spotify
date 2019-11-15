@@ -1,8 +1,8 @@
-import request from './../request'
+import request from "./../request";
 
 export default {
   getTracks(offset = 0, limit = 50, market) {
-    return request.get('me/tracks', {
+    return request.get("me/tracks", {
       params: {
         limit,
         offset,
@@ -12,7 +12,7 @@ export default {
   },
 
   getAlbums(offset = 0, limit = 50, market) {
-    return request.get('me/albums', {
+    return request.get("me/albums", {
       params: {
         limit,
         offset,
@@ -22,7 +22,7 @@ export default {
   },
 
   checkUserSavedTracks(ids) {
-    return request.get('me/tracks/contains', {
+    return request.get("me/tracks/contains", {
       params: {
         ids
       }
@@ -30,17 +30,16 @@ export default {
   },
 
   saveTracks(ids) {
-    return request.put('me/tracks', {
+    return request.put("me/tracks", {
       ids
     });
   },
 
   removeTracks(ids) {
-    return request.delete('me/tracks', {
+    return request.delete("me/tracks", {
       data: {
         ids
       }
     });
   }
 };
-

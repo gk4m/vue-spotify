@@ -7,16 +7,24 @@
       <template slot="body">
         <form class="update-modal__form">
           <div class="update-modal__form-left">
-            <v-input-file :cover-url="coverUrl" v-on:onFileChange="onFileChange"/>
+            <v-input-file
+              :cover-url="coverUrl"
+              v-on:onFileChange="onFileChange"
+            />
           </div>
           <div class="update-modal__form-right">
             <div>
               <label for="name">Name</label>
-              <input id="name" name="name" v-model="name" maxlength="100"/>
+              <input id="name" name="name" v-model="name" maxlength="100" />
             </div>
             <div>
               <label for="description">Description</label>
-              <textarea id="description" name="description" v-model="description" maxlength="300"></textarea>
+              <textarea
+                id="description"
+                name="description"
+                v-model="description"
+                maxlength="300"
+              ></textarea>
             </div>
           </div>
         </form>
@@ -30,14 +38,14 @@
 </template>
 
 <script>
-  import api from '@/api';
-  import {mapGetters, mapActions} from 'vuex'
-  import VButton from '@/components/VButton'
-  import VInputFile from '@/components/VInputFile'
-  import VModal from '@/components/VModal'
+  import api from "@/api";
+  import { mapGetters, mapActions } from "vuex";
+  import VButton from "@/components/VButton";
+  import VInputFile from "@/components/VInputFile";
+  import VModal from "@/components/VModal";
 
   export default {
-    name: 'playlist-modal',
+    name: "playlist-modal",
 
     components: {
       VButton,
@@ -47,27 +55,27 @@
 
     data() {
       return {
-        modalName: 'playlist-update-modal',
-        name: '',
-        description: '',
-        coverUrl: '',
-        coverBase64: '',
-      }
+        modalName: "playlist-update-modal",
+        name: "",
+        description: "",
+        coverUrl: "",
+        coverBase64: ""
+      };
     },
 
     computed: {
       ...mapGetters({
-        user: 'user/getProfile',
-        playlist: 'playlist/getPlaylist',
+        user: "user/getProfile",
+        playlist: "playlist/getPlaylist"
       })
     },
 
     methods: {
       ...mapActions({
-        addNotification: 'notification/add',
-        getUserPlaylists: 'user/getCurrentUserPlaylists',
-        clearUserPlaylists: 'user/clearUserPlaylists',
-        fetchPlaylist: 'playlist/fetchPlaylist',
+        addNotification: "notification/add",
+        getUserPlaylists: "user/getCurrentUserPlaylists",
+        clearUserPlaylists: "user/clearUserPlaylists",
+        fetchPlaylist: "playlist/fetchPlaylist"
       }),
 
       hide() {
@@ -75,7 +83,7 @@
       },
 
       getPlaylistID() {
-        let tmp = this.playlist.uri.split(':');
+        let tmp = this.playlist.uri.split(":");
         return tmp[tmp.length - 1];
       },
 
@@ -93,8 +101,8 @@
 
         if (!this.name) {
           this.addNotification({
-            type: 'error',
-            message: 'You must give your playlist a name.',
+            type: "error",
+            message: "You must give your playlist a name.",
             duration: 3000
           });
 
@@ -103,8 +111,8 @@
 
         if (!this.description) {
           this.addNotification({
-            type: 'error',
-            message: 'You must give your playlist a description.',
+            type: "error",
+            message: "You must give your playlist a description.",
             duration: 3000
           });
 
@@ -119,7 +127,11 @@
         if (this.coverBase64) {
           try {
             let playlistID = this.getPlaylistID();
-            const response = await api.spotify.playlists.updatePlaylistCover(this.user.id, playlistID, this.coverBase64);
+            const response = await api.spotify.playlists.updatePlaylistCover(
+              this.user.id,
+              playlistID,
+              this.coverBase64
+            );
             console.log(response);
           } catch (e) {
             console.log(e);
@@ -134,18 +146,22 @@
           try {
             let playlistID = this.getPlaylistID();
 
-            await api.spotify.playlists.updatePlaylist(this.user.id, playlistID, this.name, this.description);
+            await api.spotify.playlists.updatePlaylist(
+              this.user.id,
+              playlistID,
+              this.name,
+              this.description
+            );
 
-            this.fetchPlaylist({userID: this.userID, playlistID});
+            this.fetchPlaylist({ userID: this.userID, playlistID });
             this.clearUserPlaylists();
             this.getUserPlaylists();
 
             this.addNotification({
-              type: 'success',
-              message: 'Playlist details updated.',
+              type: "success",
+              message: "Playlist details updated.",
               duration: 2000
             });
-
           } catch (e) {
             console.error(e);
           }
@@ -157,7 +173,7 @@
       init() {
         this.name = this.playlist.name;
         this.description = this.playlist.description;
-        this.coverUrl = '';
+        this.coverUrl = "";
 
         if (this.playlist.images[0]) {
           this.coverUrl = this.playlist.images[0].url;
@@ -174,7 +190,7 @@
     created() {
       this.init();
     }
-  }
+  };
 </script>
 
 <style scoped lang="sass">
@@ -188,5 +204,4 @@
 
     &__form-right
       width: 65%
-
 </style>

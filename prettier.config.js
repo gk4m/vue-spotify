@@ -9,5 +9,7 @@ module.exports = {
   trailingComa: "all",
   tabWdith: 2,
   useTab: false,
-  endOfLine: "auto"
+  endOfLine: "auto",
+  vueIndentScriptAndStyle: true,
+  htmlWhitespaceSensitivity: "ignore"
 };

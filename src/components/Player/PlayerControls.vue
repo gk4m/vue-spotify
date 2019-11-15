@@ -1,49 +1,65 @@
 <template>
   <div v-if="playback" class="player-controls">
     <button @click="shuffle" :class="classesShuffle" title="Shuffle"></button>
-    <button @click="prev" class="player-controls__button icon-previous" title="Previous"></button>
+    <button
+      @click="prev"
+      class="player-controls__button icon-previous"
+      title="Previous"
+    ></button>
     <template v-if="!context.paused">
-      <button @click="pause" class="player-controls__button player-controls__button--pause icon-pause-circle"></button>
+      <button
+        @click="pause"
+        class="player-controls__button player-controls__button--pause icon-pause-circle"
+      ></button>
     </template>
     <template v-else>
-      <button @click="play" class="player-controls__button player-controls__button--play icon-play-circle"></button>
+      <button
+        @click="play"
+        class="player-controls__button player-controls__button--play icon-play-circle"
+      ></button>
     </template>
 
-    <button @click="next" class="player-controls__button icon-next" title="Next"></button>
+    <button
+      @click="next"
+      class="player-controls__button icon-next"
+      title="Next"
+    ></button>
     <button @click="repeat" :class="classesRepeat" title="Repeat"></button>
   </div>
 </template>
 
 <script>
-  import {mapGetters} from 'vuex'
-  import api from '@/api'
+  import { mapGetters } from "vuex";
+  import api from "@/api";
 
   export default {
-    name: 'player-controls',
+    name: "player-controls",
 
     computed: {
-      ...mapGetters('player', {
-        playback: 'getPlayback',
-        context: 'getPlaybackContext',
+      ...mapGetters("player", {
+        playback: "getPlayback",
+        context: "getPlaybackContext"
       }),
 
       classesShuffle() {
         return [
-          'player-controls__button',
-          'icon-shuffle',
+          "player-controls__button",
+          "icon-shuffle",
           {
-            'player-controls__button--active': this.context.shuffle
-          }]
+            "player-controls__button--active": this.context.shuffle
+          }
+        ];
       },
 
       classesRepeat() {
         return [
-          'player-controls__button',
+          "player-controls__button",
           {
-            'icon-repeat': this.context.repeat_mode !== 2,
-            'icon-repeat-one': this.context.repeat_mode === 2,
-            'player-controls__button--active': this.context.repeat_mode > 0
-          }]
+            "icon-repeat": this.context.repeat_mode !== 2,
+            "icon-repeat-one": this.context.repeat_mode === 2,
+            "player-controls__button--active": this.context.repeat_mode > 0
+          }
+        ];
       }
     },
 
@@ -69,11 +85,7 @@
       },
 
       repeat() {
-        const states = [
-          'off',
-          'context',
-          'track'
-        ];
+        const states = ["off", "context", "track"];
 
         const repeatState = this.context.repeat_mode;
         let index = repeatState === 2 ? 0 : repeatState + 1;
@@ -81,7 +93,7 @@
         api.spotify.player.repeat(states[index]);
       }
     }
-  }
+  };
 </script>
 
 <style scoped lang="sass">
@@ -110,5 +122,4 @@
         &:hover
           color: $c-white
           transform: scale(1.1)
-
 </style>

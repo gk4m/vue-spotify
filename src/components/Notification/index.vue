@@ -6,32 +6,32 @@
       :message="notification.message"
       :type="notification.type"
       :duration="notification.duration"
-      v-on:close="removeNotification(notification)">
-    </notify>
+      v-on:close="removeNotification(notification)"
+    ></notify>
   </div>
 </template>
 
 <script>
-  import { mapGetters, mapActions } from 'vuex';
-  import Notify from './Notify';
+  import { mapGetters, mapActions } from "vuex";
+  import Notify from "./Notify";
 
   export default {
-    name: 'notification',
+    name: "notification",
 
     components: {
-      Notify,
+      Notify
     },
 
     computed: {
       ...mapGetters({
-        notifications: 'notification/getNotifications',
-      }),
+        notifications: "notification/getNotifications"
+      })
     },
 
     methods: {
       ...mapActions({
-        removeNotification: 'notification/remove',
-      }),
-    },
+        removeNotification: "notification/remove"
+      })
+    }
   };
 </script>

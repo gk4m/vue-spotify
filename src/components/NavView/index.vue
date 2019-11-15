@@ -6,11 +6,12 @@
         v-show="item.isVisible !== undefined ? item.isVisible : true"
         :key="index"
         :to="item.to"
-        exact tag="li"
+        exact
+        tag="li"
         class="nav-view__nav-item"
         active-class="nav-view__nav-item--active"
       >
-        {{item.name}}
+        {{ item.name }}
       </router-link>
     </ul>
   </nav>
@@ -18,14 +19,14 @@
 
 <script>
   export default {
-    name: 'nav-view',
+    name: "nav-view",
 
     props: {
       links: {
         required: true
-      },
-    },
-  }
+      }
+    }
+  };
 </script>
 
 <style scoped lang="sass">
@@ -62,5 +63,4 @@
 
     &__content
       padding: 15px 0
-
 </style>

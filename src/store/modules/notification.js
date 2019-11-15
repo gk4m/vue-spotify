@@ -1,9 +1,9 @@
 const state = {
-  notifications: [],
+  notifications: []
 };
 
 const getters = {
-  getNotifications: state => state.notifications,
+  getNotifications: (state) => state.notifications
 };
 
 const mutations = {
@@ -13,23 +13,23 @@ const mutations = {
   NOTIFICATION_REMOVE(state, data) {
     const index = state.notifications.indexOf(data);
     state.notifications.splice(index, 1);
-  },
+  }
 };
 
 const actions = {
   add({ commit, dispatch }, notification) {
-    commit('NOTIFICATION_ADD', notification);
+    commit("NOTIFICATION_ADD", notification);
 
     if (notification.duration > 0) {
       setTimeout(() => {
-        dispatch('remove', notification);
+        dispatch("remove", notification);
       }, notification.duration);
     }
   },
 
   remove({ commit }, notification) {
-    commit('NOTIFICATION_REMOVE', notification);
-  },
+    commit("NOTIFICATION_REMOVE", notification);
+  }
 };
 
 const module = {
@@ -37,7 +37,7 @@ const module = {
   state,
   getters,
   mutations,
-  actions,
+  actions
 };
 
 export default module;

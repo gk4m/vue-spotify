@@ -2,19 +2,19 @@
   <div class="tracks-view" v-scroll @vScroll="loadMore">
     <div class="tracks-view__content">
       <!-- @todo add play button -->
-      <entity-header title="Songs"/>
-      <tracks-table :tracks="tracks.items" type="library"/>
+      <entity-header title="Songs" />
+      <tracks-table :tracks="tracks.items" type="library" />
     </div>
   </div>
 </template>
 
 <script>
-  import api from '@/api'
-  import EntityHeader from '@/components/EntityHeader'
-  import TracksTable from '@/components/TracksTable'
+  import api from "@/api";
+  import EntityHeader from "@/components/EntityHeader";
+  import TracksTable from "@/components/TracksTable";
 
   export default {
-    name: 'Tracks',
+    name: "Tracks",
 
     components: {
       EntityHeader,
@@ -30,7 +30,7 @@
           items: []
         },
         isMore: null
-      }
+      };
     },
 
     computed: {},
@@ -39,7 +39,10 @@
       async getTracks() {
         try {
           if (this.tracks.total > this.tracks.offset) {
-            const response = await api.spotify.library.getTracks(this.tracks.offset, this.tracks.limit);
+            const response = await api.spotify.library.getTracks(
+              this.tracks.offset,
+              this.tracks.limit
+            );
 
             this.tracks.offset = response.data.offset + this.tracks.limit;
             this.tracks.total = response.data.total;
@@ -47,7 +50,7 @@
             this.isMore = false;
           }
         } catch (e) {
-          console.log(e)
+          console.log(e);
         }
       },
 
@@ -66,9 +69,7 @@
     created() {
       this.getTracks();
     }
-  }
+  };
 </script>
 
-<style scoped lang="sass">
-
-</style>
+<style scoped lang="sass"></style>

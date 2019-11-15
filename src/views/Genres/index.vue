@@ -16,14 +16,14 @@
 </template>
 
 <script>
-  import api from '@/api'
-  import {mapActions} from 'vuex'
-  import EntityHeader from '@/components/EntityHeader'
-  import MediaObject from '@/components/MediaObject'
-  import MediaContainer from '@/components/MediaContainer'
+  import api from "@/api";
+  import { mapActions } from "vuex";
+  import EntityHeader from "@/components/EntityHeader";
+  import MediaObject from "@/components/MediaObject";
+  import MediaContainer from "@/components/MediaContainer";
 
   export default {
-    name: 'genres',
+    name: "genres",
 
     components: {
       EntityHeader,
@@ -41,24 +41,28 @@
           items: []
         },
         isMore: false
-      }
+      };
     },
 
     computed: {
-      title(){
-        return `${this.categoryID.replace('_',' ')} playlists`
+      title() {
+        return `${this.categoryID.replace("_", " ")} playlists`;
       }
     },
 
     methods: {
       ...mapActions({
-        notFoundPage: 'app/notFoundPage',
+        notFoundPage: "app/notFoundPage"
       }),
 
       async getCategoryPlaylists(categoryID) {
         try {
           if (this.playlists.total > this.playlists.offset) {
-            const response = await api.spotify.browse.getCategoryPlaylists(categoryID, this.playlists.offset, this.playlists.limit);
+            const response = await api.spotify.browse.getCategoryPlaylists(
+              categoryID,
+              this.playlists.offset,
+              this.playlists.limit
+            );
 
             const playlists = response.data.playlists;
 
@@ -68,7 +72,7 @@
             this.isMore = false;
           }
         } catch (e) {
-          this.notFoundPage(true)
+          this.notFoundPage(true);
         }
       },
 
@@ -85,11 +89,11 @@
     },
 
     created() {
-      const {id} = this.$route.params;
+      const { id } = this.$route.params;
       this.categoryID = id;
       this.getCategoryPlaylists(id);
-    },
-  }
+    }
+  };
 </script>
 
 <style lang="sass">
@@ -98,5 +102,4 @@
     .entity-header__title
       &:first-letter
         text-transform: uppercase
-
 </style>

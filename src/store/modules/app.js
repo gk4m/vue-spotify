@@ -3,25 +3,25 @@ const state = {
 };
 
 const getters = {
-  notFound: state => state.notFound
+  notFound: (state) => state.notFound
 };
 
 const mutations = {
   SET_NOT_FOUND(state, status) {
     state.notFound = status;
-  },
+  }
 };
 
 const actions = {
-  notFoundPage({commit}, status) {
-    commit('SET_NOT_FOUND', status);
+  notFoundPage({ commit }, status) {
+    commit("SET_NOT_FOUND", status);
   },
 
-  init({dispatch, rootGetters}) {
-    if (rootGetters['auth/getAccessToken']) {
-      dispatch('user/getUserProfile', null, {root: true});
+  init({ dispatch, rootGetters }) {
+    if (rootGetters["auth/getAccessToken"]) {
+      dispatch("user/getUserProfile", null, { root: true });
     }
-    dispatch('player/init', null, {root: true});
+    dispatch("player/init", null, { root: true });
   }
 };
 

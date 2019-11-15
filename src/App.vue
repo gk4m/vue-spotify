@@ -7,13 +7,13 @@
 </template>
 
 <script>
-  import {mapGetters, mapActions} from 'vuex'
-  import AppLayout from '@/layouts/AppLayout'
-  import NotFoundView from '@/views/NotFound'
-  import Notification from '@/components/Notification/'
+  import { mapGetters, mapActions } from "vuex";
+  import AppLayout from "@/layouts/AppLayout";
+  import NotFoundView from "@/views/NotFound";
+  import Notification from "@/components/Notification/";
 
   export default {
-    name: 'app',
+    name: "app",
 
     components: {
       AppLayout,
@@ -23,22 +23,22 @@
 
     computed: {
       ...mapGetters({
-        notFound: 'app/notFound',
-        notifications: 'notification/getNotifications'
+        notFound: "app/notFound",
+        notifications: "notification/getNotifications"
       })
     },
 
     methods: {
       ...mapActions({
-        init: 'app/init',
-        removeNotification: 'notification/removeNotification'
+        init: "app/init",
+        removeNotification: "notification/removeNotification"
       })
     },
 
-    created(){
+    created() {
       this.init();
     }
-  }
+  };
 </script>
 
 <style lang="sass">
@@ -52,5 +52,4 @@
     min-width: 630px
     height: 100%
     background: $c-mine-shaft
-
 </style>

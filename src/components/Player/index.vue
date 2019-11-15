@@ -1,31 +1,31 @@
 <template>
   <div class="player">
     <div v-if="playback" class="player__inner">
-      <current-track class="player__left"/>
+      <current-track class="player__left" />
 
       <div class="player__center">
-        <player-controls/>
-        <player-playback/>
+        <player-controls />
+        <player-playback />
       </div>
 
       <div class="player__right">
-        <device-picker/>
-        <volume-bar/>
+        <device-picker />
+        <volume-bar />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  import {mapGetters} from 'vuex'
-  import VolumeBar from './VolumeBar'
-  import CurrentTrack from './CurrentTrack'
-  import PlayerControls from './PlayerControls'
-  import PlayerPlayback from './PlayerPlayback'
-  import DevicePicker from './DevicePicker'
+  import { mapGetters } from "vuex";
+  import VolumeBar from "./VolumeBar";
+  import CurrentTrack from "./CurrentTrack";
+  import PlayerControls from "./PlayerControls";
+  import PlayerPlayback from "./PlayerPlayback";
+  import DevicePicker from "./DevicePicker";
 
   export default {
-    name: 'player',
+    name: "player",
 
     components: {
       VolumeBar,
@@ -36,11 +36,11 @@
     },
 
     computed: {
-      ...mapGetters('player', {
-        playback: 'getPlayback',
+      ...mapGetters("player", {
+        playback: "getPlayback"
       })
     }
-  }
+  };
 </script>
 
 <style scoped lang="sass">
@@ -75,6 +75,4 @@
 
     &__center
       width: 60%
-
-
 </style>

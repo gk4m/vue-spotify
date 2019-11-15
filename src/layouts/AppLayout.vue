@@ -1,30 +1,30 @@
 <template>
   <div class="app-layout">
-    <navbar/>
+    <navbar />
     <div class="app-layout__wrap">
-      <sidebar/>
+      <sidebar />
       <div class="app-layout__main">
-        <router-view/>
+        <router-view />
       </div>
     </div>
-    <player/>
+    <player />
   </div>
 </template>
 
 <script>
-  import Navbar from '@/components/Navbar';
-  import Sidebar from '@/components/Sidebar';
-  import Player from '@/components/Player';
+  import Navbar from "@/components/Navbar";
+  import Sidebar from "@/components/Sidebar";
+  import Player from "@/components/Player";
 
   export default {
-    name: 'AppLayout',
+    name: "AppLayout",
 
     components: {
       Navbar,
       Sidebar,
       Player
     }
-  }
+  };
 </script>
 
 <style scoped lang="sass">
@@ -50,5 +50,4 @@
     .sidebar
       width: 220px
       min-width: 220px
-
 </style>

@@ -1,12 +1,12 @@
 <template>
   <div class="sidebar">
     <div class="sidebar__inner" v-scroll @scrollReachBottom="loadMore">
-      <sidebar-nav :links="browse"/>
-      <sidebar-nav title="Library" :links="library"/>
-      <sidebar-nav title="Playlists" :links="playlists.items"/>
+      <sidebar-nav :links="browse" />
+      <sidebar-nav title="Library" :links="library" />
+      <sidebar-nav title="Playlists" :links="playlists.items" />
     </div>
     <button class="sidebar__btn" @click="$modal.show('playlist-create-modal')">
-      <icon class="sidebar__btn-icon" name="plus"/>
+      <icon class="sidebar__btn-icon" name="plus" />
       <span>New playlist</span>
     </button>
     <!-- @todo cover -->
@@ -15,12 +15,12 @@
 </template>
 
 <script>
-  import {mapGetters, mapActions} from 'vuex'
-  import SidebarNav from './SidebarNav'
-  import PlaylistCreateModal from "@/components/PlaylistCreateModal"
+  import { mapGetters, mapActions } from "vuex";
+  import SidebarNav from "./SidebarNav";
+  import PlaylistCreateModal from "@/components/PlaylistCreateModal";
 
   export default {
-    name: 'sidebar',
+    name: "sidebar",
 
     components: {
       PlaylistCreateModal,
@@ -28,52 +28,52 @@
     },
 
     computed: {
-      ...mapGetters('user', {
-        playlists: 'getPlaylists',
+      ...mapGetters("user", {
+        playlists: "getPlaylists"
       }),
 
       browse() {
         return [
           {
-            type: 'browse',
-            name: 'Browse'
+            type: "browse",
+            name: "Browse"
           }
-        ]
+        ];
       },
 
       library() {
         return [
           {
-            type: 'tracks-collection',
-            name: 'Songs'
+            type: "tracks-collection",
+            name: "Songs"
           },
           {
-            type: 'albums-collection',
-            name: 'Albums'
+            type: "albums-collection",
+            name: "Albums"
           },
           {
-            type: 'artists-collection',
-            name: 'Artists'
+            type: "artists-collection",
+            name: "Artists"
           }
-        ]
+        ];
       }
     },
 
     methods: {
-      ...mapActions('user', {
-        getUserPlaylists: 'getCurrentUserPlaylists',
+      ...mapActions("user", {
+        getUserPlaylists: "getCurrentUserPlaylists"
       }),
 
       loadMore() {
         //@todo
-        this.getUserPlaylists(25)
-      },
+        this.getUserPlaylists(25);
+      }
     },
 
     created() {
       this.getUserPlaylists();
     }
-  }
+  };
 </script>
 
 <style scoped lang="sass">
@@ -110,5 +110,4 @@
     .sidebar-nav
       &:not(:last-of-type)
         margin-bottom: 30px
-
 </style>

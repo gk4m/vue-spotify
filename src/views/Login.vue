@@ -3,22 +3,27 @@
 </template>
 
 <script>
-  import {mapActions} from 'vuex'
-  import router from '@/router'
+  import { mapActions } from "vuex";
+  import router from "@/router";
 
   export default {
-    name: 'Login',
+    name: "Login",
 
     methods: {
-      ...mapActions('auth',[
-        'setAccessToken',
-        'setRefreshToken',
-        'setExpiryTime'
-      ]),
+      ...mapActions("auth", [
+        "setAccessToken",
+        "setRefreshToken",
+        "setExpiryTime"
+      ])
     },
 
     created() {
-      const {access_token, refresh_token, expires_in, error} = this.$route.query;
+      const {
+        access_token,
+        refresh_token,
+        expires_in,
+        error
+      } = this.$route.query;
 
       if (error) {
         console.error(error);
@@ -28,7 +33,7 @@
         this.setExpiryTime(expires_in);
       }
 
-      router.push('/');
+      router.push("/");
     }
-  }
+  };
 </script>

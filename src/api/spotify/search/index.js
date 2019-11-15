@@ -1,7 +1,14 @@
-import request from './../request'
+import request from "./../request";
 
 export default {
-  search(q, type='album,artist,playlist,track', offset, limit, market, include_external) {
+  search(
+    q,
+    type = "album,artist,playlist,track",
+    offset,
+    limit,
+    market,
+    include_external
+  ) {
     return request.get(`search`, {
       params: {
         q,
@@ -9,9 +16,8 @@ export default {
         limit,
         offset,
         market,
-        include_external,
+        include_external
       }
     });
-  },
+  }
 };
-

@@ -1,8 +1,8 @@
-import request from './../request'
+import request from "./../request";
 
 export default {
   getNewReleases(offset, limit, country) {
-    return request.get('browse/new-releases', {
+    return request.get("browse/new-releases", {
       params: {
         limit,
         offset,
@@ -12,7 +12,7 @@ export default {
   },
 
   getCategories(offset, limit, country, locale) {
-    return request.get('browse/categories', {
+    return request.get("browse/categories", {
       params: {
         limit,
         offset,

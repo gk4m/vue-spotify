@@ -9,41 +9,40 @@
       v-on:drag-end="onDragEnd"
       :tooltip="false"
       :dot-size="15"
-      :process-style="{'background': '#1db954'}"
-      :bg-style="{'background': '#737575', 'width': '80px'}"
-    >
-    </vue-slider>
+      :process-style="{ background: '#1db954' }"
+      :bg-style="{ background: '#737575', width: '80px' }"
+    ></vue-slider>
   </div>
 </template>
 
 <script>
-  import api from '@/api'
-  import {mapGetters} from 'vuex'
+  import api from "@/api";
+  import { mapGetters } from "vuex";
 
   export default {
-    name: 'volume-bar',
+    name: "volume-bar",
 
     data() {
       return {
         volume: 0,
         tmpVolume: 0,
         dragStartVolume: 0
-      }
+      };
     },
 
     computed: {
-      ...mapGetters('player', {
-        playback: 'getPlayback',
+      ...mapGetters("player", {
+        playback: "getPlayback"
       }),
 
       classesButton() {
         return [
-          'volume-bar__button',
+          "volume-bar__button",
           {
-            'icon-sound-on': this.volume,
-            'icon-sound-off': !this.volume,
+            "icon-sound-on": this.volume,
+            "icon-sound-off": !this.volume
           }
-        ]
+        ];
       }
     },
 
@@ -67,11 +66,11 @@
         this.setVolume(this.volume);
       },
 
-      onDragStart({currentValue}) {
+      onDragStart({ currentValue }) {
         this.dragStartVolume = currentValue;
       },
 
-      onDragEnd({currentValue}) {
+      onDragEnd({ currentValue }) {
         this.setVolume(currentValue);
       },
 
@@ -94,7 +93,7 @@
     mounted() {
       this.volume = this.playback.device.volume_percent;
     }
-  }
+  };
 </script>
 
 <style lang="sass">
@@ -109,5 +108,4 @@
 
       &:hover
         color: $c-white
-
 </style>

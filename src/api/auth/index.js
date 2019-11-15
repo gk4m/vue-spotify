@@ -1,11 +1,11 @@
-import request from './request';
+import request from "./request";
 
 export default {
-  getUserAuthURL: function () {
-    return request.get('login')
+  getUserAuthURL: function() {
+    return request.get("login");
   },
 
-  refreshToken: function (refresh_token) {
-    return request.get(`refresh_token?refresh_token=${refresh_token}`)
+  refreshToken: function(refresh_token) {
+    return request.get(`refresh_token?refresh_token=${refresh_token}`);
   }
 };

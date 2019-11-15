@@ -13,36 +13,36 @@
 </template>
 
 <script>
-export default {
-  name: 'notify',
+  export default {
+    name: "notify",
 
-  props: {
-    type: {
-      type: String,
-      default: 'info',
+    props: {
+      type: {
+        type: String,
+        default: "info"
+      },
+      message: {
+        type: String,
+        required: true
+      },
+      duration: {
+        type: Number,
+        default: 4000
+      }
     },
-    message: {
-      type: String,
-      required: true,
-    },
-    duration: {
-      type: Number,
-      default: 4000,
-    },
-  },
 
-  computed: {
-    classes() {
-      return ['notify', this.type ? `notify--${this.type}` : ''];
+    computed: {
+      classes() {
+        return ["notify", this.type ? `notify--${this.type}` : ""];
+      }
     },
-  },
 
-  methods: {
-    close() {
-      this.$emit('close');
-    },
-  },
-};
+    methods: {
+      close() {
+        this.$emit("close");
+      }
+    }
+  };
 </script>
 
 <style lang="sass" scoped>
@@ -88,5 +88,4 @@ export default {
       line-height: 0
       outline: 0
       cursor: pointer
-
 </style>
