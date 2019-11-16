@@ -13,6 +13,8 @@
     </div>
     <transition name="fade">
       <ul class="navbar-nav__dropdown" v-show="isVisible">
+        <li class="navbar-nav__list-item" @click="onAccountClick">Account</li>
+        <li class="navbar-nav__list-item" @click="onHelpClick">Help</li>
         <li class="navbar-nav__list-item" @click="logout">Logout</li>
       </ul>
     </transition>
@@ -63,6 +65,20 @@
       close: function() {
         this.isVisible = false;
         document.removeEventListener("click", this.clickOutEvent);
+      },
+
+      onAccountClick() {
+        window.open(
+          "https://www.spotify.com/pl/account/overview/?utm_source=play&utm_campaign=wwwredirect",
+          "_blank"
+        );
+      },
+
+      onHelpClick() {
+        window.open(
+          "https://support.spotify.com/pl/?utm_campaign=wwwredirect&utm_source=play",
+          "_blank"
+        );
       }
     }
   };
@@ -104,6 +120,9 @@
     &__list-item
       padding: 10px
       cursor: pointer
+
+      &:hover
+        background: $c-black-light
 
     .fade-enter-active,
     .fade-leave-active
