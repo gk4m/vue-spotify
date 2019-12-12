@@ -2,6 +2,9 @@
   "name": "vue-spotify",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=10.0.0 <=13.0.0"
+  },
   "scripts": {
     "serve": "vue-cli-service serve --https --open",
     "build": "vue-cli-service build",
@@ -36,7 +39,7 @@
     "gulp": "4.0.2",
     "gulp-iconfont": "10.0.3",
     "gulp-iconfont-css": "3.0.0",
-    "node-sass": "4.12.0",
+    "node-sass": "4.13.0",
     "normalize-scss": "7.0.1",
     "prettier": "1.19.1",
     "rimraf": "3.0.0",
