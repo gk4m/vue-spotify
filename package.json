@@ -39,7 +39,7 @@
     "gulp": "4.0.2",
     "gulp-iconfont": "10.0.3",
     "gulp-iconfont-css": "3.0.0",
-    "node-sass": "4.13.0",
+    "node-sass": "7.0.0",
     "normalize-scss": "7.0.1",
     "prettier": "1.19.1",
     "rimraf": "3.0.0",
